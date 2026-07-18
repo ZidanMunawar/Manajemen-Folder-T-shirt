@@ -3,6 +3,7 @@ const multer = require("multer");
 const fs = require("fs-extra");
 const path = require("path");
 const cors = require("cors");
+const archiver = require("archiver");
 
 const app = express();
 const PORT = 3000;
@@ -206,8 +207,9 @@ app.post("/api/mentah/folders", async (req, res) => {
 
 app.delete("/api/mentah/folders/:folder", async (req, res) => {
   try {
-    const folderPath = path.join(MENTAH_PATH, req.params.folder);
-    if (["panjang", "pendek"].includes(req.params.folder)) {
+    const folderName = decodeURIComponent(req.params.folder);
+    const folderPath = path.join(MENTAH_PATH, folderName);
+    if (["panjang", "pendek"].includes(folderName)) {
       return res
         .status(400)
         .json({ error: "Folder default tidak bisa dihapus" });
@@ -535,6 +537,37 @@ app.get("/api/open-folder", (req, res) => {
   const fullPath = path.join(__dirname, folderPath);
   require("child_process").exec(`start "" "${fullPath}"`);
   res.json({ success: true });
+});
+
+// ==================== BACKUP ZIP ====================
+app.get("/api/backup", (req, res) => {
+  try {
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/[:.]/g, "-")
+      .slice(0, 19);
+    const zipFileName = `backup-produk-${timestamp}.zip`;
+
+    res.setHeader("Content-Type", "application/zip");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${zipFileName}"`,
+    );
+
+    const archive = archiver("zip", { zlib: { level: 9 } });
+
+    archive.on("error", (err) => {
+      console.error("Archive error:", err);
+      res.status(500).end();
+    });
+
+    archive.pipe(res);
+    archive.directory(BASE_PATH, "produk");
+    archive.finalize();
+  } catch (err) {
+    console.error("Backup error:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 async function start() {

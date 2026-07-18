@@ -180,6 +180,33 @@
         color: var(--orange);
       }
 
+      .folder-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+        border: 1px solid transparent;
+      }
+      .folder-item:hover {
+        background: #f9fafb;
+        border-color: var(--border);
+      }
+      .folder-item.active {
+        background: var(--orange);
+        color: white;
+        border-color: var(--orange);
+      }
+      .folder-item.active .folder-name {
+        color: white;
+      }
+      .folder-item.active .text-muted {
+        color: rgba(255, 255, 255, 0.7) !important;
+      }
+
       .preview-thumb {
         width: 80px;
         height: 80px;
@@ -216,6 +243,21 @@
       .product-card:hover {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
       }
+
+      .backup-btn {
+        background: #1a1a1a;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+      }
+      .backup-btn:hover {
+        background: #333;
+        color: white;
+      }
     </style>
   </head>
   <body>
@@ -226,7 +268,18 @@
           <span class="navbar-brand">
             <i class="fas fa-tshirt me-2"></i>Manajemen Aset Baju
           </span>
-          <span class="text-white-50 small">v3.0</span>
+          <div class="d-flex align-items-center gap-3">
+            <button
+              @click="backupData"
+              class="backup-btn"
+              :disabled="isBackingUp"
+            >
+              <i class="fas fa-download me-2"></i>
+              <span v-if="!isBackingUp">Backup ZIP</span>
+              <span v-else>Membuat ZIP...</span>
+            </button>
+            <span class="text-white-50 small">v4.0</span>
+          </div>
         </div>
       </nav>
 
@@ -506,30 +559,31 @@
                         <i class="fas fa-plus"></i>
                       </button>
                     </div>
-                    <div class="list-group list-group-flush">
-                      <button
+                    <div>
+                      <div
                         v-for="folder in mentahFolders"
                         :key="folder"
                         @click="selectMentahFolder(folder)"
                         :class="selectedMentahFolder === folder ? 'active' : ''"
-                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                        class="folder-item"
                       >
-                        <span
-                          ><i
+                        <span class="folder-name">
+                          <i
                             class="fas fa-folder me-2"
                             :class="selectedMentahFolder === folder ? 'text-white' : 'text-warning'"
                           ></i
-                          >{{ folder }}</span
-                        >
+                          >{{ folder }}
+                        </span>
                         <button
                           v-if="folder !== 'panjang' && folder !== 'pendek'"
                           @click.stop="deleteMentahFolder(folder)"
-                          class="btn btn-sm text-danger p-0"
+                          class="btn btn-sm p-0 border-0"
+                          :class="selectedMentahFolder === folder ? 'text-white' : 'text-danger'"
                           title="Hapus folder"
                         >
                           <i class="fas fa-trash"></i>
                         </button>
-                      </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -885,6 +939,7 @@
             produkLoading: false,
             additionalFileTarget: null,
             additionalFileType: "",
+            isBackingUp: false,
           };
         },
         methods: {
@@ -896,6 +951,8 @@
           },
           async api(url, options = {}) {
             const res = await fetch(url, options);
+            if (res.headers.get("content-type")?.includes("application/zip"))
+              return res;
             return res.json();
           },
           previewImage(url) {
@@ -932,6 +989,31 @@
               background: "#1a1a1a",
               color: "#fff",
             });
+          },
+
+          // ==================== BACKUP ====================
+          async backupData() {
+            this.isBackingUp = true;
+            try {
+              const res = await fetch("/api/backup");
+              const blob = await res.blob();
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              const disposition = res.headers.get("Content-Disposition");
+              const filename =
+                disposition?.match(/filename="(.+)"/)?.[1] || "backup.zip";
+              a.download = filename;
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              window.URL.revokeObjectURL(url);
+              this.toast("Backup berhasil didownload!");
+            } catch (err) {
+              this.toast("Gagal membuat backup", "error");
+            } finally {
+              this.isBackingUp = false;
+            }
           },
 
           // ==================== PROMPT ====================
@@ -1092,9 +1174,10 @@
               `Folder "${folder}" beserta isinya akan dihapus permanen!`,
             );
             if (result.isConfirmed) {
-              const res = await this.api("/api/mentah/folders/" + folder, {
-                method: "DELETE",
-              });
+              const res = await this.api(
+                "/api/mentah/folders/" + encodeURIComponent(folder),
+                { method: "DELETE" },
+              );
               if (res.success) {
                 this.toast("Folder dihapus!");
                 if (this.selectedMentahFolder === folder) {
