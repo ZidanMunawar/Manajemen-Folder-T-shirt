@@ -1,0 +1,1109 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manajemen Aset Baju v3</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Select2 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <!-- SweetAlert2 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: #f8f9fa;
+      }
+      .card {
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+      }
+      .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .nav-pills .nav-link {
+        color: #495057;
+        border-radius: 10px;
+        margin: 0 4px;
+      }
+      .preview-img {
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .preview-img:hover {
+        transform: scale(1.05);
+      }
+      .btn-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+      }
+      .btn-gradient:hover {
+        opacity: 0.9;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Navbar -->
+      <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+          <span class="navbar-brand mb-0 h1">
+            <i class="fas fa-tshirt me-2"></i>Manajemen Aset Baju
+          </span>
+          <span class="badge bg-light text-dark">v3.0</span>
+        </div>
+      </nav>
+
+      <div class="container-fluid px-4">
+        <!-- Tab Navigation -->
+        <ul class="nav nav-pills mb-4" id="mainTab" role="tablist">
+          <li class="nav-item">
+            <button
+              class="nav-link active"
+              data-bs-toggle="pill"
+              data-bs-target="#promptTab"
+              @click="loadPrompts()"
+            >
+              <i class="fas fa-robot me-1"></i> Prompt
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              data-bs-toggle="pill"
+              data-bs-target="#templateTab"
+              @click="loadTemplates()"
+            >
+              <i class="fas fa-file-alt me-1"></i> Template Text
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              data-bs-toggle="pill"
+              data-bs-target="#mentahTab"
+              @click="loadMentahFolders()"
+            >
+              <i class="fas fa-paint-brush me-1"></i> Mentah
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              data-bs-toggle="pill"
+              data-bs-target="#produkTab"
+              @click="initProdukTab()"
+            >
+              <i class="fas fa-box me-1"></i> Produk Up
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <!-- TAB PROMPT -->
+          <div class="tab-pane fade show active" id="promptTab">
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="card p-4">
+                  <h5 class="mb-3">
+                    <i class="fas fa-plus-circle text-primary me-2"></i>Tambah /
+                    Edit Prompt
+                  </h5>
+                  <input
+                    v-model="promptForm.filename"
+                    class="form-control mb-3"
+                    placeholder="Nama file (tanpa .txt)"
+                  />
+                  <textarea
+                    v-model="promptForm.content"
+                    class="form-control mb-3"
+                    rows="8"
+                    placeholder="Isi prompt..."
+                  ></textarea>
+                  <button @click="savePrompt" class="btn btn-gradient w-100">
+                    <i class="fas fa-save me-2"></i>{{ promptEditMode ? 'Update'
+                    : 'Simpan' }} Prompt
+                  </button>
+                  <button
+                    v-if="promptEditMode"
+                    @click="cancelEditPrompt"
+                    class="btn btn-outline-secondary w-100 mt-2"
+                  >
+                    Batal Edit
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="card p-4">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <h5><i class="fas fa-list me-2"></i>Daftar Prompt</h5>
+                    <input
+                      v-model="promptSearch"
+                      @input="loadPrompts()"
+                      class="form-control w-auto"
+                      placeholder="🔍 Cari..."
+                    />
+                  </div>
+                  <div class="list-group">
+                    <div
+                      v-for="file in prompts"
+                      :key="file"
+                      class="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <span
+                        @click="viewPrompt(file)"
+                        style="cursor: pointer"
+                        class="text-primary"
+                      >
+                        <i class="fas fa-file-alt me-2"></i>{{ file }}
+                      </span>
+                      <div>
+                        <button
+                          @click="copyPrompt(file)"
+                          class="btn btn-sm btn-outline-info me-1"
+                          title="Salin"
+                        >
+                          <i class="fas fa-copy"></i>
+                        </button>
+                        <button
+                          @click="editPrompt(file)"
+                          class="btn btn-sm btn-outline-warning me-1"
+                          title="Edit"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button
+                          @click="deletePrompt(file)"
+                          class="btn btn-sm btn-outline-danger"
+                          title="Hapus"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      v-if="prompts.length === 0"
+                      class="text-center text-muted py-4"
+                    >
+                      Tidak ada prompt
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB TEMPLATE -->
+          <div class="tab-pane fade" id="templateTab">
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="card p-4">
+                  <h5 class="mb-3">
+                    <i class="fas fa-plus-circle text-success me-2"></i>Tambah /
+                    Edit Template
+                  </h5>
+                  <input
+                    v-model="templateForm.filename"
+                    class="form-control mb-3"
+                    placeholder="Nama file (tanpa .txt)"
+                  />
+                  <textarea
+                    v-model="templateForm.content"
+                    class="form-control mb-3"
+                    rows="8"
+                    placeholder="Isi template..."
+                  ></textarea>
+                  <button @click="saveTemplate" class="btn btn-success w-100">
+                    <i class="fas fa-save me-2"></i>{{ templateEditMode ?
+                    'Update' : 'Simpan' }} Template
+                  </button>
+                  <button
+                    v-if="templateEditMode"
+                    @click="cancelEditTemplate"
+                    class="btn btn-outline-secondary w-100 mt-2"
+                  >
+                    Batal Edit
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="card p-4">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <h5><i class="fas fa-list me-2"></i>Daftar Template</h5>
+                    <input
+                      v-model="templateSearch"
+                      @input="loadTemplates()"
+                      class="form-control w-auto"
+                      placeholder="🔍 Cari..."
+                    />
+                  </div>
+                  <div class="list-group">
+                    <div
+                      v-for="file in templates"
+                      :key="file"
+                      class="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <span
+                        @click="viewTemplate(file)"
+                        style="cursor: pointer"
+                        class="text-success"
+                      >
+                        <i class="fas fa-file-alt me-2"></i>{{ file }}
+                      </span>
+                      <div>
+                        <button
+                          @click="copyTemplate(file)"
+                          class="btn btn-sm btn-outline-info me-1"
+                          title="Salin"
+                        >
+                          <i class="fas fa-copy"></i>
+                        </button>
+                        <button
+                          @click="editTemplate(file)"
+                          class="btn btn-sm btn-outline-warning me-1"
+                          title="Edit"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button
+                          @click="deleteTemplate(file)"
+                          class="btn btn-sm btn-outline-danger"
+                          title="Hapus"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      v-if="templates.length === 0"
+                      class="text-center text-muted py-4"
+                    >
+                      Tidak ada template
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB MENTAH -->
+          <div class="tab-pane fade" id="mentahTab">
+            <div class="row g-4">
+              <div class="col-md-3">
+                <div class="card p-4">
+                  <h5 class="mb-3">📁 Folder Mentah</h5>
+                  <div class="d-flex gap-2 mb-3">
+                    <input
+                      v-model="mentahNewFolder"
+                      class="form-control"
+                      placeholder="Folder baru"
+                    />
+                    <button @click="createMentahFolder" class="btn btn-primary">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <div class="list-group">
+                    <button
+                      v-for="folder in mentahFolders"
+                      :key="folder"
+                      @click="selectMentahFolder(folder)"
+                      :class="selectedMentahFolder === folder ? 'active' : ''"
+                      class="list-group-item list-group-item-action d-flex justify-content-between"
+                    >
+                      <span
+                        ><i class="fas fa-folder me-2"></i>{{ folder }}</span
+                      >
+                      <button
+                        v-if="folder !== 'panjang' && folder !== 'pendek'"
+                        @click.stop="deleteMentahFolder(folder)"
+                        class="btn btn-sm text-danger"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-9">
+                <div class="card p-4" v-if="selectedMentahFolder">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <h5>
+                      <i class="fas fa-folder-open me-2"></i>{{
+                      selectedMentahFolder }}
+                    </h5>
+                    <div>
+                      <button
+                        @click="openMentahFolder"
+                        class="btn btn-outline-secondary me-2 btn-sm"
+                      >
+                        <i class="fas fa-external-link-alt me-1"></i>Buka Folder
+                      </button>
+                      <label class="btn btn-primary btn-sm">
+                        <i class="fas fa-upload me-1"></i>Upload File
+                        <input
+                          type="file"
+                          @change="uploadMentahFile"
+                          multiple
+                          hidden
+                        />
+                      </label>
+                    </div>
+                  </div>
+                  <div class="row g-3">
+                    <div
+                      v-for="file in mentahFiles"
+                      :key="file.name"
+                      class="col-md-3"
+                    >
+                      <div class="card h-100">
+                        <img
+                          v-if="['.jpg','.jpeg','.png','.gif','.webp'].includes(file.ext)"
+                          :src="'/produk/mentah/' + selectedMentahFolder + '/' + file.name"
+                          class="preview-img card-img-top p-2"
+                          @click="previewImage('/produk/mentah/' + selectedMentahFolder + '/' + file.name)"
+                        />
+                        <div v-else class="text-center py-4">
+                          <i class="fas fa-file fa-3x text-muted"></i>
+                        </div>
+                        <div class="card-body text-center p-2">
+                          <small class="text-truncate d-block"
+                            >{{ file.name }}</small
+                          >
+                          <small class="text-muted"
+                            >{{ formatSize(file.size) }}</small
+                          >
+                          <button
+                            @click="deleteMentahFile(file.name)"
+                            class="btn btn-sm btn-outline-danger mt-1 w-100"
+                          >
+                            <i class="fas fa-trash me-1"></i>Hapus
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      v-if="mentahFiles.length === 0"
+                      class="col-12 text-center text-muted py-4"
+                    >
+                      Tidak ada file
+                    </div>
+                  </div>
+                </div>
+                <div v-else class="card p-4 text-center text-muted py-5">
+                  <i class="fas fa-hand-point-left fa-3x mb-3"></i>
+                  <p>Pilih folder di sebelah kiri</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB PRODUK UP -->
+          <div class="tab-pane fade" id="produkTab">
+            <div class="row g-4">
+              <div class="col-md-3">
+                <div class="card p-4">
+                  <h5 class="mb-3">
+                    <i class="fas fa-plus-circle text-warning me-2"></i>Tambah
+                    Produk
+                  </h5>
+
+                  <label class="form-label">Kategori</label>
+                  <div class="input-group mb-2">
+                    <select
+                      v-model="produkForm.kategori"
+                      class="form-select select2-kategori"
+                    >
+                      <option value="">Pilih Kategori</option>
+                      <option v-for="kat in kategoriList" :value="kat">
+                        {{ kat }}
+                      </option>
+                    </select>
+                    <button
+                      @click="showAddKategori = !showAddKategori"
+                      class="btn btn-outline-secondary"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div v-if="showAddKategori" class="input-group mb-3">
+                    <input
+                      v-model="newKategoriNama"
+                      class="form-control"
+                      placeholder="Kategori baru"
+                    />
+                    <button @click="addKategori" class="btn btn-success">
+                      Buat
+                    </button>
+                  </div>
+
+                  <label class="form-label">Judul Produk</label>
+                  <input
+                    v-model="produkForm.judul"
+                    class="form-control mb-3"
+                    placeholder="Nama produk"
+                  />
+
+                  <label class="form-label">Foto Produk</label>
+                  <input
+                    type="file"
+                    @change="handleProdukFiles($event, 'fotos')"
+                    class="form-control mb-3"
+                    multiple
+                    accept="image/*"
+                  />
+
+                  <label class="form-label">File Desain</label>
+                  <input
+                    type="file"
+                    @change="handleProdukFiles($event, 'designs')"
+                    class="form-control mb-3"
+                    multiple
+                    accept=".png,.jpg,.psd,.ai,.svg"
+                  />
+
+                  <button
+                    @click="saveProduk"
+                    class="btn btn-gradient w-100"
+                    :disabled="produkLoading"
+                  >
+                    <i class="fas fa-save me-2"></i>{{ produkLoading ?
+                    'Menyimpan...' : 'Simpan Produk' }}
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-9">
+                <div class="card p-4">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <h5><i class="fas fa-boxes me-2"></i>Daftar Produk</h5>
+                    <div class="d-flex gap-2">
+                      <select
+                        v-model="selectedKategori"
+                        @change="loadProdukList()"
+                        class="form-select select2-list-kategori"
+                        style="width: 200px"
+                      >
+                        <option value="">Semua Kategori</option>
+                        <option v-for="kat in kategoriList" :value="kat">
+                          {{ kat }}
+                        </option>
+                      </select>
+                      <input
+                        v-model="produkSearch"
+                        @input="loadProdukList()"
+                        class="form-control"
+                        placeholder="🔍 Cari..."
+                        style="width: 200px"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row g-3">
+                    <div v-for="p in produkList" :key="p.nama" class="col-md-6">
+                      <div class="card h-100">
+                        <div class="card-body">
+                          <div
+                            class="d-flex justify-content-between align-items-start"
+                          >
+                            <h6 class="card-title">{{ p.judul }}</h6>
+                            <div>
+                              <button
+                                @click="editProduk(p)"
+                                class="btn btn-sm btn-outline-warning me-1"
+                              >
+                                <i class="fas fa-edit"></i>
+                              </button>
+                              <button
+                                @click="deleteProduk(p)"
+                                class="btn btn-sm btn-outline-danger"
+                              >
+                                <i class="fas fa-trash"></i>
+                              </button>
+                            </div>
+                          </div>
+
+                          <!-- Preview Foto -->
+                          <div class="mt-2">
+                            <small class="text-muted"
+                              >📷 Foto ({{ p.fotos.length }})</small
+                            >
+                            <div class="d-flex gap-1 flex-wrap mt-1">
+                              <img
+                                v-for="foto in p.fotos.slice(0,3)"
+                                :key="foto"
+                                :src="'/produk/produk up/' + selectedKategori + '/' + p.nama + '/foto/' + foto"
+                                class="preview-img"
+                                style="
+                                  max-height: 80px;
+                                  width: 80px;
+                                  object-fit: cover;
+                                "
+                                @click="previewImage('/produk/produk up/' + selectedKategori + '/' + p.nama + '/foto/' + foto)"
+                              />
+                              <button
+                                @click="addFileToProduk(p, 'foto')"
+                                class="btn btn-sm btn-outline-primary"
+                                style="width: 80px; height: 80px"
+                              >
+                                <i class="fas fa-plus"></i>
+                              </button>
+                            </div>
+                          </div>
+
+                          <!-- Preview Design -->
+                          <div class="mt-2">
+                            <small class="text-muted"
+                              >🎨 Design ({{ p.designs.length }})</small
+                            >
+                            <div class="d-flex gap-1 flex-wrap mt-1">
+                              <img
+                                v-for="design in p.designs.slice(0,3)"
+                                :key="design"
+                                :src="'/produk/produk up/' + selectedKategori + '/' + p.nama + '/design/' + design"
+                                class="preview-img"
+                                style="
+                                  max-height: 80px;
+                                  width: 80px;
+                                  object-fit: cover;
+                                "
+                                @click="previewImage('/produk/produk up/' + selectedKategori + '/' + p.nama + '/design/' + design)"
+                              />
+                              <button
+                                @click="addFileToProduk(p, 'design')"
+                                class="btn btn-sm btn-outline-secondary"
+                                style="width: 80px; height: 80px"
+                              >
+                                <i class="fas fa-plus"></i>
+                              </button>
+                            </div>
+                          </div>
+
+                          <button
+                            @click="openProdukFolder(p)"
+                            class="btn btn-sm btn-outline-info mt-2 w-100"
+                          >
+                            <i class="fas fa-folder-open me-1"></i>Buka Folder
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      v-if="produkList.length === 0"
+                      class="col-12 text-center text-muted py-5"
+                    >
+                      <i class="fas fa-box-open fa-3x mb-3"></i>
+                      <p>Belum ada produk di kategori ini</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden file input untuk tambahan file produk -->
+      <input
+        type="file"
+        id="additionalFileInput"
+        hidden
+        @change="uploadAdditionalFile"
+      />
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+      const { createApp } = Vue;
+
+      createApp({
+        data() {
+          return {
+            // Prompt
+            prompts: [],
+            promptForm: { filename: "", content: "" },
+            promptEditMode: false,
+            promptSearch: "",
+            // Template
+            templates: [],
+            templateForm: { filename: "", content: "" },
+            templateEditMode: false,
+            templateSearch: "",
+            // Mentah
+            mentahFolders: [],
+            selectedMentahFolder: "",
+            mentahFiles: [],
+            mentahNewFolder: "",
+            // Produk
+            kategoriList: [],
+            showAddKategori: false,
+            newKategoriNama: "",
+            produkList: [],
+            selectedKategori: "",
+            produkSearch: "",
+            produkForm: { kategori: "", judul: "", fotos: [], designs: [] },
+            produkLoading: false,
+            additionalFileTarget: null,
+            additionalFileType: "",
+          };
+        },
+        methods: {
+          // ==================== HELPERS ====================
+          formatSize(bytes) {
+            if (!bytes) return "0 B";
+            const sizes = ["B", "KB", "MB", "GB"];
+            const i = Math.floor(Math.log(bytes) / Math.log(1024));
+            return (bytes / Math.pow(1024, i)).toFixed(1) + " " + sizes[i];
+          },
+          async api(url, options = {}) {
+            const res = await fetch(url, options);
+            return res.json();
+          },
+          previewImage(url) {
+            Swal.fire({
+              imageUrl: url,
+              imageAlt: "Preview",
+              showCloseButton: true,
+              showConfirmButton: false,
+              width: "80%",
+            });
+          },
+          confirm(title, text) {
+            return Swal.fire({
+              title,
+              text,
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Ya",
+              cancelButtonText: "Batal",
+            });
+          },
+          toast(title, icon = "success") {
+            Swal.fire({
+              title,
+              icon,
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+            });
+          },
+
+          // ==================== PROMPT ====================
+          async loadPrompts() {
+            const data = await this.api(
+              "/api/prompts?search=" + this.promptSearch,
+            );
+            this.prompts = data;
+          },
+          async viewPrompt(filename) {
+            const data = await this.api("/api/prompts/" + filename);
+            Swal.fire({
+              title: filename,
+              text: data.content,
+              confirmButtonText: "Tutup",
+              width: "600px",
+            });
+          },
+          async copyPrompt(filename) {
+            const data = await this.api("/api/prompts/" + filename);
+            await navigator.clipboard.writeText(data.content);
+            this.toast("Prompt disalin!");
+          },
+          async editPrompt(filename) {
+            const data = await this.api("/api/prompts/" + filename);
+            this.promptForm.filename = filename.replace(".txt", "");
+            this.promptForm.content = data.content;
+            this.promptEditMode = true;
+            document.getElementById("promptTab").scrollIntoView();
+          },
+          cancelEditPrompt() {
+            this.promptForm = { filename: "", content: "" };
+            this.promptEditMode = false;
+          },
+          async savePrompt() {
+            if (!this.promptForm.filename)
+              return this.toast("Nama file wajib diisi!", "error");
+            const url = this.promptEditMode
+              ? "/api/prompts/" + this.promptForm.filename + ".txt"
+              : "/api/prompts";
+            const method = this.promptEditMode ? "PUT" : "POST";
+            const body = this.promptEditMode
+              ? { content: this.promptForm.content }
+              : this.promptForm;
+
+            const data = await this.api(url, {
+              method,
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            });
+
+            if (data.success) {
+              this.toast(
+                this.promptEditMode ? "Prompt diupdate!" : "Prompt disimpan!",
+              );
+              this.cancelEditPrompt();
+              this.loadPrompts();
+            }
+          },
+          async deletePrompt(filename) {
+            const result = await this.confirm("Hapus prompt?", filename);
+            if (result.isConfirmed) {
+              await this.api("/api/prompts/" + filename, { method: "DELETE" });
+              this.toast("Prompt dihapus!");
+              this.loadPrompts();
+            }
+          },
+
+          // ==================== TEMPLATE ====================
+          async loadTemplates() {
+            const data = await this.api(
+              "/api/templates?search=" + this.templateSearch,
+            );
+            this.templates = data;
+          },
+          async viewTemplate(filename) {
+            const data = await this.api("/api/templates/" + filename);
+            Swal.fire({
+              title: filename,
+              text: data.content,
+              confirmButtonText: "Tutup",
+              width: "600px",
+            });
+          },
+          async copyTemplate(filename) {
+            const data = await this.api("/api/templates/" + filename);
+            await navigator.clipboard.writeText(data.content);
+            this.toast("Template disalin!");
+          },
+          async editTemplate(filename) {
+            const data = await this.api("/api/templates/" + filename);
+            this.templateForm.filename = filename.replace(".txt", "");
+            this.templateForm.content = data.content;
+            this.templateEditMode = true;
+            document.getElementById("templateTab").scrollIntoView();
+          },
+          cancelEditTemplate() {
+            this.templateForm = { filename: "", content: "" };
+            this.templateEditMode = false;
+          },
+          async saveTemplate() {
+            if (!this.templateForm.filename)
+              return this.toast("Nama file wajib diisi!", "error");
+            const url = this.templateEditMode
+              ? "/api/templates/" + this.templateForm.filename + ".txt"
+              : "/api/templates";
+            const method = this.templateEditMode ? "PUT" : "POST";
+            const body = this.templateEditMode
+              ? { content: this.templateForm.content }
+              : this.templateForm;
+
+            const data = await this.api(url, {
+              method,
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            });
+
+            if (data.success) {
+              this.toast(
+                this.templateEditMode
+                  ? "Template diupdate!"
+                  : "Template disimpan!",
+              );
+              this.cancelEditTemplate();
+              this.loadTemplates();
+            }
+          },
+          async deleteTemplate(filename) {
+            const result = await this.confirm("Hapus template?", filename);
+            if (result.isConfirmed) {
+              await this.api("/api/templates/" + filename, {
+                method: "DELETE",
+              });
+              this.toast("Template dihapus!");
+              this.loadTemplates();
+            }
+          },
+
+          // ==================== MENTAH ====================
+          async loadMentahFolders() {
+            const data = await this.api("/api/mentah/folders");
+            this.mentahFolders = data;
+          },
+          async createMentahFolder() {
+            if (!this.mentahNewFolder) return;
+            const data = await this.api("/api/mentah/folders", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ folderName: this.mentahNewFolder }),
+            });
+            if (data.success) {
+              this.toast("Folder dibuat!");
+              this.mentahNewFolder = "";
+              this.loadMentahFolders();
+            }
+          },
+          async deleteMentahFolder(folder) {
+            const result = await this.confirm(
+              "Hapus folder?",
+              folder + " beserta isinya akan dihapus!",
+            );
+            if (result.isConfirmed) {
+              await this.api("/api/mentah/folders/" + folder, {
+                method: "DELETE",
+              });
+              this.toast("Folder dihapus!");
+              if (this.selectedMentahFolder === folder)
+                this.selectedMentahFolder = "";
+              this.loadMentahFolders();
+            }
+          },
+          async selectMentahFolder(folder) {
+            this.selectedMentahFolder = folder;
+            const data = await this.api("/api/mentah/files/" + folder);
+            this.mentahFiles = data;
+          },
+          async uploadMentahFile(e) {
+            const files = e.target.files;
+            for (let file of files) {
+              const formData = new FormData();
+              formData.append("file", file);
+              await this.api(
+                "/api/mentah/upload/" + this.selectedMentahFolder,
+                { method: "POST", body: formData },
+              );
+            }
+            this.toast(files.length + " file diupload!");
+            this.selectMentahFolder(this.selectedMentahFolder);
+            e.target.value = "";
+          },
+          async deleteMentahFile(filename) {
+            const result = await this.confirm("Hapus file?", filename);
+            if (result.isConfirmed) {
+              await this.api(
+                "/api/mentah/files/" +
+                  this.selectedMentahFolder +
+                  "/" +
+                  filename,
+                { method: "DELETE" },
+              );
+              this.toast("File dihapus!");
+              this.selectMentahFolder(this.selectedMentahFolder);
+            }
+          },
+          openMentahFolder() {
+            window.open(
+              "/api/open-folder?path=produk/mentah/" +
+                this.selectedMentahFolder,
+              "_blank",
+            );
+          },
+
+          // ==================== PRODUK ====================
+          async initProdukTab() {
+            await this.loadKategori();
+            if (this.kategoriList.length > 0) {
+              this.selectedKategori = this.kategoriList[0];
+              await this.loadProdukList();
+            }
+            this.$nextTick(() => {
+              $(".select2-kategori")
+                .select2({ placeholder: "Pilih Kategori", width: "100%" })
+                .on("change", (e) => {
+                  this.produkForm.kategori = e.target.value;
+                });
+              $(".select2-list-kategori")
+                .select2({ placeholder: "Semua Kategori", width: "100%" })
+                .on("change", (e) => {
+                  this.selectedKategori = e.target.value;
+                  this.loadProdukList();
+                });
+            });
+          },
+          async loadKategori() {
+            const data = await this.api("/api/kategori");
+            this.kategoriList = data;
+          },
+          async addKategori() {
+            if (!this.newKategoriNama) return;
+            const data = await this.api("/api/kategori", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ nama: this.newKategoriNama }),
+            });
+            if (data.success) {
+              this.toast("Kategori dibuat!");
+              this.newKategoriNama = "";
+              this.showAddKategori = false;
+              await this.loadKategori();
+            }
+          },
+          async loadProdukList() {
+            if (!this.selectedKategori) {
+              this.produkList = [];
+              return;
+            }
+            const data = await this.api(
+              "/api/produk/" +
+                this.selectedKategori +
+                "?search=" +
+                this.produkSearch,
+            );
+            this.produkList = data;
+          },
+          handleProdukFiles(event, type) {
+            this.produkForm[type] = Array.from(event.target.files);
+          },
+          async saveProduk() {
+            if (!this.produkForm.kategori || !this.produkForm.judul) {
+              return this.toast("Kategori dan Judul wajib diisi!", "error");
+            }
+            this.produkLoading = true;
+            const formData = new FormData();
+            formData.append("kategori", this.produkForm.kategori);
+            formData.append("judul", this.produkForm.judul);
+
+            if (this.produkForm.fotos) {
+              this.produkForm.fotos.forEach((f) => formData.append("fotos", f));
+            }
+            if (this.produkForm.designs) {
+              this.produkForm.designs.forEach((f) =>
+                formData.append("designs", f),
+              );
+            }
+
+            const data = await this.api("/api/produk", {
+              method: "POST",
+              body: formData,
+            });
+            this.produkLoading = false;
+
+            if (data.success) {
+              this.toast(data.message);
+              this.produkForm = {
+                kategori: this.produkForm.kategori,
+                judul: "",
+                fotos: [],
+                designs: [],
+              };
+              this.loadProdukList();
+            } else {
+              this.toast(data.error, "error");
+            }
+          },
+          async editProduk(p) {
+            const { value: judul } = await Swal.fire({
+              title: "Edit Judul Produk",
+              input: "text",
+              inputValue: p.judul,
+              showCancelButton: true,
+              inputValidator: (v) => (!v ? "Judul tidak boleh kosong!" : null),
+            });
+            if (judul) {
+              await this.api(
+                "/api/produk/" + this.selectedKategori + "/" + p.nama,
+                {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ judul }),
+                },
+              );
+              this.toast("Judul diupdate!");
+              this.loadProdukList();
+            }
+          },
+          async deleteProduk(p) {
+            const result = await this.confirm(
+              "Hapus produk?",
+              p.judul + " akan dihapus beserta semua file!",
+            );
+            if (result.isConfirmed) {
+              await this.api(
+                "/api/produk/" + this.selectedKategori + "/" + p.nama,
+                { method: "DELETE" },
+              );
+              this.toast("Produk dihapus!");
+              this.loadProdukList();
+            }
+          },
+          addFileToProduk(p, type) {
+            this.additionalFileTarget = p;
+            this.additionalFileType = type;
+            document.getElementById("additionalFileInput").click();
+          },
+          async uploadAdditionalFile(e) {
+            const file = e.target.files[0];
+            if (!file || !this.additionalFileTarget) return;
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            await this.api(
+              "/api/produk/" +
+                this.selectedKategori +
+                "/" +
+                this.additionalFileTarget.nama +
+                "/upload/" +
+                this.additionalFileType,
+              { method: "POST", body: formData },
+            );
+
+            this.toast("File diupload!");
+            this.loadProdukList();
+            e.target.value = "";
+            this.additionalFileTarget = null;
+          },
+          openProdukFolder(p) {
+            window.open(
+              "/api/open-folder?path=produk/produk up/" +
+                this.selectedKategori +
+                "/" +
+                p.nama,
+              "_blank",
+            );
+          },
+        },
+        mounted() {
+          this.loadPrompts();
+          this.loadTemplates();
+          this.loadMentahFolders();
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
