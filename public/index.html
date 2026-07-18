@@ -29,45 +29,78 @@
         --orange: #f97316;
         --orange-hover: #ea580c;
         --dark: #1a1a1a;
-        --darker: #111111;
+        --darker: #0d0d0d;
         --card: #ffffff;
         --border: #e5e7eb;
-        --text: #374151;
-        --text-muted: #9ca3af;
+        --text: #1f2937;
+        --text-muted: #6b7280;
+        --bg: #f8f9fa;
+        --sidebar-width: 320px;
       }
 
       * {
-        font-family: "Inter", "Segoe UI", sans-serif;
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
       }
       body {
-        background: #f5f5f5;
+        background: var(--bg);
         color: var(--text);
+        overflow-x: hidden;
+        min-height: 100vh;
       }
 
+      /* Navbar */
+      .navbar {
+        background: var(--darker) !important;
+        border-bottom: 2px solid var(--orange);
+        padding: 8px 20px;
+      }
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.2rem;
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
       .navbar-brand img {
-        height: 35px;
+        height: 32px;
       }
 
-      .nav-tabs {
+      /* Tabs - NO SCROLLBAR */
+      .nav-tabs-container {
+        background: white;
         border-bottom: 2px solid var(--border);
-        gap: 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0 20px;
+      }
+      .nav-tabs {
+        border-bottom: none;
+        display: flex;
         flex-wrap: nowrap;
-        overflow-x: auto;
+        gap: 4px;
+        overflow: visible;
+        scrollbar-width: none;
+      }
+      .nav-tabs::-webkit-scrollbar {
+        display: none;
       }
       .nav-tabs .nav-link {
         border: none;
         color: var(--text-muted);
         font-weight: 500;
-        padding: 14px 20px;
-        border-radius: 0;
-        position: relative;
+        padding: 14px 18px;
+        border-radius: 8px 8px 0 0;
         transition: all 0.2s;
         font-size: 0.9rem;
         white-space: nowrap;
+        position: relative;
+        cursor: pointer;
       }
       .nav-tabs .nav-link:hover {
         color: var(--dark);
-        background: transparent;
+        background: #f9fafb;
       }
       .nav-tabs .nav-link.active {
         color: var(--orange);
@@ -77,28 +110,48 @@
       .nav-tabs .nav-link.active::after {
         content: "";
         position: absolute;
-        bottom: -2px;
-        left: 0;
-        right: 0;
+        bottom: 0;
+        left: 8px;
+        right: 8px;
         height: 3px;
         background: var(--orange);
+        border-radius: 3px 3px 0 0;
       }
 
+      /* Main Content */
+      .main-content {
+        padding: 20px;
+        transition: margin-right 0.3s ease;
+        margin-right: 0;
+      }
+      .main-content.shifted {
+        margin-right: var(--sidebar-width);
+      }
+
+      /* Cards */
       .card {
         border: 1px solid var(--border);
         border-radius: 12px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         background: var(--card);
+        transition: box-shadow 0.2s;
+      }
+      .card:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
       }
       .card-header {
         background: #fafafa;
         border-bottom: 1px solid var(--border);
         font-weight: 600;
-        font-size: 0.95rem;
-        padding: 16px 20px;
+        font-size: 0.9rem;
+        padding: 14px 18px;
         border-radius: 12px 12px 0 0 !important;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
 
+      /* Buttons */
       .btn-primary {
         background: var(--orange);
         border-color: var(--orange);
@@ -111,7 +164,6 @@
       .btn-outline-primary {
         color: var(--orange);
         border-color: var(--orange);
-        font-weight: 500;
       }
       .btn-outline-primary:hover {
         background: var(--orange);
@@ -121,7 +173,6 @@
       .btn-dark {
         background: var(--dark);
         border-color: var(--dark);
-        font-weight: 500;
       }
       .btn-dark:hover {
         background: var(--darker);
@@ -130,9 +181,10 @@
       .form-control:focus,
       .form-select:focus {
         border-color: var(--orange);
-        box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.15);
+        box-shadow: 0 0 0 0.15rem rgba(249, 115, 22, 0.15);
       }
 
+      /* Select2 */
       .select2-container--default .select2-selection--single {
         height: 38px;
         border: 1px solid #dee2e6;
@@ -144,38 +196,31 @@
         line-height: 36px;
         padding-left: 12px;
       }
-      .select2-container--default
-        .select2-selection--single
-        .select2-selection__arrow {
-        height: 36px;
-      }
       .select2-container--default .select2-results__option--highlighted {
         background: var(--orange) !important;
       }
-      .select2-dropdown {
-        border: 1px solid var(--border);
-        border-radius: 8px;
-      }
 
+      /* List items */
       .list-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 14px 16px;
+        padding: 12px 16px;
         border: 1px solid var(--border);
         border-radius: 8px;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         transition: all 0.15s;
         background: white;
       }
       .list-item:hover {
         border-color: #d1d5db;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        background: #fafafa;
       }
       .list-item-title {
         font-weight: 500;
         cursor: pointer;
         color: var(--dark);
+        flex: 1;
       }
       .list-item-title:hover {
         color: var(--orange);
@@ -187,7 +232,7 @@
         justify-content: space-between;
         padding: 10px 14px;
         border-radius: 8px;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
         cursor: pointer;
         transition: all 0.15s;
         border: 1px solid transparent;
@@ -201,9 +246,6 @@
         color: white;
         border-color: var(--orange);
       }
-      .folder-item.active .folder-name {
-        color: white;
-      }
 
       .preview-thumb {
         width: 80px;
@@ -216,25 +258,24 @@
       }
       .preview-thumb:hover {
         border-color: var(--orange);
-        transform: scale(1.08);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: scale(1.06);
       }
 
       .btn-action {
-        width: 34px;
-        height: 34px;
+        width: 32px;
+        height: 32px;
         padding: 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border-radius: 8px;
-        font-size: 0.85rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
       }
 
       .product-card {
         border: 1px solid var(--border);
         border-radius: 12px;
-        padding: 20px;
+        padding: 16px;
         background: white;
         transition: all 0.2s;
       }
@@ -242,28 +283,13 @@
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
       }
 
-      .backup-btn {
-        background: #1a1a1a;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-weight: 500;
-        font-size: 0.9rem;
-        transition: all 0.2s;
-      }
-      .backup-btn:hover {
-        background: #333;
-        color: white;
-      }
-
+      /* Drop Zone */
       .drop-zone {
         border: 2px dashed #d1d5db;
         border-radius: 12px;
-        padding: 40px;
+        padding: 30px;
         text-align: center;
         transition: all 0.3s;
-        cursor: pointer;
         background: #fafafa;
       }
       .drop-zone:hover,
@@ -272,7 +298,7 @@
         background: #fff7ed;
       }
       .drop-zone i {
-        font-size: 3rem;
+        font-size: 2.5rem;
         color: #d1d5db;
       }
       .drop-zone.drag-over i {
@@ -280,17 +306,12 @@
       }
 
       .sortable-ghost {
-        opacity: 0.4;
+        opacity: 0.3;
         background: #fff7ed;
         border: 2px dashed var(--orange);
       }
-      .sortable-chosen {
-        box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
-      }
-
       .foto-item {
         cursor: grab;
-        transition: transform 0.1s;
         position: relative;
       }
       .foto-item:active {
@@ -300,13 +321,13 @@
         position: absolute;
         top: 2px;
         right: 2px;
-        background: rgba(0, 0, 0, 0.6);
+        background: rgba(0, 0, 0, 0.7);
         color: white;
         border: none;
         border-radius: 50%;
-        width: 22px;
-        height: 22px;
-        font-size: 10px;
+        width: 20px;
+        height: 20px;
+        font-size: 9px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -317,747 +338,722 @@
         opacity: 1;
       }
 
-      .login-overlay {
+      /* Sidebar Canvas */
+      .sidebar-overlay {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1040;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
       }
-      .login-card {
-        background: white;
-        border-radius: 16px;
-        padding: 40px;
-        width: 380px;
-        max-width: 90%;
+      .sidebar-overlay.show {
+        opacity: 1;
+        visibility: visible;
       }
 
-      .stat-card {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        right: -320px;
+        width: var(--sidebar-width);
+        height: 100vh;
         background: white;
-        border-radius: 12px;
-        padding: 24px;
-        border-left: 4px solid var(--orange);
-        transition: all 0.2s;
+        z-index: 1050;
+        transition: right 0.3s ease;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
       }
-      .stat-card:hover {
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-        transform: translateY(-2px);
+      .sidebar.show {
+        right: 0;
       }
-      .stat-card .stat-value {
-        font-size: 2.5rem;
+      .sidebar-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 600;
+      }
+      .sidebar-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px 20px;
+      }
+
+      .stat-mini {
+        background: #fafafa;
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 10px;
+        border-left: 3px solid var(--orange);
+      }
+      .stat-mini .val {
+        font-size: 1.5rem;
         font-weight: 700;
         color: var(--orange);
       }
-      .stat-card .stat-label {
-        font-size: 0.85rem;
+      .stat-mini .lbl {
+        font-size: 0.75rem;
         color: var(--text-muted);
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
+      }
+
+      .toggle-sidebar-btn {
+        background: var(--dark);
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .toggle-sidebar-btn:hover {
+        background: #333;
+      }
+
+      .activity-log {
+        background: #1a1a1a;
+        color: #10b981;
+        border-radius: 8px;
+        padding: 12px;
+        font-family: "Courier New", monospace;
+        font-size: 0.75rem;
+        max-height: 400px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      /* Pagination */
+      .pagination-sm .page-link {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        color: var(--dark);
+      }
+      .pagination-sm .page-item.active .page-link {
+        background: var(--orange);
+        border-color: var(--orange);
+      }
+
+      /* Empty state */
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-muted);
+      }
+      .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 12px;
+        display: block;
       }
     </style>
   </head>
   <body>
     <div id="app">
-      <!-- Login Overlay -->
-      <div class="login-overlay" v-if="!isLoggedIn">
-        <div class="login-card">
-          <div class="text-center mb-4">
-            <img
-              src="logo.png"
-              alt="Logo"
-              style="height: 50px; margin-bottom: 20px"
-              onerror="this.style.display = 'none'"
-            />
-            <h4 class="fw-bold">Masuk ke Aplikasi</h4>
-            <p class="text-muted small">Masukkan password untuk melanjutkan</p>
-          </div>
-          <div class="mb-3">
-            <input
-              v-model="loginPassword"
-              type="password"
-              class="form-control text-center"
-              placeholder="Password"
-              @keyup.enter="doLogin"
-            />
-          </div>
-          <button
-            @click="doLogin"
-            class="btn btn-primary w-100"
-            :disabled="loginLoading"
-          >
-            <i class="fas fa-lock-open me-2"></i>
-            {{ loginLoading ? 'Memeriksa...' : 'Masuk' }}
-          </button>
-          <p v-if="loginError" class="text-danger text-center small mt-2">
-            {{ loginError }}
-          </p>
+      <!-- Navbar -->
+      <nav class="navbar navbar-dark">
+        <div class="d-flex align-items-center gap-2">
+          <img
+            src="logo.png"
+            alt="Logo"
+            onerror="this.style.display = 'none'"
+            style="height: 32px"
+          />
+          <span class="navbar-brand" v-if="!logoExists">ZYNHOPE</span>
         </div>
+        <div class="d-flex align-items-center gap-2">
+          <button @click="toggleSidebar" class="toggle-sidebar-btn">
+            <i class="fas fa-chart-bar"></i>
+            <span>Stats</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Tabs -->
+      <div class="nav-tabs-container">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <button
+              class="nav-link active"
+              data-bs-toggle="tab"
+              data-bs-target="#promptTab"
+              @click="loadPrompts()"
+            >
+              <i class="fas fa-robot me-2"></i>Prompt
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              data-bs-toggle="tab"
+              data-bs-target="#templateTab"
+              @click="loadTemplates()"
+            >
+              <i class="fas fa-file-alt me-2"></i>Template
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              data-bs-toggle="tab"
+              data-bs-target="#mentahTab"
+              @click="loadMentahFolders()"
+            >
+              <i class="fas fa-paint-brush me-2"></i>Mentah
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              data-bs-toggle="tab"
+              data-bs-target="#produkTab"
+              @click="initProdukTab()"
+            >
+              <i class="fas fa-box me-2"></i>Produk
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              data-bs-toggle="tab"
+              data-bs-target="#generatorTab"
+              @click="loadGeneratorTemplates()"
+            >
+              <i class="fas fa-magic me-2"></i>Generator
+            </button>
+          </li>
+        </ul>
       </div>
 
-      <!-- Main App (shown after login) -->
-      <div v-if="isLoggedIn">
-        <!-- Navbar -->
-        <nav class="navbar navbar-dark bg-dark px-4">
-          <div class="container-fluid">
-            <span class="navbar-brand d-flex align-items-center gap-2">
-              <img
-                src="logo.png"
-                alt="Logo"
-                onerror="this.style.display = 'none'"
-              />
-              <span v-if="!logoExists">ZYNHOPE</span>
-            </span>
-            <div class="d-flex align-items-center gap-3">
-              <button
-                @click="backupData"
-                class="backup-btn"
-                :disabled="isBackingUp"
-              >
-                <i class="fas fa-download me-2"></i>
-                <span v-if="!isBackingUp">Backup ZIP</span>
-                <span v-else>Membuat ZIP...</span>
-              </button>
-              <button @click="logout" class="btn btn-outline-light btn-sm">
-                <i class="fas fa-sign-out-alt"></i>
-              </button>
-              <span class="text-white-50 small">v6.0</span>
+      <!-- Main Content -->
+      <div class="main-content" :class="{ shifted: sidebarOpen }">
+        <div class="tab-content">
+          <!-- TAB PROMPT -->
+          <div class="tab-pane fade show active" id="promptTab">
+            <div class="row g-4">
+              <div class="col-lg-4">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-pen"></i> {{ promptEditMode ? 'Edit' :
+                    'Tambah' }} Prompt
+                  </div>
+                  <div class="card-body">
+                    <label class="form-label small fw-semibold"
+                      >Nama File</label
+                    >
+                    <input
+                      v-model="promptForm.filename"
+                      class="form-control mb-3"
+                      placeholder="nama-file"
+                    />
+                    <label class="form-label small fw-semibold">Konten</label>
+                    <textarea
+                      v-model="promptForm.content"
+                      class="form-control mb-3"
+                      rows="10"
+                      placeholder="Tulis prompt..."
+                    ></textarea>
+                    <button @click="savePrompt" class="btn btn-primary w-100">
+                      <i class="fas fa-save me-2"></i>{{ promptEditMode ?
+                      'Update' : 'Simpan' }}
+                    </button>
+                    <button
+                      v-if="promptEditMode"
+                      @click="cancelEditPrompt"
+                      class="btn btn-outline-secondary w-100 mt-2"
+                    >
+                      <i class="fas fa-times me-2"></i>Batal
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                    <span><i class="fas fa-list"></i> Daftar Prompt</span>
+                    <input
+                      v-model="promptSearch"
+                      @input="loadPrompts()"
+                      class="form-control form-control-sm"
+                      style="width: 200px"
+                      placeholder="Cari..."
+                    />
+                  </div>
+                  <div class="card-body">
+                    <div v-if="prompts.length === 0" class="empty-state">
+                      <i class="fas fa-inbox"></i>
+                      <p>Tidak ada prompt</p>
+                    </div>
+                    <div v-for="file in prompts" :key="file" class="list-item">
+                      <span
+                        @click="viewPrompt(file)"
+                        class="list-item-title"
+                        @dblclick="renamePrompt(file)"
+                        title="Double-click untuk rename"
+                        ><i class="fas fa-file-lines me-2 text-orange"></i>{{
+                        file }}</span
+                      >
+                      <div class="d-flex gap-1">
+                        <button
+                          @click="copyPrompt(file)"
+                          class="btn btn-outline-secondary btn-action"
+                          title="Salin"
+                        >
+                          <i class="fas fa-copy"></i>
+                        </button>
+                        <button
+                          @click="editPrompt(file)"
+                          class="btn btn-outline-secondary btn-action"
+                          title="Edit"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button
+                          @click="renamePrompt(file)"
+                          class="btn btn-outline-info btn-action"
+                          title="Rename"
+                        >
+                          <i class="fas fa-i-cursor"></i>
+                        </button>
+                        <button
+                          @click="deletePrompt(file)"
+                          class="btn btn-outline-danger btn-action"
+                          title="Hapus"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </nav>
 
-        <div class="container-fluid px-4 py-3">
-          <!-- Tab Navigation -->
-          <ul class="nav nav-tabs mb-4" id="mainTab" role="tablist">
-            <li class="nav-item">
-              <button
-                class="nav-link active"
-                data-bs-toggle="tab"
-                data-bs-target="#promptTab"
-                @click="loadPrompts()"
-              >
-                <i class="fas fa-robot me-2"></i>Prompt
-              </button>
-            </li>
-            <li class="nav-item">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#templateTab"
-                @click="loadTemplates()"
-              >
-                <i class="fas fa-file-alt me-2"></i>Template Text
-              </button>
-            </li>
-            <li class="nav-item">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#mentahTab"
-                @click="loadMentahFolders()"
-              >
-                <i class="fas fa-paint-brush me-2"></i>Mentah
-              </button>
-            </li>
-            <li class="nav-item">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#produkTab"
-                @click="initProdukTab()"
-              >
-                <i class="fas fa-box me-2"></i>Produk Up
-              </button>
-            </li>
-            <li class="nav-item">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#generatorTab"
-                @click="loadGeneratorTemplates()"
-              >
-                <i class="fas fa-magic me-2"></i>Generator
-              </button>
-            </li>
-            <li class="nav-item">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#analyticsTab"
-                @click="loadAnalytics()"
-              >
-                <i class="fas fa-chart-bar me-2"></i>Analytics
-              </button>
-            </li>
-          </ul>
-
-          <div class="tab-content">
-            <!-- ==================== TAB PROMPT ==================== -->
-            <div class="tab-pane fade show active" id="promptTab">
-              <div class="row g-4">
-                <div class="col-lg-4">
-                  <div class="card">
-                    <div class="card-header">
-                      <i class="fas fa-pen me-2"></i>{{ promptEditMode ? 'Edit'
-                      : 'Tambah' }} Prompt
-                    </div>
-                    <div class="card-body">
-                      <label class="form-label small fw-semibold"
-                        >Nama File</label
-                      >
-                      <input
-                        v-model="promptForm.filename"
-                        class="form-control mb-3"
-                        placeholder="nama-file"
-                      />
-                      <label class="form-label small fw-semibold">Konten</label>
-                      <textarea
-                        v-model="promptForm.content"
-                        class="form-control mb-3"
-                        rows="10"
-                        placeholder="Tulis prompt..."
-                      ></textarea>
-                      <button @click="savePrompt" class="btn btn-primary w-100">
-                        <i class="fas fa-save me-2"></i>{{ promptEditMode ?
-                        'Update' : 'Simpan' }}
-                      </button>
-                      <button
-                        v-if="promptEditMode"
-                        @click="cancelEditPrompt"
-                        class="btn btn-outline-secondary w-100 mt-2"
-                      >
-                        <i class="fas fa-times me-2"></i>Batal
-                      </button>
-                    </div>
+          <!-- TAB TEMPLATE -->
+          <div class="tab-pane fade" id="templateTab">
+            <div class="row g-4">
+              <div class="col-lg-4">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-pen"></i> {{ templateEditMode ? 'Edit' :
+                    'Tambah' }} Template
+                  </div>
+                  <div class="card-body">
+                    <label class="form-label small fw-semibold"
+                      >Nama File</label
+                    >
+                    <input
+                      v-model="templateForm.filename"
+                      class="form-control mb-3"
+                      placeholder="nama-file"
+                    />
+                    <label class="form-label small fw-semibold">Konten</label>
+                    <textarea
+                      v-model="templateForm.content"
+                      class="form-control mb-3"
+                      rows="10"
+                      placeholder="Tulis template..."
+                    ></textarea>
+                    <button @click="saveTemplate" class="btn btn-dark w-100">
+                      <i class="fas fa-save me-2"></i>{{ templateEditMode ?
+                      'Update' : 'Simpan' }}
+                    </button>
+                    <button
+                      v-if="templateEditMode"
+                      @click="cancelEditTemplate"
+                      class="btn btn-outline-secondary w-100 mt-2"
+                    >
+                      <i class="fas fa-times me-2"></i>Batal
+                    </button>
                   </div>
                 </div>
-                <div class="col-lg-8">
-                  <div class="card">
-                    <div
-                      class="card-header d-flex justify-content-between align-items-center"
-                    >
-                      <span><i class="fas fa-list me-2"></i>Daftar Prompt</span>
-                      <input
-                        v-model="promptSearch"
-                        @input="loadPrompts()"
-                        class="form-control form-control-sm"
-                        style="width: 220px"
-                        placeholder="Cari..."
-                      />
+              </div>
+              <div class="col-lg-8">
+                <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                    <span><i class="fas fa-list"></i> Daftar Template</span>
+                    <input
+                      v-model="templateSearch"
+                      @input="loadTemplates()"
+                      class="form-control form-control-sm"
+                      style="width: 200px"
+                      placeholder="Cari..."
+                    />
+                  </div>
+                  <div class="card-body">
+                    <div v-if="templates.length === 0" class="empty-state">
+                      <i class="fas fa-inbox"></i>
+                      <p>Tidak ada template</p>
                     </div>
-                    <div class="card-body p-0">
-                      <div class="p-3">
-                        <div
-                          v-for="file in prompts"
-                          :key="file"
-                          class="list-item"
+                    <div
+                      v-for="file in templates"
+                      :key="file"
+                      class="list-item"
+                    >
+                      <span
+                        @click="viewTemplate(file)"
+                        class="list-item-title"
+                        @dblclick="renameTemplate(file)"
+                        title="Double-click untuk rename"
+                        ><i class="fas fa-file-lines me-2 text-dark"></i>{{ file
+                        }}</span
+                      >
+                      <div class="d-flex gap-1">
+                        <button
+                          @click="copyTemplate(file)"
+                          class="btn btn-outline-secondary btn-action"
                         >
-                          <span
-                            @click="viewPrompt(file)"
-                            class="list-item-title"
-                            @dblclick="renamePrompt(file)"
-                            :title="'Double-click untuk rename'"
-                          >
-                            <i class="fas fa-file-lines me-2 text-orange"></i>{{
-                            file }}
-                          </span>
-                          <div class="d-flex gap-1">
-                            <button
-                              @click="copyPrompt(file)"
-                              class="btn btn-outline-secondary btn-action"
-                              title="Salin"
-                            >
-                              <i class="fas fa-copy"></i>
-                            </button>
-                            <button
-                              @click="editPrompt(file)"
-                              class="btn btn-outline-secondary btn-action"
-                              title="Edit"
-                            >
-                              <i class="fas fa-edit"></i>
-                            </button>
-                            <button
-                              @click="renamePrompt(file)"
-                              class="btn btn-outline-info btn-action"
-                              title="Rename"
-                            >
-                              <i class="fas fa-i-cursor"></i>
-                            </button>
-                            <button
-                              @click="deletePrompt(file)"
-                              class="btn btn-outline-danger btn-action"
-                              title="Hapus"
-                            >
-                              <i class="fas fa-trash"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div
-                          v-if="prompts.length === 0"
-                          class="text-center text-muted py-5"
+                          <i class="fas fa-copy"></i>
+                        </button>
+                        <button
+                          @click="editTemplate(file)"
+                          class="btn btn-outline-secondary btn-action"
                         >
-                          <i class="fas fa-inbox fa-2x mb-2 d-block"></i>Tidak
-                          ada prompt
-                        </div>
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button
+                          @click="renameTemplate(file)"
+                          class="btn btn-outline-info btn-action"
+                        >
+                          <i class="fas fa-i-cursor"></i>
+                        </button>
+                        <button
+                          @click="deleteTemplate(file)"
+                          class="btn btn-outline-danger btn-action"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- ==================== TAB TEMPLATE ==================== -->
-            <div class="tab-pane fade" id="templateTab">
-              <div class="row g-4">
-                <div class="col-lg-4">
-                  <div class="card">
-                    <div class="card-header">
-                      <i class="fas fa-pen me-2"></i>{{ templateEditMode ?
-                      'Edit' : 'Tambah' }} Template
-                    </div>
-                    <div class="card-body">
-                      <label class="form-label small fw-semibold"
-                        >Nama File</label
-                      >
+          <!-- TAB MENTAH -->
+          <div class="tab-pane fade" id="mentahTab">
+            <div class="row g-4">
+              <div class="col-lg-3">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-folder-tree"></i> Folder
+                  </div>
+                  <div class="card-body">
+                    <div class="input-group mb-3">
                       <input
-                        v-model="templateForm.filename"
-                        class="form-control mb-3"
-                        placeholder="nama-file"
+                        v-model="mentahNewFolder"
+                        class="form-control"
+                        placeholder="Folder baru"
                       />
-                      <label class="form-label small fw-semibold">Konten</label>
-                      <textarea
-                        v-model="templateForm.content"
-                        class="form-control mb-3"
-                        rows="10"
-                        placeholder="Tulis template..."
-                      ></textarea>
-                      <button @click="saveTemplate" class="btn btn-dark w-100">
-                        <i class="fas fa-save me-2"></i>{{ templateEditMode ?
-                        'Update' : 'Simpan' }}
-                      </button>
-                      <button
-                        v-if="templateEditMode"
-                        @click="cancelEditTemplate"
-                        class="btn btn-outline-secondary w-100 mt-2"
-                      >
-                        <i class="fas fa-times me-2"></i>Batal
+                      <button @click="createMentahFolder" class="btn btn-dark">
+                        <i class="fas fa-plus"></i>
                       </button>
                     </div>
-                  </div>
-                </div>
-                <div class="col-lg-8">
-                  <div class="card">
                     <div
-                      class="card-header d-flex justify-content-between align-items-center"
+                      v-for="folder in mentahFolders"
+                      :key="folder"
+                      @click="selectMentahFolder(folder)"
+                      :class="selectedMentahFolder === folder ? 'active' : ''"
+                      class="folder-item"
                     >
                       <span
-                        ><i class="fas fa-list me-2"></i>Daftar Template</span
+                        class="folder-name"
+                        @dblclick.stop="renameMentahFolder(folder)"
+                        title="Double-click untuk rename"
+                        ><i
+                          class="fas fa-folder me-2"
+                          :class="selectedMentahFolder === folder ? 'text-white' : 'text-warning'"
+                        ></i
+                        >{{ folder }}</span
                       >
-                      <input
-                        v-model="templateSearch"
-                        @input="loadTemplates()"
-                        class="form-control form-control-sm"
-                        style="width: 220px"
-                        placeholder="Cari..."
-                      />
-                    </div>
-                    <div class="card-body p-0">
-                      <div class="p-3">
-                        <div
-                          v-for="file in templates"
-                          :key="file"
-                          class="list-item"
-                        >
-                          <span
-                            @click="viewTemplate(file)"
-                            class="list-item-title"
-                            @dblclick="renameTemplate(file)"
-                            :title="'Double-click untuk rename'"
-                          >
-                            <i class="fas fa-file-lines me-2 text-dark"></i>{{
-                            file }}
-                          </span>
-                          <div class="d-flex gap-1">
-                            <button
-                              @click="copyTemplate(file)"
-                              class="btn btn-outline-secondary btn-action"
-                              title="Salin"
-                            >
-                              <i class="fas fa-copy"></i>
-                            </button>
-                            <button
-                              @click="editTemplate(file)"
-                              class="btn btn-outline-secondary btn-action"
-                              title="Edit"
-                            >
-                              <i class="fas fa-edit"></i>
-                            </button>
-                            <button
-                              @click="renameTemplate(file)"
-                              class="btn btn-outline-info btn-action"
-                              title="Rename"
-                            >
-                              <i class="fas fa-i-cursor"></i>
-                            </button>
-                            <button
-                              @click="deleteTemplate(file)"
-                              class="btn btn-outline-danger btn-action"
-                              title="Hapus"
-                            >
-                              <i class="fas fa-trash"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div
-                          v-if="templates.length === 0"
-                          class="text-center text-muted py-5"
-                        >
-                          <i class="fas fa-inbox fa-2x mb-2 d-block"></i>Tidak
-                          ada template
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- ==================== TAB MENTAH ==================== -->
-            <div class="tab-pane fade" id="mentahTab">
-              <div class="row g-4">
-                <div class="col-lg-3">
-                  <div class="card">
-                    <div class="card-header">
-                      <i class="fas fa-folder-tree me-2"></i>Folder
-                    </div>
-                    <div class="card-body">
-                      <div class="input-group mb-3">
-                        <input
-                          v-model="mentahNewFolder"
-                          class="form-control"
-                          placeholder="Folder baru"
-                        />
-                        <button
-                          @click="createMentahFolder"
-                          class="btn btn-dark"
-                        >
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
-                      <div>
-                        <div
-                          v-for="folder in mentahFolders"
-                          :key="folder"
-                          @click="selectMentahFolder(folder)"
-                          :class="selectedMentahFolder === folder ? 'active' : ''"
-                          class="folder-item"
-                        >
-                          <span
-                            class="folder-name"
-                            @dblclick.stop="renameMentahFolder(folder)"
-                            :title="'Double-click untuk rename'"
-                          >
-                            <i
-                              class="fas fa-folder me-2"
-                              :class="selectedMentahFolder === folder ? 'text-white' : 'text-warning'"
-                            ></i
-                            >{{ folder }}
-                          </span>
-                          <div class="d-flex gap-1">
-                            <button
-                              v-if="folder !== 'panjang' && folder !== 'pendek'"
-                              @click.stop="renameMentahFolder(folder)"
-                              class="btn btn-sm p-0 border-0"
-                              :class="selectedMentahFolder === folder ? 'text-white' : 'text-info'"
-                              title="Rename"
-                            >
-                              <i class="fas fa-i-cursor"></i>
-                            </button>
-                            <button
-                              v-if="folder !== 'panjang' && folder !== 'pendek'"
-                              @click.stop="deleteMentahFolder(folder)"
-                              class="btn btn-sm p-0 border-0"
-                              :class="selectedMentahFolder === folder ? 'text-white' : 'text-danger'"
-                              title="Hapus folder"
-                            >
-                              <i class="fas fa-trash"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-9">
-                  <div class="card" v-if="selectedMentahFolder">
-                    <div
-                      class="card-header d-flex justify-content-between align-items-center"
-                    >
-                      <span
-                        ><i class="fas fa-folder-open me-2 text-warning"></i>{{
-                        selectedMentahFolder }}</span
-                      >
-                      <div class="d-flex gap-2">
-                        <button
-                          @click="openMentahFolder"
-                          class="btn btn-outline-secondary btn-sm"
-                        >
-                          <i class="fas fa-external-link-alt me-1"></i>Buka
-                          Folder
-                        </button>
-                        <label class="btn btn-dark btn-sm mb-0">
-                          <i class="fas fa-upload me-1"></i>Upload
-                          <input
-                            type="file"
-                            @change="uploadMentahFile"
-                            multiple
-                            hidden
-                          />
-                        </label>
-                      </div>
-                    </div>
-                    <div class="card-body">
                       <div
-                        class="drop-zone mb-3"
-                        @dragover.prevent="$event.currentTarget.classList.add('drag-over')"
-                        @dragleave.prevent="$event.currentTarget.classList.remove('drag-over')"
-                        @drop.prevent="handleMentahDrop($event)"
-                        @click="document.querySelector('#mentahFileInput').click()"
+                        class="d-flex gap-1"
+                        v-if="folder !== 'panjang' && folder !== 'pendek'"
                       >
-                        <i class="fas fa-cloud-upload-alt mb-2"></i>
-                        <p class="mb-0">
-                          Drag & drop file di sini atau klik untuk upload
-                        </p>
-                        <input
+                        <button
+                          @click.stop="renameMentahFolder(folder)"
+                          class="btn btn-sm p-0 border-0"
+                          :class="selectedMentahFolder === folder ? 'text-white' : 'text-info'"
+                          title="Rename"
+                        >
+                          <i class="fas fa-i-cursor"></i>
+                        </button>
+                        <button
+                          @click.stop="deleteMentahFolder(folder)"
+                          class="btn btn-sm p-0 border-0"
+                          :class="selectedMentahFolder === folder ? 'text-white' : 'text-danger'"
+                          title="Hapus"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-9">
+                <div class="card" v-if="selectedMentahFolder">
+                  <div class="card-header d-flex justify-content-between">
+                    <span
+                      ><i class="fas fa-folder-open text-warning"></i> {{
+                      selectedMentahFolder }}</span
+                    >
+                    <div class="d-flex gap-2">
+                      <button
+                        @click="openMentahFolder"
+                        class="btn btn-outline-secondary btn-sm"
+                      >
+                        <i class="fas fa-external-link-alt me-1"></i>Buka Folder
+                      </button>
+                      <label class="btn btn-dark btn-sm mb-0"
+                        ><i class="fas fa-upload me-1"></i>Upload<input
                           type="file"
-                          id="mentahFileInput"
                           @change="uploadMentahFile"
                           multiple
                           hidden
-                        />
-                      </div>
-                      <div class="row g-3">
-                        <div
-                          v-for="file in mentahFiles"
-                          :key="file.name"
-                          class="col-6 col-md-4 col-lg-3"
-                        >
-                          <div class="card h-100 border">
-                            <div
-                              v-if="['.jpg','.jpeg','.png','.gif','.webp'].includes(file.ext)"
-                              class="text-center p-2 bg-light"
-                              style="height: 140px"
+                      /></label>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div
+                      class="drop-zone mb-3"
+                      @dragover.prevent="$event.currentTarget.classList.add('drag-over')"
+                      @dragleave.prevent="$event.currentTarget.classList.remove('drag-over')"
+                      @drop.prevent="handleMentahDrop($event)"
+                    >
+                      <i class="fas fa-cloud-upload-alt mb-2"></i>
+                      <p class="mb-0">Drag & drop file di sini</p>
+                    </div>
+                    <div class="row g-3" v-if="mentahFiles.length > 0">
+                      <div
+                        v-for="file in mentahFiles"
+                        :key="file.name"
+                        class="col-6 col-md-4 col-lg-3"
+                      >
+                        <div class="card h-100 border">
+                          <div
+                            v-if="['.jpg','.jpeg','.png','.gif','.webp'].includes(file.ext)"
+                            class="text-center p-2 bg-light"
+                            style="height: 120px"
+                          >
+                            <img
+                              :src="'/api/thumbnail?path=produk/mentah/' + selectedMentahFolder + '/' + file.name"
+                              class="preview-thumb"
+                              style="width: 100%; height: 100%"
+                              @click="previewImage('/produk/mentah/' + selectedMentahFolder + '/' + file.name)"
+                              loading="lazy"
+                            />
+                          </div>
+                          <div v-else class="text-center py-4 bg-light">
+                            <i class="fas fa-file fa-2x text-muted"></i>
+                          </div>
+                          <div class="card-body p-2 text-center">
+                            <small
+                              class="d-block text-truncate fw-medium"
+                              @dblclick="renameMentahFile(file.name)"
+                              title="Double-click untuk rename"
+                              >{{ file.name }}</small
                             >
-                              <img
-                                :src="'/produk/mentah/' + selectedMentahFolder + '/' + file.name"
-                                class="preview-thumb"
-                                style="width: 100%; height: 100%"
-                                @click="previewImage('/produk/mentah/' + selectedMentahFolder + '/' + file.name)"
-                              />
-                            </div>
-                            <div v-else class="text-center py-5 bg-light">
-                              <i class="fas fa-file fa-3x text-muted"></i>
-                            </div>
-                            <div class="card-body p-2 text-center">
-                              <small
-                                class="d-block text-truncate fw-medium"
-                                @dblclick="renameMentahFile(file.name)"
-                                :title="'Double-click untuk rename'"
-                                >{{ file.name }}</small
+                            <small class="text-muted"
+                              >{{ formatSize(file.size) }}</small
+                            >
+                            <div class="d-flex gap-1 mt-1">
+                              <button
+                                @click="renameMentahFile(file.name)"
+                                class="btn btn-sm btn-outline-info flex-grow-1"
                               >
-                              <small class="text-muted"
-                                >{{ formatSize(file.size) }}</small
+                                <i class="fas fa-i-cursor"></i>
+                              </button>
+                              <button
+                                @click="deleteMentahFile(file.name)"
+                                class="btn btn-sm btn-outline-danger flex-grow-1"
                               >
-                              <div class="d-flex gap-1 mt-1">
-                                <button
-                                  @click="renameMentahFile(file.name)"
-                                  class="btn btn-sm btn-outline-info flex-grow-1"
-                                  title="Rename"
-                                >
-                                  <i class="fas fa-i-cursor"></i>
-                                </button>
-                                <button
-                                  @click="deleteMentahFile(file.name)"
-                                  class="btn btn-sm btn-outline-danger flex-grow-1"
-                                  title="Hapus"
-                                >
-                                  <i class="fas fa-trash"></i>
-                                </button>
-                              </div>
+                                <i class="fas fa-trash"></i>
+                              </button>
                             </div>
                           </div>
                         </div>
-                        <div
-                          v-if="mentahFiles.length === 0"
-                          class="col-12 text-center text-muted py-5"
-                        >
-                          <i class="fas fa-inbox fa-3x mb-3 d-block"></i>Folder
-                          kosong
-                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div v-else class="card">
-                    <div class="card-body text-center text-muted py-5">
-                      <i class="fas fa-arrow-left fa-3x mb-3 d-block"></i>
-                      <p class="mb-0">Pilih folder di sebelah kiri</p>
+                    <div v-else class="empty-state">
+                      <i class="fas fa-inbox"></i>
+                      <p>Folder kosong</p>
                     </div>
+                  </div>
+                </div>
+                <div v-else class="card">
+                  <div class="card-body empty-state">
+                    <i class="fas fa-arrow-left"></i>
+                    <p>Pilih folder di sebelah kiri</p>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- ==================== TAB PRODUK UP ==================== -->
-            <div class="tab-pane fade" id="produkTab">
-              <div class="row g-4">
-                <div class="col-lg-3">
-                  <div class="card">
-                    <div class="card-header">
-                      <i class="fas fa-plus-circle me-2"></i>Tambah Produk
+          <!-- TAB PRODUK -->
+          <div class="tab-pane fade" id="produkTab">
+            <div class="row g-4">
+              <div class="col-lg-3">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-plus-circle"></i> Tambah Produk
+                  </div>
+                  <div class="card-body">
+                    <label class="form-label small fw-semibold">Kategori</label>
+                    <div class="mb-2">
+                      <select
+                        v-model="produkForm.kategori"
+                        id="selectKategoriForm"
+                        class="form-select"
+                      >
+                        <option value="">Pilih Kategori</option>
+                        <option v-for="kat in kategoriList" :value="kat">
+                          {{ kat }}
+                        </option>
+                      </select>
                     </div>
-                    <div class="card-body">
-                      <label class="form-label small fw-semibold"
-                        >Kategori</label
-                      >
-                      <div class="mb-2">
-                        <select
-                          v-model="produkForm.kategori"
-                          id="selectKategoriForm"
-                          class="form-select"
-                        >
-                          <option value="">Pilih Kategori</option>
-                          <option v-for="kat in kategoriList" :value="kat">
-                            {{ kat }}
-                          </option>
-                        </select>
-                      </div>
-                      <div class="d-flex gap-2 mb-3">
-                        <button
-                          @click="showAddKategori = !showAddKategori"
-                          class="btn btn-outline-secondary btn-sm flex-grow-1"
-                        >
-                          <i class="fas fa-plus me-1"></i>Baru
-                        </button>
-                        <button
-                          @click="deleteKategori"
-                          class="btn btn-outline-danger btn-sm"
-                          :disabled="!produkForm.kategori"
-                          title="Hapus kategori"
-                        >
-                          <i class="fas fa-trash me-1"></i>Hapus
-                        </button>
-                      </div>
-                      <div v-if="showAddKategori" class="input-group mb-3">
-                        <input
-                          v-model="newKategoriNama"
-                          class="form-control form-control-sm"
-                          placeholder="Nama kategori"
-                        />
-                        <button
-                          @click="addKategori"
-                          class="btn btn-dark btn-sm"
-                        >
-                          Buat
-                        </button>
-                      </div>
-                      <label class="form-label small fw-semibold"
-                        >Judul Produk</label
-                      >
-                      <input
-                        v-model="produkForm.judul"
-                        class="form-control mb-3"
-                        placeholder="Nama produk"
-                      />
-
-                      <div
-                        class="drop-zone mb-3"
-                        @dragover.prevent="$event.currentTarget.classList.add('drag-over')"
-                        @dragleave.prevent="$event.currentTarget.classList.remove('drag-over')"
-                        @drop.prevent="handleProdukFotoDrop($event)"
-                      >
-                        <i class="fas fa-images mb-2"></i>
-                        <p class="mb-0 small">Drag & drop FOTO di sini</p>
-                      </div>
-                      <input
-                        type="file"
-                        @change="handleProdukFiles($event, 'fotos')"
-                        class="form-control mb-3"
-                        multiple
-                        accept="image/*"
-                      />
-
-                      <div
-                        class="drop-zone mb-3"
-                        @dragover.prevent="$event.currentTarget.classList.add('drag-over')"
-                        @dragleave.prevent="$event.currentTarget.classList.remove('drag-over')"
-                        @drop.prevent="handleProdukDesignDrop($event)"
-                      >
-                        <i class="fas fa-palette mb-2"></i>
-                        <p class="mb-0 small">Drag & drop DESIGN di sini</p>
-                      </div>
-                      <input
-                        type="file"
-                        @change="handleProdukFiles($event, 'designs')"
-                        class="form-control mb-3"
-                        multiple
-                        accept=".png,.jpg,.psd,.ai,.svg"
-                      />
-
+                    <div class="d-flex gap-2 mb-3">
                       <button
-                        @click="saveProduk"
-                        class="btn btn-primary w-100"
-                        :disabled="produkLoading"
+                        @click="showAddKategori = !showAddKategori"
+                        class="btn btn-outline-secondary btn-sm flex-grow-1"
                       >
-                        <i class="fas fa-save me-2"></i>{{ produkLoading ?
-                        'Menyimpan...' : 'Simpan Produk' }}
+                        <i class="fas fa-plus me-1"></i>Baru
+                      </button>
+                      <button
+                        @click="renameKategoriDialog"
+                        class="btn btn-outline-info btn-sm"
+                        :disabled="!produkForm.kategori"
+                        title="Rename kategori"
+                      >
+                        <i class="fas fa-i-cursor"></i>
+                      </button>
+                      <button
+                        @click="deleteKategori"
+                        class="btn btn-outline-danger btn-sm"
+                        :disabled="!produkForm.kategori"
+                        title="Hapus kategori"
+                      >
+                        <i class="fas fa-trash"></i>
                       </button>
                     </div>
+                    <div v-if="showAddKategori" class="input-group mb-3">
+                      <input
+                        v-model="newKategoriNama"
+                        class="form-control form-control-sm"
+                        placeholder="Nama kategori"
+                      /><button
+                        @click="addKategori"
+                        class="btn btn-dark btn-sm"
+                      >
+                        Buat
+                      </button>
+                    </div>
+                    <label class="form-label small fw-semibold"
+                      >Judul Produk</label
+                    >
+                    <input
+                      v-model="produkForm.judul"
+                      class="form-control mb-3"
+                      placeholder="Nama produk"
+                    />
+                    <div
+                      class="drop-zone mb-3"
+                      @dragover.prevent="$event.currentTarget.classList.add('drag-over')"
+                      @dragleave.prevent="$event.currentTarget.classList.remove('drag-over')"
+                      @drop.prevent="handleProdukFotoDrop($event)"
+                    >
+                      <i class="fas fa-images mb-2"></i>
+                      <p class="mb-0 small">Drag & drop FOTO (max 15)</p>
+                    </div>
+                    <input
+                      type="file"
+                      @change="handleProdukFiles($event, 'fotos')"
+                      class="form-control mb-3"
+                      multiple
+                      accept="image/*"
+                    />
+                    <div
+                      class="drop-zone mb-3"
+                      @dragover.prevent="$event.currentTarget.classList.add('drag-over')"
+                      @dragleave.prevent="$event.currentTarget.classList.remove('drag-over')"
+                      @drop.prevent="handleProdukDesignDrop($event)"
+                    >
+                      <i class="fas fa-palette mb-2"></i>
+                      <p class="mb-0 small">Drag & drop DESIGN (max 5)</p>
+                    </div>
+                    <input
+                      type="file"
+                      @change="handleProdukFiles($event, 'designs')"
+                      class="form-control mb-3"
+                      multiple
+                      accept=".png,.jpg,.psd,.ai,.svg"
+                    />
+                    <button
+                      @click="saveProduk"
+                      class="btn btn-primary w-100"
+                      :disabled="produkLoading"
+                    >
+                      <i class="fas fa-save me-2"></i>{{ produkLoading ?
+                      'Menyimpan...' : 'Simpan Produk' }}
+                    </button>
                   </div>
                 </div>
-                <div class="col-lg-9">
-                  <div class="card">
-                    <div
-                      class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2"
-                    >
-                      <span
-                        ><i class="fas fa-boxes me-2"></i>Daftar Produk</span
+              </div>
+              <div class="col-lg-9">
+                <div class="card">
+                  <div
+                    class="card-header d-flex justify-content-between flex-wrap gap-2"
+                  >
+                    <span><i class="fas fa-boxes"></i> Daftar Produk</span>
+                    <div class="d-flex gap-2">
+                      <select
+                        v-model="selectedKategori"
+                        id="selectKategoriList"
+                        @change="loadProdukList()"
+                        class="form-select form-select-sm"
+                        style="width: 160px"
                       >
-                      <div class="d-flex gap-2">
-                        <select
-                          v-model="selectedKategori"
-                          id="selectKategoriList"
-                          @change="loadProdukList()"
-                          class="form-select form-select-sm"
-                          style="width: 180px"
-                        >
-                          <option value="">Semua Kategori</option>
-                          <option v-for="kat in kategoriList" :value="kat">
-                            {{ kat }}
-                          </option>
-                        </select>
-                        <input
-                          v-model="produkSearch"
-                          @input="loadProdukList()"
-                          class="form-control form-control-sm"
-                          style="width: 200px"
-                          placeholder="Cari produk..."
-                        />
-                      </div>
+                        <option value="">Semua</option>
+                        <option v-for="kat in kategoriList" :value="kat">
+                          {{ kat }}
+                        </option>
+                      </select>
+                      <input
+                        v-model="produkSearch"
+                        @input="loadProdukList()"
+                        class="form-control form-control-sm"
+                        style="width: 180px"
+                        placeholder="Cari..."
+                      />
                     </div>
-                    <div class="card-body">
+                  </div>
+                  <div class="card-body">
+                    <div
+                      v-if="produkList.products && produkList.products.length > 0"
+                    >
                       <div class="row g-3">
                         <div
-                          v-for="p in produkList"
+                          v-for="p in produkList.products"
                           :key="p.nama"
                           class="col-md-6"
                         >
                           <div class="product-card">
                             <div
-                              class="d-flex justify-content-between align-items-start mb-3"
+                              class="d-flex justify-content-between align-items-start mb-2"
                             >
                               <h6 class="fw-bold mb-0">{{ p.judul }}</h6>
                               <div class="d-flex gap-1">
@@ -1076,15 +1072,13 @@
                               </div>
                             </div>
                             <div class="mb-2">
-                              <small
-                                class="text-muted fw-semibold d-block mb-1"
-                              >
-                                <i class="fas fa-camera me-1"></i>Foto ({{
+                              <small class="text-muted fw-semibold d-block mb-1"
+                                ><i class="fas fa-camera me-1"></i>Foto ({{
                                 p.fotos.length }})
                                 <span class="text-orange small"
-                                  >- Drag untuk urutkan</span
-                                >
-                              </small>
+                                  >- Drag urutkan</span
+                                ></small
+                              >
                               <div
                                 :id="'fotoSortable-' + p.nama"
                                 class="d-flex gap-1 flex-wrap"
@@ -1096,10 +1090,11 @@
                                   :data-foto="foto"
                                 >
                                   <img
-                                    :src="'/produk/produk up/' + selectedKategori + '/' + p.nama + '/foto/' + foto"
+                                    :src="'/api/thumbnail?path=produk/produk up/' + selectedKategori + '/' + p.nama + '/foto/' + foto"
                                     class="preview-thumb"
-                                    style="width: 60px; height: 60px"
+                                    style="width: 56px; height: 56px"
                                     @click="previewImage('/produk/produk up/' + selectedKategori + '/' + p.nama + '/foto/' + foto)"
+                                    loading="lazy"
                                   />
                                   <button
                                     @click="deleteProdukFile(p, 'foto', foto)"
@@ -1112,16 +1107,17 @@
                                   @click="addFileToProduk(p, 'foto')"
                                   class="btn btn-outline-secondary d-flex align-items-center justify-content-center"
                                   style="
-                                    width: 60px;
-                                    height: 60px;
+                                    width: 56px;
+                                    height: 56px;
                                     border-radius: 8px;
                                   "
+                                  :disabled="p.fotos.length >= 15"
                                 >
                                   <i class="fas fa-plus"></i>
                                 </button>
                               </div>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-2">
                               <small class="text-muted fw-semibold d-block mb-1"
                                 ><i class="fas fa-palette me-1"></i>Design ({{
                                 p.designs.length }})</small
@@ -1130,19 +1126,21 @@
                                 <img
                                   v-for="design in p.designs.slice(0,4)"
                                   :key="design"
-                                  :src="'/produk/produk up/' + selectedKategori + '/' + p.nama + '/design/' + design"
+                                  :src="'/api/thumbnail?path=produk/produk up/' + selectedKategori + '/' + p.nama + '/design/' + design"
                                   class="preview-thumb"
-                                  style="width: 60px; height: 60px"
+                                  style="width: 56px; height: 56px"
                                   @click="previewImage('/produk/produk up/' + selectedKategori + '/' + p.nama + '/design/' + design)"
+                                  loading="lazy"
                                 />
                                 <button
                                   @click="addFileToProduk(p, 'design')"
                                   class="btn btn-outline-secondary d-flex align-items-center justify-content-center"
                                   style="
-                                    width: 60px;
-                                    height: 60px;
+                                    width: 56px;
+                                    height: 56px;
                                     border-radius: 8px;
                                   "
+                                  :disabled="p.designs.length >= 5"
                                 >
                                   <i class="fas fa-plus"></i>
                                 </button>
@@ -1156,208 +1154,224 @@
                             </button>
                           </div>
                         </div>
-                        <div
-                          v-if="produkList.length === 0"
-                          class="col-12 text-center text-muted py-5"
-                        >
-                          <i class="fas fa-box-open fa-3x mb-3 d-block"></i>
-                          <p>Belum ada produk</p>
-                        </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- ==================== TAB GENERATOR ==================== -->
-            <div class="tab-pane fade" id="generatorTab">
-              <div class="row g-4">
-                <div class="col-lg-3">
-                  <div class="card">
-                    <div class="card-header">
-                      <i class="fas fa-cog me-2"></i>Pilih Template
-                    </div>
-                    <div class="card-body p-0">
-                      <div class="list-group list-group-flush">
-                        <button
-                          v-for="tpl in generatorTemplates"
-                          :key="tpl.id"
-                          @click="selectGeneratorTemplate(tpl)"
-                          :class="selectedGenerator && selectedGenerator.id === tpl.id ? 'active' : ''"
-                          class="list-group-item list-group-item-action"
-                        >
-                          <i class="fas fa-file-alt me-2"></i>{{ tpl.name }}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-9">
-                  <div class="card" v-if="selectedGenerator">
-                    <div
-                      class="card-header d-flex justify-content-between align-items-center"
-                    >
-                      <span
-                        ><i class="fas fa-magic me-2 text-orange"></i>{{
-                        selectedGenerator.name }}</span
-                      >
-                      <div class="d-flex gap-2">
-                        <button
-                          @click="copyGeneratedText"
-                          class="btn btn-outline-secondary btn-sm"
-                        >
-                          <i class="fas fa-copy me-1"></i>Copy
-                        </button>
-                        <button
-                          @click="saveGeneratedToPrompt"
-                          class="btn btn-outline-primary btn-sm"
-                        >
-                          <i class="fas fa-robot me-1"></i>Simpan ke Prompt
-                        </button>
-                        <button
-                          @click="saveGeneratedToTemplate"
-                          class="btn btn-outline-dark btn-sm"
-                        >
-                          <i class="fas fa-file-alt me-1"></i>Simpan ke Template
-                          Text
-                        </button>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                      <div class="row g-3 mb-4">
-                        <div
-                          v-for="(ph, index) in selectedGenerator.placeholders"
-                          :key="index"
-                          :class="selectedGenerator.placeholders.length > 1 ? 'col-md-6' : 'col-12'"
-                        >
-                          <label class="form-label small fw-semibold">
-                            <i class="fas fa-edit me-1 text-orange"></i>{{ ph }}
-                          </label>
-                          <input
-                            v-model="generatorValues[ph]"
-                            class="form-control"
-                            :placeholder="'Isi ' + ph + '...'"
-                            @input="updateGeneratedText"
-                          />
-                        </div>
-                      </div>
-                      <label class="form-label small fw-semibold"
-                        ><i class="fas fa-eye me-1"></i>Hasil Preview</label
-                      >
+                      <!-- Pagination -->
                       <div
-                        class="border rounded p-3 bg-light"
-                        style="max-height: 500px; overflow-y: auto"
+                        class="d-flex justify-content-center mt-3"
+                        v-if="produkList.totalPages > 1"
                       >
-                        <pre
-                          class="mb-0"
-                          style="
-                            white-space: pre-wrap;
-                            font-family: &quot;Inter&quot;, sans-serif;
-                            font-size: 0.9rem;
-                          "
-                        >
-{{ generatedText || 'Isi placeholder di atas untuk melihat hasil...' }}</pre
-                        >
+                        <nav>
+                          <ul class="pagination pagination-sm">
+                            <li
+                              class="page-item"
+                              :class="{ disabled: produkList.page <= 1 }"
+                            >
+                              <button
+                                class="page-link"
+                                @click="goToPage(produkList.page - 1)"
+                              >
+                                &laquo;
+                              </button>
+                            </li>
+                            <li
+                              class="page-item"
+                              v-for="p in produkList.totalPages"
+                              :key="p"
+                              :class="{ active: p === produkList.page }"
+                            >
+                              <button class="page-link" @click="goToPage(p)">
+                                {{ p }}
+                              </button>
+                            </li>
+                            <li
+                              class="page-item"
+                              :class="{ disabled: produkList.page >= produkList.totalPages }"
+                            >
+                              <button
+                                class="page-link"
+                                @click="goToPage(produkList.page + 1)"
+                              >
+                                &raquo;
+                              </button>
+                            </li>
+                          </ul>
+                        </nav>
                       </div>
                     </div>
-                  </div>
-                  <div v-else class="card">
-                    <div class="card-body text-center text-muted py-5">
-                      <i class="fas fa-arrow-left fa-3x mb-3 d-block"></i>
-                      <p class="mb-0">Pilih template di sebelah kiri</p>
+                    <div v-else class="empty-state">
+                      <i class="fas fa-box-open"></i>
+                      <p>Belum ada produk</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- ==================== TAB ANALYTICS ==================== -->
-            <div class="tab-pane fade" id="analyticsTab">
-              <div class="row g-4 mb-4">
-                <div class="col-md-3">
-                  <div class="stat-card">
-                    <div class="stat-value">
-                      {{ analytics.totalProducts || 0 }}
-                    </div>
-                    <div class="stat-label">Total Produk</div>
+          <!-- TAB GENERATOR -->
+          <div class="tab-pane fade" id="generatorTab">
+            <div class="row g-4">
+              <div class="col-lg-3">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-cog"></i> Pilih Template
                   </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="stat-card" style="border-left-color: #3b82f6">
-                    <div class="stat-value" style="color: #3b82f6">
-                      {{ analytics.totalCategories || 0 }}
+                  <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                      <button
+                        v-for="tpl in generatorTemplates"
+                        :key="tpl.id"
+                        @click="selectGeneratorTemplate(tpl)"
+                        :class="selectedGenerator && selectedGenerator.id === tpl.id ? 'active' : ''"
+                        class="list-group-item list-group-item-action"
+                      >
+                        <i class="fas fa-file-alt me-2"></i>{{ tpl.name }}
+                      </button>
                     </div>
-                    <div class="stat-label">Total Kategori</div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="stat-card" style="border-left-color: #10b981">
-                    <div class="stat-value" style="color: #10b981">
-                      {{ analytics.totalUploads || 0 }}
-                    </div>
-                    <div class="stat-label">Total Upload</div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="stat-card" style="border-left-color: #8b5cf6">
-                    <div
-                      class="stat-value"
-                      style="color: #8b5cf6; font-size: 1rem"
-                    >
-                      {{ analytics.lastBackup ? formatDate(analytics.lastBackup)
-                      : 'Belum pernah' }}
-                    </div>
-                    <div class="stat-label">Backup Terakhir</div>
                   </div>
                 </div>
               </div>
-              <div class="card">
-                <div class="card-header">
-                  <i class="fas fa-history me-2"></i>Aktivitas Terbaru
+              <div class="col-lg-9">
+                <div class="card" v-if="selectedGenerator">
+                  <div class="card-header d-flex justify-content-between">
+                    <span
+                      ><i class="fas fa-magic text-orange"></i> {{
+                      selectedGenerator.name }}</span
+                    >
+                    <div class="d-flex gap-2">
+                      <button
+                        @click="copyGeneratedText"
+                        class="btn btn-outline-secondary btn-sm"
+                      >
+                        <i class="fas fa-copy me-1"></i>Copy
+                      </button>
+                      <button
+                        @click="saveGeneratedToPrompt"
+                        class="btn btn-outline-primary btn-sm"
+                      >
+                        <i class="fas fa-robot me-1"></i>Simpan ke Prompt
+                      </button>
+                      <button
+                        @click="saveGeneratedToTemplate"
+                        class="btn btn-outline-dark btn-sm"
+                      >
+                        <i class="fas fa-file-alt me-1"></i>Simpan ke Template
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row g-3 mb-4">
+                      <div
+                        v-for="(ph, index) in selectedGenerator.placeholders"
+                        :key="index"
+                        :class="selectedGenerator.placeholders.length > 1 ? 'col-md-6' : 'col-12'"
+                      >
+                        <label class="form-label small fw-semibold"
+                          ><i class="fas fa-edit me-1 text-orange"></i>{{ ph
+                          }}</label
+                        >
+                        <input
+                          v-model="generatorValues[ph]"
+                          class="form-control"
+                          :placeholder="'Isi ' + ph + '...'"
+                          @input="updateGeneratedText"
+                        />
+                      </div>
+                    </div>
+                    <label class="form-label small fw-semibold"
+                      ><i class="fas fa-eye me-1"></i>Preview</label
+                    >
+                    <div
+                      class="border rounded p-3 bg-light"
+                      style="max-height: 400px; overflow-y: auto"
+                    >
+                      <pre
+                        class="mb-0"
+                        style="white-space: pre-wrap; font-size: 0.85rem"
+                      >
+{{ generatedText || 'Isi placeholder di atas...' }}</pre
+                      >
+                    </div>
+                  </div>
                 </div>
-                <div class="card-body p-0">
-                  <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                      <thead>
-                        <tr>
-                          <th>Aksi</th>
-                          <th>Detail</th>
-                          <th>Waktu</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          v-for="(action, i) in analytics.recentActions"
-                          :key="i"
-                        >
-                          <td>
-                            <span class="badge bg-secondary"
-                              >{{ action.action }}</span
-                            >
-                          </td>
-                          <td>
-                            <small>{{ JSON.stringify(action.details) }}</small>
-                          </td>
-                          <td>
-                            <small class="text-muted"
-                              >{{ formatDate(action.timestamp) }}</small
-                            >
-                          </td>
-                        </tr>
-                        <tr
-                          v-if="!analytics.recentActions || analytics.recentActions.length === 0"
-                        >
-                          <td colspan="3" class="text-center text-muted py-3">
-                            Belum ada aktivitas
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <div v-else class="card">
+                  <div class="card-body empty-state">
+                    <i class="fas fa-arrow-left"></i>
+                    <p>Pilih template</p>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Overlay -->
+      <div
+        class="sidebar-overlay"
+        :class="{ show: sidebarOpen }"
+        @click="toggleSidebar"
+      ></div>
+
+      <!-- Sidebar Canvas -->
+      <div class="sidebar" :class="{ show: sidebarOpen }">
+        <div class="sidebar-header">
+          <span
+            ><i class="fas fa-chart-bar me-2 text-orange"></i>Statistik &
+            Backup</span
+          >
+          <button
+            @click="toggleSidebar"
+            class="btn btn-sm btn-outline-secondary"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="sidebar-body">
+          <div class="stat-mini">
+            <div class="val">{{ analytics.totalProducts || 0 }}</div>
+            <div class="lbl">Total Produk</div>
+          </div>
+          <div class="stat-mini" style="border-left-color: #3b82f6">
+            <div class="val" style="color: #3b82f6">
+              {{ analytics.totalCategories || 0 }}
+            </div>
+            <div class="lbl">Total Kategori</div>
+          </div>
+          <div class="stat-mini" style="border-left-color: #10b981">
+            <div class="val" style="color: #10b981">
+              {{ analytics.totalActivities || 0 }}
+            </div>
+            <div class="lbl">Total Aktivitas</div>
+          </div>
+
+          <hr />
+          <label class="form-label small fw-semibold"
+            ><i class="fas fa-download me-1"></i>Backup Data</label
+          >
+          <div class="input-group mb-3">
+            <input
+              v-model="backupPin"
+              type="password"
+              class="form-control form-control-sm"
+              placeholder="PIN (020608)"
+            />
+            <button
+              @click="backupData"
+              class="btn btn-primary btn-sm"
+              :disabled="isBackingUp"
+            >
+              <i class="fas fa-download"></i> {{ isBackingUp ? '...' : 'Backup'
+              }}
+            </button>
+          </div>
+
+          <hr />
+          <label class="form-label small fw-semibold"
+            ><i class="fas fa-history me-1"></i>Aktivitas Terbaru</label
+          >
+          <div class="activity-log">
+            {{ activityLogText || 'Belum ada aktivitas' }}
           </div>
         </div>
       </div>
@@ -1381,13 +1395,8 @@
       createApp({
         data() {
           return {
-            // Auth
-            isLoggedIn: false,
-            loginPassword: "",
-            loginLoading: false,
-            loginError: "",
-            authToken: "",
             logoExists: false,
+            sidebarOpen: false,
 
             // Prompt
             prompts: [],
@@ -1411,9 +1420,10 @@
             kategoriList: [],
             showAddKategori: false,
             newKategoriNama: "",
-            produkList: [],
+            produkList: { products: [], total: 0, page: 1, totalPages: 1 },
             selectedKategori: "",
             produkSearch: "",
+            produkPage: 1,
             produkForm: { kategori: "", judul: "", fotos: [], designs: [] },
             produkLoading: false,
             additionalFileTarget: null,
@@ -1421,6 +1431,7 @@
             sortableInstances: {},
 
             // Backup
+            backupPin: "",
             isBackingUp: false,
 
             // Generator
@@ -1430,95 +1441,27 @@
             generatedText: "",
 
             // Analytics
-            analytics: {},
+            analytics: {
+              totalProducts: 0,
+              totalCategories: 0,
+              totalActivities: 0,
+            },
+            activityLogText: "",
           };
         },
         methods: {
-          // ==================== AUTH ====================
-          async doLogin() {
-            if (!this.loginPassword) return;
-            this.loginLoading = true;
-            this.loginError = "";
-
-            try {
-              const res = await fetch("/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ password: this.loginPassword }),
-              });
-              const data = await res.json();
-
-              if (data.success) {
-                this.authToken = data.token;
-                localStorage.setItem("authToken", data.token);
-                this.isLoggedIn = true;
-                this.loginPassword = "";
-                this.initApp();
-              } else {
-                this.loginError = data.error || "Password salah";
-              }
-            } catch (err) {
-              this.loginError = "Gagal terhubung ke server";
-            }
-            this.loginLoading = false;
-          },
-
-          logout() {
-            localStorage.removeItem("authToken");
-            this.isLoggedIn = false;
-            this.authToken = "";
-          },
-
-          async verifyToken() {
-            const token = localStorage.getItem("authToken");
-            if (!token) return;
-
-            try {
-              const res = await fetch("/api/verify-token", {
-                headers: { Authorization: `Bearer ${token}` },
-              });
-              const data = await res.json();
-
-              if (data.valid) {
-                this.authToken = token;
-                this.isLoggedIn = true;
-                this.initApp();
-              } else {
-                localStorage.removeItem("authToken");
-              }
-            } catch (err) {
-              console.error("Token verification failed");
-            }
-          },
-
-          async api(url, options = {}) {
-            const headers = {
-              ...options.headers,
-              Authorization: `Bearer ${this.authToken}`,
-            };
-            const res = await fetch(url, { ...options, headers });
-            if (res.status === 401) {
-              this.logout();
-              throw new Error("Unauthorized");
-            }
-            if (res.headers.get("content-type")?.includes("application/zip"))
-              return res;
-            return res.json();
-          },
-
-          // ==================== HELPERS ====================
           formatSize(bytes) {
             if (!bytes) return "0 B";
             const sizes = ["B", "KB", "MB", "GB"];
             const i = Math.floor(Math.log(bytes) / Math.log(1024));
             return (bytes / Math.pow(1024, i)).toFixed(1) + " " + sizes[i];
           },
-
-          formatDate(dateStr) {
-            if (!dateStr) return "-";
-            return new Date(dateStr).toLocaleString("id-ID");
+          async api(url, options = {}) {
+            const res = await fetch(url, options);
+            if (res.headers.get("content-type")?.includes("application/zip"))
+              return res;
+            return res.json();
           },
-
           previewImage(url) {
             Swal.fire({
               imageUrl: url,
@@ -1529,20 +1472,18 @@
               background: "#1a1a1a",
             });
           },
-
           confirm(title, text) {
             return Swal.fire({
               title,
               text,
               icon: "warning",
               showCancelButton: true,
-              confirmButtonText: "Ya, hapus",
+              confirmButtonText: "Ya",
               cancelButtonText: "Batal",
               confirmButtonColor: "#f97316",
               cancelButtonColor: "#6b7280",
             });
           },
-
           toast(title, icon = "success") {
             Swal.fire({
               title,
@@ -1556,12 +1497,10 @@
               color: "#fff",
             });
           },
-
           openFolder(folderPath) {
-            this.api(`/api/open-folder?path=${folderPath}`);
-            this.toast("Folder dibuka di File Explorer");
+            fetch(`/api/open-folder?path=${folderPath}`);
+            this.toast("Folder dibuka!");
           },
-
           async promptRename(title, currentValue) {
             const { value: newName } = await Swal.fire({
               title,
@@ -1574,57 +1513,58 @@
             return newName;
           },
 
-          // ==================== INIT ====================
-          async initApp() {
-            this.loadPrompts();
-            this.loadTemplates();
-            this.loadMentahFolders();
-            this.checkLogo();
+          // Sidebar
+          toggleSidebar() {
+            this.sidebarOpen = !this.sidebarOpen;
+            if (this.sidebarOpen) {
+              this.loadAnalytics();
+              this.loadActivity();
+            }
           },
 
-          checkLogo() {
-            const img = new Image();
-            img.onload = () => {
-              this.logoExists = true;
-            };
-            img.onerror = () => {
-              this.logoExists = false;
-            };
-            img.src = "logo.png";
+          // Analytics
+          async loadAnalytics() {
+            try {
+              this.analytics = await this.api("/api/analytics");
+            } catch (e) {}
+          },
+          async loadActivity() {
+            try {
+              const data = await this.api("/api/activity");
+              this.activityLogText = data.activities
+                ? data.activities.join("\n")
+                : "";
+            } catch (e) {}
           },
 
-          // ==================== BACKUP ====================
+          // Backup
           async backupData() {
+            if (this.backupPin !== "020608")
+              return this.toast("PIN salah!", "error");
             this.isBackingUp = true;
             try {
-              const res = await this.api("/api/backup");
+              const res = await this.api("/api/backup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ pin: this.backupPin }),
+              });
               const blob = await res.blob();
               const url = window.URL.createObjectURL(blob);
               const a = document.createElement("a");
               a.href = url;
               const disposition = res.headers.get("Content-Disposition");
-              const filename =
+              a.download =
                 disposition?.match(/filename="(.+)"/)?.[1] || "backup.zip";
-              a.download = filename;
               document.body.appendChild(a);
               a.click();
               a.remove();
               window.URL.revokeObjectURL(url);
-              this.toast("Backup berhasil didownload!");
-            } catch (err) {
-              this.toast("Gagal membuat backup", "error");
-            } finally {
-              this.isBackingUp = false;
+              this.toast("Backup didownload!");
+              this.backupPin = "";
+            } catch (e) {
+              this.toast("Gagal backup", "error");
             }
-          },
-
-          // ==================== ANALYTICS ====================
-          async loadAnalytics() {
-            try {
-              this.analytics = await this.api("/api/analytics");
-            } catch (err) {
-              console.error("Analytics error:", err);
-            }
+            this.isBackingUp = false;
           },
 
           // ==================== PROMPT ====================
@@ -1647,7 +1587,7 @@
           async copyPrompt(filename) {
             const data = await this.api("/api/prompts/" + filename);
             await navigator.clipboard.writeText(data.content);
-            this.toast("Prompt disalin!");
+            this.toast("Disalin!");
           },
           async editPrompt(filename) {
             const data = await this.api("/api/prompts/" + filename);
@@ -1675,34 +1615,31 @@
               body: JSON.stringify(body),
             });
             if (data.success) {
-              this.toast(
-                this.promptEditMode ? "Prompt diupdate!" : "Prompt disimpan!",
-              );
+              this.toast(this.promptEditMode ? "Updated!" : "Saved!");
               this.cancelEditPrompt();
               this.loadPrompts();
             }
           },
           async deletePrompt(filename) {
-            const result = await this.confirm("Hapus prompt?", filename);
+            const result = await this.confirm("Hapus?", filename);
             if (result.isConfirmed) {
               await this.api("/api/prompts/" + filename, { method: "DELETE" });
-              this.toast("Prompt dihapus!");
+              this.toast("Dihapus!");
               this.loadPrompts();
             }
           },
           async renamePrompt(filename) {
-            const currentName = filename.replace(".txt", "");
             const newName = await this.promptRename(
-              "Rename Prompt",
-              currentName,
+              "Rename",
+              filename.replace(".txt", ""),
             );
-            if (newName && newName !== currentName) {
+            if (newName && newName !== filename.replace(".txt", "")) {
               await this.api("/api/prompts-rename/" + filename, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ newName }),
               });
-              this.toast("Prompt direname!");
+              this.toast("Direname!");
               this.loadPrompts();
             }
           },
@@ -1727,7 +1664,7 @@
           async copyTemplate(filename) {
             const data = await this.api("/api/templates/" + filename);
             await navigator.clipboard.writeText(data.content);
-            this.toast("Template disalin!");
+            this.toast("Disalin!");
           },
           async editTemplate(filename) {
             const data = await this.api("/api/templates/" + filename);
@@ -1755,38 +1692,33 @@
               body: JSON.stringify(body),
             });
             if (data.success) {
-              this.toast(
-                this.templateEditMode
-                  ? "Template diupdate!"
-                  : "Template disimpan!",
-              );
+              this.toast(this.templateEditMode ? "Updated!" : "Saved!");
               this.cancelEditTemplate();
               this.loadTemplates();
             }
           },
           async deleteTemplate(filename) {
-            const result = await this.confirm("Hapus template?", filename);
+            const result = await this.confirm("Hapus?", filename);
             if (result.isConfirmed) {
               await this.api("/api/templates/" + filename, {
                 method: "DELETE",
               });
-              this.toast("Template dihapus!");
+              this.toast("Dihapus!");
               this.loadTemplates();
             }
           },
           async renameTemplate(filename) {
-            const currentName = filename.replace(".txt", "");
             const newName = await this.promptRename(
-              "Rename Template",
-              currentName,
+              "Rename",
+              filename.replace(".txt", ""),
             );
-            if (newName && newName !== currentName) {
+            if (newName && newName !== filename.replace(".txt", "")) {
               await this.api("/api/templates-rename/" + filename, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ newName }),
               });
-              this.toast("Template direname!");
+              this.toast("Direname!");
               this.loadTemplates();
             }
           },
@@ -1798,37 +1730,31 @@
           },
           async createMentahFolder() {
             if (!this.mentahNewFolder) return;
-            const data = await this.api("/api/mentah/folders", {
+            await this.api("/api/mentah/folders", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ folderName: this.mentahNewFolder }),
             });
-            if (data.success) {
-              this.toast("Folder dibuat!");
-              this.mentahNewFolder = "";
-              this.loadMentahFolders();
-            }
+            this.toast("Folder dibuat!");
+            this.mentahNewFolder = "";
+            this.loadMentahFolders();
           },
           async deleteMentahFolder(folder) {
             const result = await this.confirm(
               "Hapus folder?",
-              `Folder "${folder}" beserta isinya akan dihapus permanen!`,
+              `"${folder}" akan dihapus permanen!`,
             );
             if (result.isConfirmed) {
-              const res = await this.api(
+              await this.api(
                 "/api/mentah/folders/" + encodeURIComponent(folder),
                 { method: "DELETE" },
               );
-              if (res.success) {
-                this.toast("Folder dihapus!");
-                if (this.selectedMentahFolder === folder) {
-                  this.selectedMentahFolder = "";
-                  this.mentahFiles = [];
-                }
-                this.loadMentahFolders();
-              } else {
-                this.toast(res.error || "Gagal menghapus", "error");
+              this.toast("Dihapus!");
+              if (this.selectedMentahFolder === folder) {
+                this.selectedMentahFolder = "";
+                this.mentahFiles = [];
               }
+              this.loadMentahFolders();
             }
           },
           async renameMentahFolder(folder) {
@@ -1836,7 +1762,7 @@
               return this.toast("Folder default tidak bisa direname", "error");
             const newName = await this.promptRename("Rename Folder", folder);
             if (newName && newName !== folder) {
-              const res = await this.api(
+              await this.api(
                 "/api/mentah/folders-rename/" + encodeURIComponent(folder),
                 {
                   method: "PUT",
@@ -1844,51 +1770,44 @@
                   body: JSON.stringify({ newName }),
                 },
               );
-              if (res.success) {
-                this.toast("Folder direname!");
-                if (this.selectedMentahFolder === folder)
-                  this.selectedMentahFolder = newName;
-                this.loadMentahFolders();
-              } else {
-                this.toast(res.error || "Gagal rename", "error");
-              }
+              this.toast("Direname!");
+              if (this.selectedMentahFolder === folder)
+                this.selectedMentahFolder = newName;
+              this.loadMentahFolders();
             }
           },
           async selectMentahFolder(folder) {
             this.selectedMentahFolder = folder;
-            const data = await this.api("/api/mentah/files/" + folder);
-            this.mentahFiles = data;
+            this.mentahFiles = await this.api("/api/mentah/files/" + folder);
           },
           async uploadMentahFile(e) {
-            const files = e.target.files;
-            for (let file of files) {
-              const formData = new FormData();
-              formData.append("file", file);
+            for (let file of e.target.files) {
+              const fd = new FormData();
+              fd.append("file", file);
               await this.api(
                 "/api/mentah/upload/" + this.selectedMentahFolder,
-                { method: "POST", body: formData },
+                { method: "POST", body: fd },
               );
             }
-            this.toast(files.length + " file diupload!");
+            this.toast(e.target.files.length + " file diupload!");
             this.selectMentahFolder(this.selectedMentahFolder);
             e.target.value = "";
           },
           async handleMentahDrop(event) {
             event.currentTarget.classList.remove("drag-over");
-            const files = event.dataTransfer.files;
-            for (let file of files) {
-              const formData = new FormData();
-              formData.append("file", file);
+            for (let file of event.dataTransfer.files) {
+              const fd = new FormData();
+              fd.append("file", file);
               await this.api(
                 "/api/mentah/upload/" + this.selectedMentahFolder,
-                { method: "POST", body: formData },
+                { method: "POST", body: fd },
               );
             }
-            this.toast(files.length + " file diupload!");
+            this.toast(event.dataTransfer.files.length + " file diupload!");
             this.selectMentahFolder(this.selectedMentahFolder);
           },
           async deleteMentahFile(filename) {
-            const result = await this.confirm("Hapus file?", filename);
+            const result = await this.confirm("Hapus?", filename);
             if (result.isConfirmed) {
               await this.api(
                 "/api/mentah/files/" +
@@ -1897,7 +1816,7 @@
                   filename,
                 { method: "DELETE" },
               );
-              this.toast("File dihapus!");
+              this.toast("Dihapus!");
               this.selectMentahFolder(this.selectedMentahFolder);
             }
           },
@@ -1915,7 +1834,7 @@
                   body: JSON.stringify({ newName }),
                 },
               );
-              this.toast("File direname!");
+              this.toast("Direname!");
               this.selectMentahFolder(this.selectedMentahFolder);
             }
           },
@@ -1930,9 +1849,7 @@
               this.selectedKategori = this.kategoriList[0];
               await this.loadProdukList();
             }
-            this.$nextTick(() => {
-              this.initSelect2();
-            });
+            this.$nextTick(() => this.initSelect2());
           },
           initSelect2() {
             if ($("#selectKategoriForm").data("select2")) {
@@ -1950,7 +1867,7 @@
               });
             $("#selectKategoriList")
               .select2({
-                placeholder: "Semua Kategori",
+                placeholder: "Semua",
                 width: "100%",
                 dropdownParent: $("#produkTab"),
               })
@@ -1960,8 +1877,7 @@
               });
           },
           async loadKategori() {
-            const data = await this.api("/api/kategori");
-            this.kategoriList = data;
+            this.kategoriList = await this.api("/api/kategori");
           },
           async addKategori() {
             if (!this.newKategoriNama) return;
@@ -1982,11 +1898,40 @@
               });
             }
           },
+          async renameKategoriDialog() {
+            if (!this.produkForm.kategori) return;
+            const newName = await this.promptRename(
+              "Rename Kategori",
+              this.produkForm.kategori,
+            );
+            if (newName && newName !== this.produkForm.kategori) {
+              const res = await this.api(
+                "/api/kategori-rename/" +
+                  encodeURIComponent(this.produkForm.kategori),
+                {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ newName }),
+                },
+              );
+              if (res.success) {
+                this.toast("Kategori direname!");
+                this.produkForm.kategori = newName;
+                if (this.selectedKategori === this.produkForm.kategori)
+                  this.selectedKategori = newName;
+                await this.loadKategori();
+                this.$nextTick(() => {
+                  this.initSelect2();
+                  $("#selectKategoriForm").val(newName).trigger("change");
+                });
+              }
+            }
+          },
           async deleteKategori() {
             if (!this.produkForm.kategori) return;
             const result = await this.confirm(
               "Hapus kategori?",
-              `Kategori "${this.produkForm.kategori}" akan dihapus.`,
+              `"${this.produkForm.kategori}" akan dihapus.`,
             );
             if (!result.isConfirmed) return;
             const res = await this.api(
@@ -1994,45 +1939,53 @@
               { method: "DELETE" },
             );
             if (res.success) {
-              this.toast("Kategori dihapus!");
+              this.toast("Dihapus!");
               this.produkForm.kategori = "";
               this.selectedKategori = "";
-              this.produkList = [];
+              this.produkList = {
+                products: [],
+                total: 0,
+                page: 1,
+                totalPages: 1,
+              };
               await this.loadKategori();
               this.$nextTick(() => {
                 this.initSelect2();
                 $("#selectKategoriForm").val("").trigger("change");
                 $("#selectKategoriList").val("").trigger("change");
               });
-            } else {
-              this.toast(res.error || "Gagal menghapus kategori", "error");
-            }
+            } else this.toast(res.error || "Gagal", "error");
           },
-          async loadProdukList() {
+          async loadProdukList(page = 1) {
             if (!this.selectedKategori) {
-              this.produkList = [];
+              this.produkList = {
+                products: [],
+                total: 0,
+                page: 1,
+                totalPages: 1,
+              };
               return;
             }
+            this.produkPage = page;
             const data = await this.api(
-              "/api/produk/" +
-                this.selectedKategori +
-                "?search=" +
-                this.produkSearch,
+              `/api/produk/${this.selectedKategori}?search=${this.produkSearch}&page=${page}&limit=10`,
             );
             this.produkList = data;
-            this.$nextTick(() => {
-              this.initSortable();
-            });
+            this.$nextTick(() => this.initSortable());
+          },
+          goToPage(page) {
+            if (page >= 1 && page <= this.produkList.totalPages)
+              this.loadProdukList(page);
           },
           initSortable() {
-            this.produkList.forEach((p) => {
+            if (!this.produkList.products) return;
+            this.produkList.products.forEach((p) => {
               const el = document.getElementById("fotoSortable-" + p.nama);
               if (el && !this.sortableInstances[p.nama]) {
                 this.sortableInstances[p.nama] = new Sortable(el, {
                   animation: 150,
                   ghostClass: "sortable-ghost",
-                  chosenClass: "sortable-chosen",
-                  onEnd: async (evt) => {
+                  onEnd: async () => {
                     const fotoOrder = Array.from(
                       el.querySelectorAll(".foto-item"),
                     ).map((item) => item.dataset.foto);
@@ -2044,7 +1997,6 @@
                         body: JSON.stringify({ fotoOrder }),
                       },
                     );
-                    this.toast("Urutan foto disimpan!");
                   },
                 });
               }
@@ -2063,20 +2015,18 @@
           },
           async saveProduk() {
             if (!this.produkForm.kategori || !this.produkForm.judul)
-              return this.toast("Kategori dan Judul wajib diisi!", "error");
+              return this.toast("Isi kategori dan judul!", "error");
             this.produkLoading = true;
-            const formData = new FormData();
-            formData.append("kategori", this.produkForm.kategori);
-            formData.append("judul", this.produkForm.judul);
+            const fd = new FormData();
+            fd.append("kategori", this.produkForm.kategori);
+            fd.append("judul", this.produkForm.judul);
             if (this.produkForm.fotos)
-              this.produkForm.fotos.forEach((f) => formData.append("fotos", f));
+              this.produkForm.fotos.forEach((f) => fd.append("fotos", f));
             if (this.produkForm.designs)
-              this.produkForm.designs.forEach((f) =>
-                formData.append("designs", f),
-              );
+              this.produkForm.designs.forEach((f) => fd.append("designs", f));
             const data = await this.api("/api/produk", {
               method: "POST",
-              body: formData,
+              body: fd,
             });
             this.produkLoading = false;
             if (data.success) {
@@ -2091,45 +2041,38 @@
                 .querySelectorAll('#produkTab input[type="file"]')
                 .forEach((el) => (el.value = ""));
               this.loadProdukList();
-            } else {
-              this.toast(data.error || "Gagal menyimpan", "error");
-            }
+            } else this.toast(data.error || "Gagal", "error");
           },
           async editProduk(p) {
             const { value: judul } = await Swal.fire({
-              title: "Edit Judul Produk",
+              title: "Edit Judul",
               input: "text",
               inputValue: p.judul,
               showCancelButton: true,
               confirmButtonColor: "#f97316",
-              cancelButtonColor: "#6b7280",
-              inputValidator: (v) => (!v ? "Judul tidak boleh kosong!" : null),
+              inputValidator: (v) => (!v ? "Wajib diisi!" : null),
             });
             if (judul) {
-              await this.api(
-                "/api/produk/" + this.selectedKategori + "/" + p.nama,
-                {
-                  method: "PUT",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ judul }),
-                },
-              );
-              this.toast("Judul diupdate!");
-              this.loadProdukList();
+              await this.api(`/api/produk/${this.selectedKategori}/${p.nama}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ judul }),
+              });
+              this.toast("Updated!");
+              this.loadProdukList(this.produkPage);
             }
           },
           async deleteProduk(p) {
             const result = await this.confirm(
               "Hapus produk?",
-              p.judul + " akan dihapus beserta semua file!",
+              p.judul + " akan dihapus permanen!",
             );
             if (result.isConfirmed) {
-              await this.api(
-                "/api/produk/" + this.selectedKategori + "/" + p.nama,
-                { method: "DELETE" },
-              );
-              this.toast("Produk dihapus!");
-              this.loadProdukList();
+              await this.api(`/api/produk/${this.selectedKategori}/${p.nama}`, {
+                method: "DELETE",
+              });
+              this.toast("Dihapus!");
+              this.loadProdukList(this.produkPage);
             }
           },
           async deleteProdukFile(p, type, filename) {
@@ -2139,8 +2082,8 @@
                 `/api/produk/${this.selectedKategori}/${p.nama}/${type}/${filename}`,
                 { method: "DELETE" },
               );
-              this.toast("File dihapus!");
-              this.loadProdukList();
+              this.toast("Dihapus!");
+              this.loadProdukList(this.produkPage);
             }
           },
           addFileToProduk(p, type) {
@@ -2151,19 +2094,14 @@
           async uploadAdditionalFile(e) {
             const file = e.target.files[0];
             if (!file || !this.additionalFileTarget) return;
-            const formData = new FormData();
-            formData.append("file", file);
+            const fd = new FormData();
+            fd.append("file", file);
             await this.api(
-              "/api/produk/" +
-                this.selectedKategori +
-                "/" +
-                this.additionalFileTarget.nama +
-                "/upload/" +
-                this.additionalFileType,
-              { method: "POST", body: formData },
+              `/api/produk/${this.selectedKategori}/${this.additionalFileTarget.nama}/upload/${this.additionalFileType}`,
+              { method: "POST", body: fd },
             );
-            this.toast("File diupload!");
-            this.loadProdukList();
+            this.toast("File ditambahkan!");
+            this.loadProdukList(this.produkPage);
             e.target.value = "";
             this.additionalFileTarget = null;
           },
@@ -2175,8 +2113,9 @@
 
           // ==================== GENERATOR ====================
           async loadGeneratorTemplates() {
-            const data = await this.api("/api/generator-templates");
-            this.generatorTemplates = data;
+            this.generatorTemplates = await this.api(
+              "/api/generator-templates",
+            );
           },
           selectGeneratorTemplate(tpl) {
             this.selectedGenerator = tpl;
@@ -2202,51 +2141,73 @@
             this.generatedText = text;
           },
           async copyGeneratedText() {
-            if (!this.generatedText) return;
-            await navigator.clipboard.writeText(this.generatedText);
-            this.toast("Teks disalin!");
+            if (this.generatedText) {
+              await navigator.clipboard.writeText(this.generatedText);
+              this.toast("Disalin!");
+            }
           },
           async saveGeneratedToPrompt() {
             if (!this.generatedText) return;
-            const { value: filename } = await Swal.fire({
+            const { value: fn } = await Swal.fire({
               title: "Simpan ke Prompt",
               input: "text",
-              inputLabel: "Nama file (tanpa .txt)",
+              inputLabel: "Nama file",
               inputValue: this.selectedGenerator.id + "-" + Date.now(),
               showCancelButton: true,
               confirmButtonColor: "#f97316",
-              inputValidator: (v) => (!v ? "Nama file wajib diisi!" : null),
+              inputValidator: (v) => (!v ? "Wajib!" : null),
             });
-            if (!filename) return;
-            const data = await this.api("/api/prompts", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ filename, content: this.generatedText }),
-            });
-            if (data.success) this.toast("Disimpan ke Prompt!");
+            if (fn) {
+              await this.api("/api/prompts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  filename: fn,
+                  content: this.generatedText,
+                }),
+              });
+              this.toast("Tersimpan!");
+            }
           },
           async saveGeneratedToTemplate() {
             if (!this.generatedText) return;
-            const { value: filename } = await Swal.fire({
-              title: "Simpan ke Template Text",
+            const { value: fn } = await Swal.fire({
+              title: "Simpan ke Template",
               input: "text",
-              inputLabel: "Nama file (tanpa .txt)",
+              inputLabel: "Nama file",
               inputValue: this.selectedGenerator.id + "-" + Date.now(),
               showCancelButton: true,
               confirmButtonColor: "#f97316",
-              inputValidator: (v) => (!v ? "Nama file wajib diisi!" : null),
+              inputValidator: (v) => (!v ? "Wajib!" : null),
             });
-            if (!filename) return;
-            const data = await this.api("/api/templates", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ filename, content: this.generatedText }),
-            });
-            if (data.success) this.toast("Disimpan ke Template Text!");
+            if (fn) {
+              await this.api("/api/templates", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  filename: fn,
+                  content: this.generatedText,
+                }),
+              });
+              this.toast("Tersimpan!");
+            }
           },
         },
         mounted() {
-          this.verifyToken();
+          this.loadPrompts();
+          this.loadTemplates();
+          this.loadMentahFolders();
+          this.checkLogo();
+        },
+        checkLogo() {
+          const img = new Image();
+          img.onload = () => {
+            this.logoExists = true;
+          };
+          img.onerror = () => {
+            this.logoExists = false;
+          };
+          img.src = "logo.png";
         },
       }).mount("#app");
     </script>

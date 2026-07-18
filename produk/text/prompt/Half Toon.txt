@@ -1,0 +1,88 @@
+Convert the uploaded image into a premium high-contrast halftone graphic optimized for apparel printing.
+
+IMPORTANT:
+This is NOT a redesign.
+This is NOT a new illustration.
+
+Treat the uploaded image as the master artwork.
+
+Preserve:
+• identity
+• pose
+• composition
+• proportions
+• facial features (if applicable)
+• clothing
+• hairstyle
+• silhouette
+
+The goal is to transform the image into a bold vintage screen-print style graphic.
+
+STYLE
+
+• High contrast black and white
+• Vintage halftone screen print
+• CMYK-style dot pattern
+• Newspaper print aesthetic
+• Punk bootleg t-shirt graphic
+• Retro music merchandise style
+• Large circular halftone dots
+• Smooth tonal transitions using halftone only
+• Graphic design aesthetic
+• Professional apparel artwork
+• Screen-print friendly
+• DTF optimized
+
+HALFTONE
+
+• Replace grayscale with clean halftone dots.
+• Use large readable dot patterns.
+• Dot size should vary naturally according to light and shadow.
+• Maintain smooth tonal gradients using only halftone dots.
+• No random noise.
+• No dirty texture.
+• No blurry pixels.
+• Crisp dot edges.
+• Even dot distribution.
+
+CONTRAST
+
+• Deep solid black shadows.
+• Bright clean white highlights.
+• Strong graphic separation.
+• Minimal midtones.
+• Bold visual impact.
+
+DETAILS
+
+• Preserve important facial features.
+• Preserve important shapes.
+• Simplify unnecessary micro-details.
+• Remove distracting textures.
+• Keep the artwork clean and readable.
+
+BACKGROUND
+
+Pure white or solid black background only.
+
+No extra graphics.
+No brush splashes.
+No smoke.
+No decorative elements.
+No typography.
+No watermark.
+No logo.
+No frame.
+
+QUALITY
+
+Ultra sharp.
+Vector-inspired.
+Professional apparel graphic.
+Luxury streetwear aesthetic.
+Print-ready.
+8K.
+Adobe Illustrator quality.
+
+
+

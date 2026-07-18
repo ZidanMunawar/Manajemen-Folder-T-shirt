@@ -1,0 +1,130 @@
+Recreate the uploaded typography artwork into a brand-new custom lettering logo while preserving the same overall artistic style, energy, and visual identity.
+
+Main Text:
+"[YOUR MAIN TEXT]"
+
+Tagline:
+"[YOUR TAGLINE]"
+(If no tagline is provided, omit the tagline completely.)
+
+IMPORTANT:
+This is NOT a font replacement.
+This is NOT a direct copy.
+
+The goal is to create an entirely new custom lettering design inspired by the uploaded artwork while using the provided text.
+
+STYLE
+
+• Custom hand-lettered typography
+• Japanese streetwear aesthetic
+• Modern tattoo lettering
+• Sharp brush-inspired vector curves
+• Dynamic calligraphic flow
+• Aggressive yet readable
+• Premium fashion brand logo
+• High-end apparel branding
+• Clean vector artwork
+• Adobe Illustrator quality
+• Smooth Bézier curves
+• Perfect symmetry where appropriate
+
+LAYOUT
+
+• Use the uploaded artwork as the style reference only.
+• Create a completely new lettering composition that naturally fits the new text.
+• Keep the overall horizontal layout.
+• Maintain similar visual balance.
+• Center the logo.
+• Keep generous whitespace.
+• Adapt the composition to different word lengths while maintaining visual harmony.
+
+LETTER DESIGN
+
+• Every letter must be custom drawn.
+• Letters should naturally connect when appropriate.
+• Use dynamic sharp terminals.
+• Use elegant sweeping strokes.
+• Use pointed ends.
+• Use thick-to-thin transitions.
+• Preserve the energetic movement found in the reference.
+• Create a premium handcrafted appearance.
+• Avoid looking like a standard font.
+
+VECTOR QUALITY
+
+• Smooth curves.
+• Crisp edges.
+• Closed vector shapes.
+• Consistent stroke quality.
+• Print-ready.
+• DTF friendly.
+• Screen-print friendly.
+• High contrast.
+• Clean black silhouette.
+• Professional logo finish.
+
+TAGLINE
+
+If a tagline is provided:
+
+• Place it naturally beneath the main logo.
+• Use a clean uppercase sans-serif font.
+• Thin weight.
+• Wide letter spacing.
+• Perfect alignment with the logo.
+• Keep it subtle.
+• Do not overpower the main lettering.
+• Maintain premium streetwear branding aesthetics.
+
+COLORS
+
+• Solid black typography.
+• Pure white background.
+• No gradients.
+• No textures.
+• No shadows.
+• No metallic effects.
+• No glow.
+• No bevel.
+• Flat vector color only.
+
+BACKGROUND
+
+Pure white only.
+
+No extra graphics.
+No brush splashes.
+No symbols.
+No ornaments.
+No flames.
+No skulls.
+No circles.
+No decorations.
+No watermark.
+No logo mockups.
+No fabric texture.
+
+AVOID
+
+generic fonts,
+font substitution,
+clipart,
+AI-looking typography,
+messy strokes,
+uneven curves,
+poor kerning,
+random flourishes,
+hard-to-read lettering,
+distorted letters,
+overly complex swashes,
+3D effects,
+gradients,
+textures,
+drop shadows,
+glows,
+background graphics,
+low resolution,
+low quality.
+
+The final result should look like a professionally hand-crafted vector lettering logo designed for a premium Japanese streetwear clothing brand, inspired by the uploaded artwork but completely rebuilt around the new text.
+

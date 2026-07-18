@@ -1,0 +1,203 @@
+{
+  "totalUploads": 0,
+  "totalProducts": 8,
+  "totalCategories": 4,
+  "lastBackup": "2026-07-18T03:57:18.088Z",
+  "actions": [
+    {
+      "action": "create_folder_mentah",
+      "details": {
+        "folder": "Panjang Strip"
+      },
+      "timestamp": "2026-07-18T04:02:18.550Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "iklan_1_bagian_1__pengenalan_product (4).png"
+      },
+      "timestamp": "2026-07-18T04:02:46.907Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "1.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.124Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "2.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.140Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "3.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.156Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "4.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.172Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "5.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.188Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "6.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.204Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "7.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.219Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "9.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.235Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "10.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.251Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "11.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.266Z"
+    },
+    {
+      "action": "upload_mentah",
+      "details": {
+        "folder": "Panjang Strip",
+        "file": "12.png"
+      },
+      "timestamp": "2026-07-18T04:03:33.274Z"
+    },
+    {
+      "action": "create_category",
+      "details": {
+        "category": "JJK"
+      },
+      "timestamp": "2026-07-18T04:04:30.348Z"
+    },
+    {
+      "action": "create_product",
+      "details": {
+        "kategori": "JJK",
+        "produk": "Megumi"
+      },
+      "timestamp": "2026-07-18T04:05:39.405Z"
+    },
+    {
+      "action": "create_product",
+      "details": {
+        "kategori": "JJK",
+        "produk": "Sukuna Yuji Short"
+      },
+      "timestamp": "2026-07-18T04:07:00.433Z"
+    },
+    {
+      "action": "create_product",
+      "details": {
+        "kategori": "JJK",
+        "produk": "Sukuna Short"
+      },
+      "timestamp": "2026-07-18T04:09:51.810Z"
+    },
+    {
+      "action": "create_product",
+      "details": {
+        "kategori": "JJK",
+        "produk": "Gojo Long"
+      },
+      "timestamp": "2026-07-18T04:10:51.638Z"
+    },
+    {
+      "action": "create_category",
+      "details": {
+        "category": "Angel"
+      },
+      "timestamp": "2026-07-18T04:11:26.843Z"
+    },
+    {
+      "action": "create_product",
+      "details": {
+        "kategori": "JJK",
+        "produk": "Megumi Long"
+      },
+      "timestamp": "2026-07-18T04:12:31.237Z"
+    },
+    {
+      "action": "create_product",
+      "details": {
+        "kategori": "JJK",
+        "produk": "Yuji Long"
+      },
+      "timestamp": "2026-07-18T04:13:30.196Z"
+    },
+    {
+      "action": "create_product",
+      "details": {
+        "kategori": "Angel",
+        "produk": "Dignity long"
+      },
+      "timestamp": "2026-07-18T04:19:01.019Z"
+    },
+    {
+      "action": "create_category",
+      "details": {
+        "category": "BY ME"
+      },
+      "timestamp": "2026-07-18T04:19:42.822Z"
+    },
+    {
+      "action": "create_product",
+      "details": {
+        "kategori": "BY ME",
+        "produk": "GAROU"
+      },
+      "timestamp": "2026-07-18T04:20:31.547Z"
+    },
+    {
+      "action": "create_category",
+      "details": {
+        "category": "OPM"
+      },
+      "timestamp": "2026-07-18T04:22:34.684Z"
+    }
+  ]
+}

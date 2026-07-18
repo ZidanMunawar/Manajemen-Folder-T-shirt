@@ -1,0 +1,121 @@
+Convert the uploaded image into a premium production-ready vector-style apparel illustration optimized for DTF t-shirt printing.
+
+IMPORTANT:
+This is NOT a redesign.
+This is NOT a new illustration.
+This is NOT concept art.
+
+Treat the uploaded image as the master artwork.
+
+Preserve exactly:
+- character identity
+- facial features
+- facial expression
+- hairstyle
+- clothing
+- accessories
+- anatomy
+- pose
+- perspective
+- proportions
+- composition
+
+The ONLY goal is to professionally clean, simplify, and convert the existing artwork into a high-quality vector-inspired illustration suitable for premium apparel printing.
+
+If the uploaded image is a photograph of artwork:
+- Ignore camera angle.
+- Ignore paper rotation.
+- Ignore perspective distortion.
+- Ignore lighting.
+- Ignore shadows.
+- Ignore paper texture.
+- Ignore notebook texture.
+- Ignore surrounding objects.
+- Automatically isolate only the artwork.
+- Straighten the artwork into a perfectly front-facing digital illustration.
+
+Composition:
+- Automatically zoom out slightly if needed.
+- Expand the canvas when necessary.
+- Leave comfortable white margins.
+- Keep the subject centered.
+- Never crop important elements.
+- Never allow the head, hair, horns, weapons, accessories, or major silhouette to touch the canvas border.
+- Reconstruct missing cropped portions naturally while matching the original artwork.
+
+Vector Cleanup:
+- Replace sketch lines with smooth clean vector-like outlines.
+- Smooth every curve.
+- Remove rough edges.
+- Remove unnecessary tiny details.
+- Merge thin lines into cleaner shapes.
+- Simplify wrinkles, folds, cracks, and hair strands whenever possible.
+- Reduce visual clutter.
+- Preserve the original design while improving readability.
+
+Shapes:
+- Prefer large clean graphic shapes.
+- Simplify complex forms.
+- Use smooth curves.
+- Use bold silhouettes.
+- Remove unnecessary micro-details.
+- Every shape must be clean and intentional.
+
+Colors:
+- Preserve the original color palette whenever color already exists.
+- Do NOT invent new colors.
+- Do NOT oversaturate.
+- Do NOT recolor the artwork.
+- If the original artwork is monochrome, keep it monochrome.
+- If the original artwork contains accent colors, preserve only those accent colors.
+- Simplify color transitions into clean flat color regions.
+- Remove unnecessary gradients whenever possible.
+- Use clean solid fills.
+- Maintain strong color separation.
+- High color consistency.
+
+Shadows:
+- Replace noisy shading with clean vector shadow shapes.
+- Use large readable shadow blocks.
+- Minimize tiny shadow details.
+- Avoid sketch shading.
+- Avoid cross-hatching.
+- Avoid pencil texture.
+- Avoid dirty textures.
+
+Style:
+Premium vector illustration.
+Clean vector line art.
+Graphic apparel artwork.
+Japanese apparel aesthetic.
+Modern streetwear graphic.
+Print-ready.
+DTF optimized.
+Screen-print friendly.
+High resolution.
+Bold clean outlines.
+Smooth curves.
+Minimal visual noise.
+Professional vector-inspired finish.
+
+Background:
+Pure white background only.
+
+No decorative background.
+No circles.
+No brush strokes.
+No ink splashes.
+No speed lines.
+No manga panels.
+No symbols.
+No text.
+No watermark.
+No logos.
+
+Avoid:
+redesign, reinterpretation, extra objects, extra accessories, new composition, new pose, new hairstyle, extra linework, excessive details, noisy textures, sketch texture, pencil texture, cross hatching, dirty rendering, photorealistic shading, blurry edges, uneven outlines, low contrast, over-rendering, over-detailing, distorted anatomy, hard clipping, cropped important elements, random colors, unnecessary gradients, low quality.
+
+The final artwork should resemble a professionally illustrated vector graphic created in Adobe Illustrator while maintaining approximately 95% fidelity to the original artwork.
+
+
+

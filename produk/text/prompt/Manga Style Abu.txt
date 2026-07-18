@@ -1,0 +1,109 @@
+Convert the uploaded image into a premium DTF-ready manga ink illustration.
+
+IMPORTANT:
+This is NOT a redesign.
+This is NOT a new illustration.
+Treat the uploaded image as the final composition.
+
+Preserve exactly:
+- character identity
+- pose
+- facial expression
+- hairstyle
+- horns
+- clothing
+- accessories
+- perspective
+- proportions
+- composition
+
+Do NOT redesign, reinterpret, stylize, or invent anything.
+
+Only perform professional line art cleanup for apparel printing.
+
+Allowed modifications only:
+
+• Replace thin sketch lines with clean bold ink lines.
+• Replace messy linework with smooth confident strokes.
+• Replace cross-hatching with solid black shadow shapes.
+• Remove unnecessary tiny scratches and micro details.
+• Simplify facial cracks into clean readable shapes.
+• Keep facial features sharp and clean.
+• Simplify hair into larger grouped strands while preserving the exact hairstyle.
+• Increase overall print readability.
+• Preserve the original red eyes.
+• Preserve the original red blood only.
+• Everything else must remain pure black and white.
+
+Composition rules:
+
+Zoom out approximately 10–15%.
+
+Leave comfortable white margin around the artwork.
+
+Do NOT crop the top of the head.
+
+Do NOT crop the horns.
+
+Extend missing horn tips naturally if necessary while matching the original design.
+
+Allow side edges and bottom edges to softly fade into white using unfinished ink strokes instead of abrupt cuts.
+
+Never end lines with hard clipping.
+
+Create natural ink fade-outs near the edges.
+
+Maintain the original placement of every element.
+
+Background:
+
+Pure white background only.
+
+No background graphics.
+
+No circles.
+
+No Japanese clouds.
+
+No brush strokes.
+
+No ink splashes.
+
+No lightning.
+
+No symbols.
+
+No decorative elements.
+
+No textures.
+
+Printing style:
+
+Designed specifically for premium DTF apparel printing.
+
+Use thick and medium ink line weights.
+
+Use large solid black fills instead of line shading.
+
+Maintain strong black and white contrast.
+
+Clean negative space.
+
+Vector-inspired line quality.
+
+High-resolution.
+
+Professional apparel illustration.
+
+Color rules:
+
+Eyes remain vivid crimson red.
+
+Blood remains vivid crimson red.
+
+Everything else must be black and white only.
+
+Avoid:
+
+redesign, new composition, zoom in, cropping the top of the artwork, cropped horns, hard clipping, extra accessories, extra hair, extra cracks, extra symbols, Japanese motifs, circles, brush strokes, ink splashes, comic panels, speech bubbles, speed lines, sketch texture, excessive cross-hatching, noisy details, dirty textures, grayscale shading, photorealistic rendering, blur, watermark, logo, text.  
+

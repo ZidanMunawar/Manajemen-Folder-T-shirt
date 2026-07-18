@@ -1,0 +1,1 @@
+Hanya ubah text "[text nya]" jadi "[text baru]", untuk tagline nya ganti jadi "[text baru ]"  , untuk style font main dan tagline tetap sama , bg putih , printable , warna pekat jangan ada pantulan 
