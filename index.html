@@ -3,213 +3,393 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manajemen Aset Baju v3</title>
+    <title>Manajemen Aset Baju</title>
 
-    <!-- Bootstrap 5 -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <!-- Select2 -->
     <link
       href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
       rel="stylesheet"
     />
-    <!-- SweetAlert2 -->
     <link
       href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
       rel="stylesheet"
     />
-    <!-- Font Awesome -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       rel="stylesheet"
     />
 
     <style>
+      :root {
+        --orange: #f97316;
+        --orange-hover: #ea580c;
+        --dark: #1a1a1a;
+        --darker: #111111;
+        --card: #ffffff;
+        --border: #e5e7eb;
+        --text: #374151;
+        --text-muted: #9ca3af;
+      }
+
+      * {
+        font-family: "Inter", "Segoe UI", sans-serif;
+      }
       body {
-        background: #f8f9fa;
+        background: #f5f5f5;
+        color: var(--text);
       }
-      .card {
+
+      /* Navbar */
+      .navbar-brand {
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+
+      /* Tabs */
+      .nav-tabs {
+        border-bottom: 2px solid var(--border);
+        gap: 0;
+      }
+      .nav-tabs .nav-link {
         border: none;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        color: var(--text-muted);
+        font-weight: 500;
+        padding: 14px 28px;
+        border-radius: 0;
+        position: relative;
+        transition: all 0.2s;
+        font-size: 0.95rem;
+      }
+      .nav-tabs .nav-link:hover {
+        color: var(--dark);
+        background: transparent;
+      }
+      .nav-tabs .nav-link.active {
+        color: var(--orange);
+        background: transparent;
+        font-weight: 600;
+      }
+      .nav-tabs .nav-link.active::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--orange);
+      }
+
+      /* Cards */
+      .card {
+        border: 1px solid var(--border);
         border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        background: var(--card);
       }
-      .nav-pills .nav-link.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      .card-header {
+        background: #fafafa;
+        border-bottom: 1px solid var(--border);
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 16px 20px;
+        border-radius: 12px 12px 0 0 !important;
       }
-      .nav-pills .nav-link {
-        color: #495057;
-        border-radius: 10px;
-        margin: 0 4px;
+
+      /* Buttons */
+      .btn-primary {
+        background: var(--orange);
+        border-color: var(--orange);
+        font-weight: 500;
       }
-      .preview-img {
-        max-height: 200px;
+      .btn-primary:hover {
+        background: var(--orange-hover);
+        border-color: var(--orange-hover);
+      }
+      .btn-outline-primary {
+        color: var(--orange);
+        border-color: var(--orange);
+        font-weight: 500;
+      }
+      .btn-outline-primary:hover {
+        background: var(--orange);
+        border-color: var(--orange);
+        color: white;
+      }
+      .btn-dark {
+        background: var(--dark);
+        border-color: var(--dark);
+        font-weight: 500;
+      }
+      .btn-dark:hover {
+        background: var(--darker);
+      }
+
+      /* Form */
+      .form-control:focus,
+      .form-select:focus {
+        border-color: var(--orange);
+        box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.15);
+      }
+
+      /* Select2 */
+      .select2-container--default .select2-selection--single {
+        height: 38px;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+      }
+      .select2-container--default
+        .select2-selection--single
+        .select2-selection__rendered {
+        line-height: 36px;
+        padding-left: 12px;
+      }
+      .select2-container--default
+        .select2-selection--single
+        .select2-selection__arrow {
+        height: 36px;
+      }
+      .select2-container--default .select2-results__option--highlighted {
+        background: var(--orange) !important;
+      }
+      .select2-dropdown {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+      .select2-container--default .select2-selection--single:focus {
+        border-color: var(--orange) !important;
+      }
+
+      /* List items */
+      .list-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin-bottom: 8px;
+        transition: all 0.15s;
+        background: white;
+      }
+      .list-item:hover {
+        border-color: #d1d5db;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      }
+      .list-item-title {
+        font-weight: 500;
+        cursor: pointer;
+        color: var(--dark);
+      }
+      .list-item-title:hover {
+        color: var(--orange);
+      }
+
+      /* Preview */
+      .preview-thumb {
+        width: 80px;
+        height: 80px;
         object-fit: cover;
         border-radius: 8px;
         cursor: pointer;
-        transition: transform 0.2s;
+        border: 2px solid transparent;
+        transition: all 0.2s;
       }
-      .preview-img:hover {
-        transform: scale(1.05);
+      .preview-thumb:hover {
+        border-color: var(--orange);
+        transform: scale(1.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
-      .btn-gradient {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
+
+      /* Badge */
+      .badge-orange {
+        background: #fff7ed;
+        color: var(--orange);
+        font-weight: 500;
       }
-      .btn-gradient:hover {
-        opacity: 0.9;
-        color: white;
+
+      /* Action buttons */
+      .btn-action {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        font-size: 0.85rem;
+      }
+
+      /* Product card */
+      .product-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        background: white;
+        transition: all 0.2s;
+      }
+      .product-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
       }
     </style>
   </head>
   <body>
     <div id="app">
       <!-- Navbar -->
-      <nav class="navbar navbar-dark bg-dark mb-4">
+      <nav class="navbar navbar-dark bg-dark px-4">
         <div class="container-fluid">
-          <span class="navbar-brand mb-0 h1">
+          <span class="navbar-brand">
             <i class="fas fa-tshirt me-2"></i>Manajemen Aset Baju
           </span>
-          <span class="badge bg-light text-dark">v3.0</span>
+          <span class="text-white-50 small">v2</span>
         </div>
       </nav>
 
-      <div class="container-fluid px-4">
+      <div class="container-fluid px-4 py-3">
         <!-- Tab Navigation -->
-        <ul class="nav nav-pills mb-4" id="mainTab" role="tablist">
+        <ul class="nav nav-tabs mb-4" id="mainTab" role="tablist">
           <li class="nav-item">
             <button
               class="nav-link active"
-              data-bs-toggle="pill"
+              data-bs-toggle="tab"
               data-bs-target="#promptTab"
               @click="loadPrompts()"
             >
-              <i class="fas fa-robot me-1"></i> Prompt
+              <i class="fas fa-robot me-2"></i>Prompt
             </button>
           </li>
           <li class="nav-item">
             <button
               class="nav-link"
-              data-bs-toggle="pill"
+              data-bs-toggle="tab"
               data-bs-target="#templateTab"
               @click="loadTemplates()"
             >
-              <i class="fas fa-file-alt me-1"></i> Template Text
+              <i class="fas fa-file-alt me-2"></i>Template Text
             </button>
           </li>
           <li class="nav-item">
             <button
               class="nav-link"
-              data-bs-toggle="pill"
+              data-bs-toggle="tab"
               data-bs-target="#mentahTab"
               @click="loadMentahFolders()"
             >
-              <i class="fas fa-paint-brush me-1"></i> Mentah
+              <i class="fas fa-paint-brush me-2"></i>Mentah
             </button>
           </li>
           <li class="nav-item">
             <button
               class="nav-link"
-              data-bs-toggle="pill"
+              data-bs-toggle="tab"
               data-bs-target="#produkTab"
               @click="initProdukTab()"
             >
-              <i class="fas fa-box me-1"></i> Produk Up
+              <i class="fas fa-box me-2"></i>Produk Up
             </button>
           </li>
         </ul>
 
         <div class="tab-content">
-          <!-- TAB PROMPT -->
+          <!-- ==================== TAB PROMPT ==================== -->
           <div class="tab-pane fade show active" id="promptTab">
             <div class="row g-4">
-              <div class="col-md-4">
-                <div class="card p-4">
-                  <h5 class="mb-3">
-                    <i class="fas fa-plus-circle text-primary me-2"></i>Tambah /
-                    Edit Prompt
-                  </h5>
-                  <input
-                    v-model="promptForm.filename"
-                    class="form-control mb-3"
-                    placeholder="Nama file (tanpa .txt)"
-                  />
-                  <textarea
-                    v-model="promptForm.content"
-                    class="form-control mb-3"
-                    rows="8"
-                    placeholder="Isi prompt..."
-                  ></textarea>
-                  <button @click="savePrompt" class="btn btn-gradient w-100">
-                    <i class="fas fa-save me-2"></i>{{ promptEditMode ? 'Update'
-                    : 'Simpan' }} Prompt
-                  </button>
-                  <button
-                    v-if="promptEditMode"
-                    @click="cancelEditPrompt"
-                    class="btn btn-outline-secondary w-100 mt-2"
-                  >
-                    Batal Edit
-                  </button>
+              <div class="col-lg-4">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-pen me-2"></i>{{ promptEditMode ? 'Edit' :
+                    'Tambah' }} Prompt
+                  </div>
+                  <div class="card-body">
+                    <label class="form-label small fw-semibold"
+                      >Nama File</label
+                    >
+                    <input
+                      v-model="promptForm.filename"
+                      class="form-control mb-3"
+                      placeholder="nama-file"
+                    />
+
+                    <label class="form-label small fw-semibold">Konten</label>
+                    <textarea
+                      v-model="promptForm.content"
+                      class="form-control mb-3"
+                      rows="10"
+                      placeholder="Tulis prompt di sini..."
+                    ></textarea>
+
+                    <button @click="savePrompt" class="btn btn-primary w-100">
+                      <i class="fas fa-save me-2"></i>{{ promptEditMode ?
+                      'Update' : 'Simpan' }}
+                    </button>
+                    <button
+                      v-if="promptEditMode"
+                      @click="cancelEditPrompt"
+                      class="btn btn-outline-secondary w-100 mt-2"
+                    >
+                      <i class="fas fa-times me-2"></i>Batal
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-8">
-                <div class="card p-4">
+              <div class="col-lg-8">
+                <div class="card">
                   <div
-                    class="d-flex justify-content-between align-items-center mb-3"
+                    class="card-header d-flex justify-content-between align-items-center"
                   >
-                    <h5><i class="fas fa-list me-2"></i>Daftar Prompt</h5>
+                    <span><i class="fas fa-list me-2"></i>Daftar Prompt</span>
                     <input
                       v-model="promptSearch"
                       @input="loadPrompts()"
-                      class="form-control w-auto"
-                      placeholder="🔍 Cari..."
+                      class="form-control form-control-sm"
+                      style="width: 220px"
+                      placeholder="Cari..."
                     />
                   </div>
-                  <div class="list-group">
-                    <div
-                      v-for="file in prompts"
-                      :key="file"
-                      class="list-group-item d-flex justify-content-between align-items-center"
-                    >
-                      <span
-                        @click="viewPrompt(file)"
-                        style="cursor: pointer"
-                        class="text-primary"
+                  <div class="card-body p-0">
+                    <div class="p-3">
+                      <div
+                        v-for="file in prompts"
+                        :key="file"
+                        class="list-item"
                       >
-                        <i class="fas fa-file-alt me-2"></i>{{ file }}
-                      </span>
-                      <div>
-                        <button
-                          @click="copyPrompt(file)"
-                          class="btn btn-sm btn-outline-info me-1"
-                          title="Salin"
-                        >
-                          <i class="fas fa-copy"></i>
-                        </button>
-                        <button
-                          @click="editPrompt(file)"
-                          class="btn btn-sm btn-outline-warning me-1"
-                          title="Edit"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="deletePrompt(file)"
-                          class="btn btn-sm btn-outline-danger"
-                          title="Hapus"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
+                        <span @click="viewPrompt(file)" class="list-item-title">
+                          <i class="fas fa-file-lines me-2 text-orange"></i>{{
+                          file }}
+                        </span>
+                        <div class="d-flex gap-1">
+                          <button
+                            @click="copyPrompt(file)"
+                            class="btn btn-outline-secondary btn-action"
+                            title="Salin"
+                          >
+                            <i class="fas fa-copy"></i>
+                          </button>
+                          <button
+                            @click="editPrompt(file)"
+                            class="btn btn-outline-secondary btn-action"
+                            title="Edit"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="deletePrompt(file)"
+                            class="btn btn-outline-danger btn-action"
+                            title="Hapus"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      v-if="prompts.length === 0"
-                      class="text-center text-muted py-4"
-                    >
-                      Tidak ada prompt
+                      <div
+                        v-if="prompts.length === 0"
+                        class="text-center text-muted py-5"
+                      >
+                        <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+                        Tidak ada prompt
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -217,94 +397,106 @@
             </div>
           </div>
 
-          <!-- TAB TEMPLATE -->
+          <!-- ==================== TAB TEMPLATE ==================== -->
           <div class="tab-pane fade" id="templateTab">
             <div class="row g-4">
-              <div class="col-md-4">
-                <div class="card p-4">
-                  <h5 class="mb-3">
-                    <i class="fas fa-plus-circle text-success me-2"></i>Tambah /
-                    Edit Template
-                  </h5>
-                  <input
-                    v-model="templateForm.filename"
-                    class="form-control mb-3"
-                    placeholder="Nama file (tanpa .txt)"
-                  />
-                  <textarea
-                    v-model="templateForm.content"
-                    class="form-control mb-3"
-                    rows="8"
-                    placeholder="Isi template..."
-                  ></textarea>
-                  <button @click="saveTemplate" class="btn btn-success w-100">
-                    <i class="fas fa-save me-2"></i>{{ templateEditMode ?
-                    'Update' : 'Simpan' }} Template
-                  </button>
-                  <button
-                    v-if="templateEditMode"
-                    @click="cancelEditTemplate"
-                    class="btn btn-outline-secondary w-100 mt-2"
-                  >
-                    Batal Edit
-                  </button>
+              <div class="col-lg-4">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-pen me-2"></i>{{ templateEditMode ? 'Edit'
+                    : 'Tambah' }} Template
+                  </div>
+                  <div class="card-body">
+                    <label class="form-label small fw-semibold"
+                      >Nama File</label
+                    >
+                    <input
+                      v-model="templateForm.filename"
+                      class="form-control mb-3"
+                      placeholder="nama-file"
+                    />
+
+                    <label class="form-label small fw-semibold">Konten</label>
+                    <textarea
+                      v-model="templateForm.content"
+                      class="form-control mb-3"
+                      rows="10"
+                      placeholder="Tulis template di sini..."
+                    ></textarea>
+
+                    <button @click="saveTemplate" class="btn btn-dark w-100">
+                      <i class="fas fa-save me-2"></i>{{ templateEditMode ?
+                      'Update' : 'Simpan' }}
+                    </button>
+                    <button
+                      v-if="templateEditMode"
+                      @click="cancelEditTemplate"
+                      class="btn btn-outline-secondary w-100 mt-2"
+                    >
+                      <i class="fas fa-times me-2"></i>Batal
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-8">
-                <div class="card p-4">
+              <div class="col-lg-8">
+                <div class="card">
                   <div
-                    class="d-flex justify-content-between align-items-center mb-3"
+                    class="card-header d-flex justify-content-between align-items-center"
                   >
-                    <h5><i class="fas fa-list me-2"></i>Daftar Template</h5>
+                    <span><i class="fas fa-list me-2"></i>Daftar Template</span>
                     <input
                       v-model="templateSearch"
                       @input="loadTemplates()"
-                      class="form-control w-auto"
-                      placeholder="🔍 Cari..."
+                      class="form-control form-control-sm"
+                      style="width: 220px"
+                      placeholder="Cari..."
                     />
                   </div>
-                  <div class="list-group">
-                    <div
-                      v-for="file in templates"
-                      :key="file"
-                      class="list-group-item d-flex justify-content-between align-items-center"
-                    >
-                      <span
-                        @click="viewTemplate(file)"
-                        style="cursor: pointer"
-                        class="text-success"
+                  <div class="card-body p-0">
+                    <div class="p-3">
+                      <div
+                        v-for="file in templates"
+                        :key="file"
+                        class="list-item"
                       >
-                        <i class="fas fa-file-alt me-2"></i>{{ file }}
-                      </span>
-                      <div>
-                        <button
-                          @click="copyTemplate(file)"
-                          class="btn btn-sm btn-outline-info me-1"
-                          title="Salin"
+                        <span
+                          @click="viewTemplate(file)"
+                          class="list-item-title"
                         >
-                          <i class="fas fa-copy"></i>
-                        </button>
-                        <button
-                          @click="editTemplate(file)"
-                          class="btn btn-sm btn-outline-warning me-1"
-                          title="Edit"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="deleteTemplate(file)"
-                          class="btn btn-sm btn-outline-danger"
-                          title="Hapus"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
+                          <i class="fas fa-file-lines me-2 text-dark"></i>{{
+                          file }}
+                        </span>
+                        <div class="d-flex gap-1">
+                          <button
+                            @click="copyTemplate(file)"
+                            class="btn btn-outline-secondary btn-action"
+                            title="Salin"
+                          >
+                            <i class="fas fa-copy"></i>
+                          </button>
+                          <button
+                            @click="editTemplate(file)"
+                            class="btn btn-outline-secondary btn-action"
+                            title="Edit"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="deleteTemplate(file)"
+                            class="btn btn-outline-danger btn-action"
+                            title="Hapus"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      v-if="templates.length === 0"
-                      class="text-center text-muted py-4"
-                    >
-                      Tidak ada template
+                      <div
+                        v-if="templates.length === 0"
+                        class="text-center text-muted py-5"
+                      >
+                        <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+                        Tidak ada template
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -312,62 +504,70 @@
             </div>
           </div>
 
-          <!-- TAB MENTAH -->
+          <!-- ==================== TAB MENTAH ==================== -->
           <div class="tab-pane fade" id="mentahTab">
             <div class="row g-4">
-              <div class="col-md-3">
-                <div class="card p-4">
-                  <h5 class="mb-3">📁 Folder Mentah</h5>
-                  <div class="d-flex gap-2 mb-3">
-                    <input
-                      v-model="mentahNewFolder"
-                      class="form-control"
-                      placeholder="Folder baru"
-                    />
-                    <button @click="createMentahFolder" class="btn btn-primary">
-                      <i class="fas fa-plus"></i>
-                    </button>
+              <div class="col-lg-3">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-folder-tree me-2"></i>Folder
                   </div>
-                  <div class="list-group">
-                    <button
-                      v-for="folder in mentahFolders"
-                      :key="folder"
-                      @click="selectMentahFolder(folder)"
-                      :class="selectedMentahFolder === folder ? 'active' : ''"
-                      class="list-group-item list-group-item-action d-flex justify-content-between"
-                    >
-                      <span
-                        ><i class="fas fa-folder me-2"></i>{{ folder }}</span
-                      >
-                      <button
-                        v-if="folder !== 'panjang' && folder !== 'pendek'"
-                        @click.stop="deleteMentahFolder(folder)"
-                        class="btn btn-sm text-danger"
-                      >
-                        <i class="fas fa-trash"></i>
+                  <div class="card-body">
+                    <div class="input-group mb-3">
+                      <input
+                        v-model="mentahNewFolder"
+                        class="form-control"
+                        placeholder="Folder baru"
+                      />
+                      <button @click="createMentahFolder" class="btn btn-dark">
+                        <i class="fas fa-plus"></i>
                       </button>
-                    </button>
+                    </div>
+                    <div class="list-group list-group-flush">
+                      <button
+                        v-for="folder in mentahFolders"
+                        :key="folder"
+                        @click="selectMentahFolder(folder)"
+                        :class="selectedMentahFolder === folder ? 'active' : ''"
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                      >
+                        <span
+                          ><i
+                            class="fas fa-folder me-2"
+                            :class="selectedMentahFolder === folder ? 'text-white' : 'text-warning'"
+                          ></i
+                          >{{ folder }}</span
+                        >
+                        <button
+                          v-if="folder !== 'panjang' && folder !== 'pendek'"
+                          @click.stop="deleteMentahFolder(folder)"
+                          class="btn btn-sm text-danger p-0"
+                        >
+                          <i class="fas fa-times-circle"></i>
+                        </button>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-9">
-                <div class="card p-4" v-if="selectedMentahFolder">
+              <div class="col-lg-9">
+                <div class="card" v-if="selectedMentahFolder">
                   <div
-                    class="d-flex justify-content-between align-items-center mb-3"
+                    class="card-header d-flex justify-content-between align-items-center"
                   >
-                    <h5>
-                      <i class="fas fa-folder-open me-2"></i>{{
-                      selectedMentahFolder }}
-                    </h5>
-                    <div>
+                    <span
+                      ><i class="fas fa-folder-open me-2 text-warning"></i>{{
+                      selectedMentahFolder }}</span
+                    >
+                    <div class="d-flex gap-2">
                       <button
                         @click="openMentahFolder"
-                        class="btn btn-outline-secondary me-2 btn-sm"
+                        class="btn btn-outline-secondary btn-sm"
                       >
                         <i class="fas fa-external-link-alt me-1"></i>Buka Folder
                       </button>
-                      <label class="btn btn-primary btn-sm">
-                        <i class="fas fa-upload me-1"></i>Upload File
+                      <label class="btn btn-dark btn-sm mb-0">
+                        <i class="fas fa-upload me-1"></i>Upload
                         <input
                           type="file"
                           @change="uploadMentahFile"
@@ -377,140 +577,155 @@
                       </label>
                     </div>
                   </div>
-                  <div class="row g-3">
-                    <div
-                      v-for="file in mentahFiles"
-                      :key="file.name"
-                      class="col-md-3"
-                    >
-                      <div class="card h-100">
-                        <img
-                          v-if="['.jpg','.jpeg','.png','.gif','.webp'].includes(file.ext)"
-                          :src="'/produk/mentah/' + selectedMentahFolder + '/' + file.name"
-                          class="preview-img card-img-top p-2"
-                          @click="previewImage('/produk/mentah/' + selectedMentahFolder + '/' + file.name)"
-                        />
-                        <div v-else class="text-center py-4">
-                          <i class="fas fa-file fa-3x text-muted"></i>
-                        </div>
-                        <div class="card-body text-center p-2">
-                          <small class="text-truncate d-block"
-                            >{{ file.name }}</small
+                  <div class="card-body">
+                    <div class="row g-3">
+                      <div
+                        v-for="file in mentahFiles"
+                        :key="file.name"
+                        class="col-6 col-md-4 col-lg-3"
+                      >
+                        <div class="card h-100 border">
+                          <div
+                            v-if="['.jpg','.jpeg','.png','.gif','.webp'].includes(file.ext)"
+                            class="text-center p-2 bg-light"
+                            style="height: 140px"
                           >
-                          <small class="text-muted"
-                            >{{ formatSize(file.size) }}</small
-                          >
-                          <button
-                            @click="deleteMentahFile(file.name)"
-                            class="btn btn-sm btn-outline-danger mt-1 w-100"
-                          >
-                            <i class="fas fa-trash me-1"></i>Hapus
-                          </button>
+                            <img
+                              :src="'/produk/mentah/' + selectedMentahFolder + '/' + file.name"
+                              class="preview-thumb"
+                              style="width: 100%; height: 100%"
+                              @click="previewImage('/produk/mentah/' + selectedMentahFolder + '/' + file.name)"
+                            />
+                          </div>
+                          <div v-else class="text-center py-5 bg-light">
+                            <i class="fas fa-file fa-3x text-muted"></i>
+                          </div>
+                          <div class="card-body p-2 text-center">
+                            <small class="d-block text-truncate fw-medium"
+                              >{{ file.name }}</small
+                            >
+                            <small class="text-muted"
+                              >{{ formatSize(file.size) }}</small
+                            >
+                            <button
+                              @click="deleteMentahFile(file.name)"
+                              class="btn btn-sm btn-outline-danger w-100 mt-1"
+                            >
+                              <i class="fas fa-trash me-1"></i>Hapus
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      v-if="mentahFiles.length === 0"
-                      class="col-12 text-center text-muted py-4"
-                    >
-                      Tidak ada file
+                      <div
+                        v-if="mentahFiles.length === 0"
+                        class="col-12 text-center text-muted py-5"
+                      >
+                        <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                        Folder kosong
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div v-else class="card p-4 text-center text-muted py-5">
-                  <i class="fas fa-hand-point-left fa-3x mb-3"></i>
-                  <p>Pilih folder di sebelah kiri</p>
+                <div v-else class="card">
+                  <div class="card-body text-center text-muted py-5">
+                    <i class="fas fa-arrow-left fa-3x mb-3 d-block"></i>
+                    <p class="mb-0">Pilih folder di sebelah kiri</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- TAB PRODUK UP -->
+          <!-- ==================== TAB PRODUK UP ==================== -->
           <div class="tab-pane fade" id="produkTab">
             <div class="row g-4">
-              <div class="col-md-3">
-                <div class="card p-4">
-                  <h5 class="mb-3">
-                    <i class="fas fa-plus-circle text-warning me-2"></i>Tambah
-                    Produk
-                  </h5>
-
-                  <label class="form-label">Kategori</label>
-                  <div class="input-group mb-2">
-                    <select
-                      v-model="produkForm.kategori"
-                      class="form-select select2-kategori"
-                    >
-                      <option value="">Pilih Kategori</option>
-                      <option v-for="kat in kategoriList" :value="kat">
-                        {{ kat }}
-                      </option>
-                    </select>
+              <div class="col-lg-3">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-plus-circle me-2"></i>Tambah Produk
+                  </div>
+                  <div class="card-body">
+                    <label class="form-label small fw-semibold">Kategori</label>
+                    <div class="mb-2">
+                      <select
+                        v-model="produkForm.kategori"
+                        id="selectKategoriForm"
+                        class="form-select"
+                      >
+                        <option value="">Pilih Kategori</option>
+                        <option v-for="kat in kategoriList" :value="kat">
+                          {{ kat }}
+                        </option>
+                      </select>
+                    </div>
                     <button
                       @click="showAddKategori = !showAddKategori"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-outline-secondary btn-sm w-100 mb-3"
                     >
-                      +
+                      <i class="fas fa-plus me-1"></i>Kategori Baru
                     </button>
-                  </div>
-                  <div v-if="showAddKategori" class="input-group mb-3">
+                    <div v-if="showAddKategori" class="input-group mb-3">
+                      <input
+                        v-model="newKategoriNama"
+                        class="form-control form-control-sm"
+                        placeholder="Nama kategori"
+                      />
+                      <button @click="addKategori" class="btn btn-dark btn-sm">
+                        Buat
+                      </button>
+                    </div>
+
+                    <label class="form-label small fw-semibold"
+                      >Judul Produk</label
+                    >
                     <input
-                      v-model="newKategoriNama"
-                      class="form-control"
-                      placeholder="Kategori baru"
+                      v-model="produkForm.judul"
+                      class="form-control mb-3"
+                      placeholder="Nama produk"
                     />
-                    <button @click="addKategori" class="btn btn-success">
-                      Buat
+
+                    <label class="form-label small fw-semibold">Foto</label>
+                    <input
+                      type="file"
+                      @change="handleProdukFiles($event, 'fotos')"
+                      class="form-control mb-3"
+                      multiple
+                      accept="image/*"
+                    />
+
+                    <label class="form-label small fw-semibold">Design</label>
+                    <input
+                      type="file"
+                      @change="handleProdukFiles($event, 'designs')"
+                      class="form-control mb-3"
+                      multiple
+                      accept=".png,.jpg,.psd,.ai,.svg"
+                    />
+
+                    <button
+                      @click="saveProduk"
+                      class="btn btn-primary w-100"
+                      :disabled="produkLoading"
+                    >
+                      <i class="fas fa-save me-2"></i>{{ produkLoading ?
+                      'Menyimpan...' : 'Simpan Produk' }}
                     </button>
                   </div>
-
-                  <label class="form-label">Judul Produk</label>
-                  <input
-                    v-model="produkForm.judul"
-                    class="form-control mb-3"
-                    placeholder="Nama produk"
-                  />
-
-                  <label class="form-label">Foto Produk</label>
-                  <input
-                    type="file"
-                    @change="handleProdukFiles($event, 'fotos')"
-                    class="form-control mb-3"
-                    multiple
-                    accept="image/*"
-                  />
-
-                  <label class="form-label">File Desain</label>
-                  <input
-                    type="file"
-                    @change="handleProdukFiles($event, 'designs')"
-                    class="form-control mb-3"
-                    multiple
-                    accept=".png,.jpg,.psd,.ai,.svg"
-                  />
-
-                  <button
-                    @click="saveProduk"
-                    class="btn btn-gradient w-100"
-                    :disabled="produkLoading"
-                  >
-                    <i class="fas fa-save me-2"></i>{{ produkLoading ?
-                    'Menyimpan...' : 'Simpan Produk' }}
-                  </button>
                 </div>
               </div>
-              <div class="col-md-9">
-                <div class="card p-4">
+              <div class="col-lg-9">
+                <div class="card">
                   <div
-                    class="d-flex justify-content-between align-items-center mb-3"
+                    class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2"
                   >
-                    <h5><i class="fas fa-boxes me-2"></i>Daftar Produk</h5>
+                    <span><i class="fas fa-boxes me-2"></i>Daftar Produk</span>
                     <div class="d-flex gap-2">
                       <select
                         v-model="selectedKategori"
+                        id="selectKategoriList"
                         @change="loadProdukList()"
-                        class="form-select select2-list-kategori"
-                        style="width: 200px"
+                        class="form-select form-select-sm"
+                        style="width: 180px"
                       >
                         <option value="">Semua Kategori</option>
                         <option v-for="kat in kategoriList" :value="kat">
@@ -520,87 +735,90 @@
                       <input
                         v-model="produkSearch"
                         @input="loadProdukList()"
-                        class="form-control"
-                        placeholder="🔍 Cari..."
+                        class="form-control form-control-sm"
                         style="width: 200px"
+                        placeholder="Cari produk..."
                       />
                     </div>
                   </div>
-
-                  <div class="row g-3">
-                    <div v-for="p in produkList" :key="p.nama" class="col-md-6">
-                      <div class="card h-100">
-                        <div class="card-body">
+                  <div class="card-body">
+                    <div class="row g-3">
+                      <div
+                        v-for="p in produkList"
+                        :key="p.nama"
+                        class="col-md-6"
+                      >
+                        <div class="product-card">
                           <div
-                            class="d-flex justify-content-between align-items-start"
+                            class="d-flex justify-content-between align-items-start mb-3"
                           >
-                            <h6 class="card-title">{{ p.judul }}</h6>
-                            <div>
+                            <h6 class="fw-bold mb-0">{{ p.judul }}</h6>
+                            <div class="d-flex gap-1">
                               <button
                                 @click="editProduk(p)"
-                                class="btn btn-sm btn-outline-warning me-1"
+                                class="btn btn-outline-secondary btn-action btn-sm"
                               >
                                 <i class="fas fa-edit"></i>
                               </button>
                               <button
                                 @click="deleteProduk(p)"
-                                class="btn btn-sm btn-outline-danger"
+                                class="btn btn-outline-danger btn-action btn-sm"
                               >
                                 <i class="fas fa-trash"></i>
                               </button>
                             </div>
                           </div>
 
-                          <!-- Preview Foto -->
-                          <div class="mt-2">
-                            <small class="text-muted"
-                              >📷 Foto ({{ p.fotos.length }})</small
-                            >
-                            <div class="d-flex gap-1 flex-wrap mt-1">
+                          <div class="mb-2">
+                            <small class="text-muted fw-semibold d-block mb-1">
+                              <i class="fas fa-camera me-1"></i>Foto ({{
+                              p.fotos.length }})
+                            </small>
+                            <div class="d-flex gap-1 flex-wrap">
                               <img
-                                v-for="foto in p.fotos.slice(0,3)"
+                                v-for="foto in p.fotos.slice(0,4)"
                                 :key="foto"
                                 :src="'/produk/produk up/' + selectedKategori + '/' + p.nama + '/foto/' + foto"
-                                class="preview-img"
-                                style="
-                                  max-height: 80px;
-                                  width: 80px;
-                                  object-fit: cover;
-                                "
+                                class="preview-thumb"
+                                style="width: 60px; height: 60px"
                                 @click="previewImage('/produk/produk up/' + selectedKategori + '/' + p.nama + '/foto/' + foto)"
                               />
                               <button
                                 @click="addFileToProduk(p, 'foto')"
-                                class="btn btn-sm btn-outline-primary"
-                                style="width: 80px; height: 80px"
+                                class="btn btn-outline-secondary d-flex align-items-center justify-content-center"
+                                style="
+                                  width: 60px;
+                                  height: 60px;
+                                  border-radius: 8px;
+                                "
                               >
                                 <i class="fas fa-plus"></i>
                               </button>
                             </div>
                           </div>
 
-                          <!-- Preview Design -->
-                          <div class="mt-2">
-                            <small class="text-muted"
-                              >🎨 Design ({{ p.designs.length }})</small
-                            >
-                            <div class="d-flex gap-1 flex-wrap mt-1">
+                          <div class="mb-3">
+                            <small class="text-muted fw-semibold d-block mb-1">
+                              <i class="fas fa-palette me-1"></i>Design ({{
+                              p.designs.length }})
+                            </small>
+                            <div class="d-flex gap-1 flex-wrap">
                               <img
-                                v-for="design in p.designs.slice(0,3)"
+                                v-for="design in p.designs.slice(0,4)"
                                 :key="design"
                                 :src="'/produk/produk up/' + selectedKategori + '/' + p.nama + '/design/' + design"
-                                class="preview-img"
-                                style="
-                                  max-height: 80px;
-                                  width: 80px;
-                                  object-fit: cover;
-                                "
+                                class="preview-thumb"
+                                style="width: 60px; height: 60px"
                                 @click="previewImage('/produk/produk up/' + selectedKategori + '/' + p.nama + '/design/' + design)"
                               />
                               <button
                                 @click="addFileToProduk(p, 'design')"
-                                class="btn btn-sm btn-outline-secondary"
-                                style="width: 80px; height: 80px"
+                                class="btn btn-outline-secondary d-flex align-items-center justify-content-center"
+                                style="
+                                  width: 60px;
+                                  height: 60px;
+                                  border-radius: 8px;
+                                "
                               >
                                 <i class="fas fa-plus"></i>
                               </button>
@@ -609,19 +827,19 @@
 
                           <button
                             @click="openProdukFolder(p)"
-                            class="btn btn-sm btn-outline-info mt-2 w-100"
+                            class="btn btn-outline-dark btn-sm w-100"
                           >
                             <i class="fas fa-folder-open me-1"></i>Buka Folder
                           </button>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      v-if="produkList.length === 0"
-                      class="col-12 text-center text-muted py-5"
-                    >
-                      <i class="fas fa-box-open fa-3x mb-3"></i>
-                      <p>Belum ada produk di kategori ini</p>
+                      <div
+                        v-if="produkList.length === 0"
+                        class="col-12 text-center text-muted py-5"
+                      >
+                        <i class="fas fa-box-open fa-3x mb-3 d-block"></i>
+                        <p>Belum ada produk di kategori ini</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -631,7 +849,6 @@
         </div>
       </div>
 
-      <!-- Hidden file input untuk tambahan file produk -->
       <input
         type="file"
         id="additionalFileInput"
@@ -640,7 +857,6 @@
       />
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
@@ -653,22 +869,18 @@
       createApp({
         data() {
           return {
-            // Prompt
             prompts: [],
             promptForm: { filename: "", content: "" },
             promptEditMode: false,
             promptSearch: "",
-            // Template
             templates: [],
             templateForm: { filename: "", content: "" },
             templateEditMode: false,
             templateSearch: "",
-            // Mentah
             mentahFolders: [],
             selectedMentahFolder: "",
             mentahFiles: [],
             mentahNewFolder: "",
-            // Produk
             kategoriList: [],
             showAddKategori: false,
             newKategoriNama: "",
@@ -682,7 +894,6 @@
           };
         },
         methods: {
-          // ==================== HELPERS ====================
           formatSize(bytes) {
             if (!bytes) return "0 B";
             const sizes = ["B", "KB", "MB", "GB"];
@@ -700,6 +911,7 @@
               showCloseButton: true,
               showConfirmButton: false,
               width: "80%",
+              background: "#1a1a1a",
             });
           },
           confirm(title, text) {
@@ -708,8 +920,10 @@
               text,
               icon: "warning",
               showCancelButton: true,
-              confirmButtonText: "Ya",
+              confirmButtonText: "Ya, hapus",
               cancelButtonText: "Batal",
+              confirmButtonColor: "#f97316",
+              cancelButtonColor: "#6b7280",
             });
           },
           toast(title, icon = "success") {
@@ -721,6 +935,8 @@
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
+              background: "#1a1a1a",
+              color: "#fff",
             });
           },
 
@@ -738,6 +954,7 @@
               text: data.content,
               confirmButtonText: "Tutup",
               width: "600px",
+              confirmButtonColor: "#f97316",
             });
           },
           async copyPrompt(filename) {
@@ -750,7 +967,6 @@
             this.promptForm.filename = filename.replace(".txt", "");
             this.promptForm.content = data.content;
             this.promptEditMode = true;
-            document.getElementById("promptTab").scrollIntoView();
           },
           cancelEditPrompt() {
             this.promptForm = { filename: "", content: "" };
@@ -772,7 +988,6 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(body),
             });
-
             if (data.success) {
               this.toast(
                 this.promptEditMode ? "Prompt diupdate!" : "Prompt disimpan!",
@@ -804,6 +1019,7 @@
               text: data.content,
               confirmButtonText: "Tutup",
               width: "600px",
+              confirmButtonColor: "#f97316",
             });
           },
           async copyTemplate(filename) {
@@ -816,7 +1032,6 @@
             this.templateForm.filename = filename.replace(".txt", "");
             this.templateForm.content = data.content;
             this.templateEditMode = true;
-            document.getElementById("templateTab").scrollIntoView();
           },
           cancelEditTemplate() {
             this.templateForm = { filename: "", content: "" };
@@ -838,7 +1053,6 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(body),
             });
-
             if (data.success) {
               this.toast(
                 this.templateEditMode
@@ -881,7 +1095,7 @@
           async deleteMentahFolder(folder) {
             const result = await this.confirm(
               "Hapus folder?",
-              folder + " beserta isinya akan dihapus!",
+              folder + " beserta isinya akan dihapus permanen!",
             );
             if (result.isConfirmed) {
               await this.api("/api/mentah/folders/" + folder, {
@@ -937,20 +1151,32 @@
           // ==================== PRODUK ====================
           async initProdukTab() {
             await this.loadKategori();
-            if (this.kategoriList.length > 0) {
+            if (this.kategoriList.length > 0 && !this.selectedKategori) {
               this.selectedKategori = this.kategoriList[0];
               await this.loadProdukList();
             }
             this.$nextTick(() => {
-              $(".select2-kategori")
-                .select2({ placeholder: "Pilih Kategori", width: "100%" })
-                .on("change", (e) => {
-                  this.produkForm.kategori = e.target.value;
+              if ($("#selectKategoriForm").data("select2")) {
+                $("#selectKategoriForm").select2("destroy");
+                $("#selectKategoriList").select2("destroy");
+              }
+              $("#selectKategoriForm")
+                .select2({
+                  placeholder: "Pilih Kategori",
+                  width: "100%",
+                  dropdownParent: $("#produkTab"),
+                })
+                .on("change", () => {
+                  this.produkForm.kategori = $("#selectKategoriForm").val();
                 });
-              $(".select2-list-kategori")
-                .select2({ placeholder: "Semua Kategori", width: "100%" })
-                .on("change", (e) => {
-                  this.selectedKategori = e.target.value;
+              $("#selectKategoriList")
+                .select2({
+                  placeholder: "Semua Kategori",
+                  width: "100%",
+                  dropdownParent: $("#produkTab"),
+                })
+                .on("change", () => {
+                  this.selectedKategori = $("#selectKategoriList").val();
                   this.loadProdukList();
                 });
             });
@@ -971,6 +1197,29 @@
               this.newKategoriNama = "";
               this.showAddKategori = false;
               await this.loadKategori();
+              this.$nextTick(() => {
+                $("#selectKategoriForm")
+                  .select2("destroy")
+                  .select2({
+                    placeholder: "Pilih Kategori",
+                    width: "100%",
+                    dropdownParent: $("#produkTab"),
+                  })
+                  .on("change", () => {
+                    this.produkForm.kategori = $("#selectKategoriForm").val();
+                  });
+                $("#selectKategoriList")
+                  .select2("destroy")
+                  .select2({
+                    placeholder: "Semua Kategori",
+                    width: "100%",
+                    dropdownParent: $("#produkTab"),
+                  })
+                  .on("change", () => {
+                    this.selectedKategori = $("#selectKategoriList").val();
+                    this.loadProdukList();
+                  });
+              });
             }
           },
           async loadProdukList() {
@@ -997,15 +1246,12 @@
             const formData = new FormData();
             formData.append("kategori", this.produkForm.kategori);
             formData.append("judul", this.produkForm.judul);
-
-            if (this.produkForm.fotos) {
+            if (this.produkForm.fotos)
               this.produkForm.fotos.forEach((f) => formData.append("fotos", f));
-            }
-            if (this.produkForm.designs) {
+            if (this.produkForm.designs)
               this.produkForm.designs.forEach((f) =>
                 formData.append("designs", f),
               );
-            }
 
             const data = await this.api("/api/produk", {
               method: "POST",
@@ -1021,9 +1267,12 @@
                 fotos: [],
                 designs: [],
               };
+              document
+                .querySelectorAll('#produkTab input[type="file"]')
+                .forEach((el) => (el.value = ""));
               this.loadProdukList();
             } else {
-              this.toast(data.error, "error");
+              this.toast(data.error || "Gagal menyimpan", "error");
             }
           },
           async editProduk(p) {
@@ -1032,6 +1281,8 @@
               input: "text",
               inputValue: p.judul,
               showCancelButton: true,
+              confirmButtonColor: "#f97316",
+              cancelButtonColor: "#6b7280",
               inputValidator: (v) => (!v ? "Judul tidak boleh kosong!" : null),
             });
             if (judul) {
