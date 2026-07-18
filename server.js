@@ -309,7 +309,12 @@ app.delete("/api/kategori/:nama", async (req, res) => {
       return res.status(404).json({ error: "Kategori tidak ditemukan" });
     const files = await fs.readdir(katPath);
     if (files.length > 0)
-      return res.status(400).json({ error: "Kategori masih berisi produk" });
+      return res
+        .status(400)
+        .json({
+          error:
+            "Kategori masih berisi produk. Hapus semua produk terlebih dahulu.",
+        });
     await fs.remove(katPath);
     res.json({ success: true });
   } catch (err) {
@@ -403,7 +408,6 @@ app.post(
       await fs.ensureDir(fotoPath);
       await fs.ensureDir(designPath);
 
-      // Simpan foto
       if (req.files?.fotos) {
         for (const file of req.files.fotos) {
           await fs.move(file.path, path.join(fotoPath, file.originalname), {
@@ -412,7 +416,6 @@ app.post(
         }
       }
 
-      // Simpan design
       if (req.files?.designs) {
         for (const file of req.files.designs) {
           await fs.move(file.path, path.join(designPath, file.originalname), {
@@ -421,7 +424,6 @@ app.post(
         }
       }
 
-      // Simpan data.json
       await fs.writeJson(
         path.join(produkPath, "data.json"),
         {
@@ -479,7 +481,6 @@ app.delete("/api/produk/:kategori/:produk", async (req, res) => {
   }
 });
 
-// Delete single file dalam produk
 app.delete(
   "/api/produk/:kategori/:produk/:type/:filename",
   async (req, res) => {
@@ -503,7 +504,6 @@ app.delete(
   },
 );
 
-// Upload tambahan ke produk existing
 app.post(
   "/api/produk/:kategori/:produk/upload/:type",
   upload.single("file"),
@@ -528,7 +528,6 @@ app.post(
   },
 );
 
-// Open folder
 app.get("/api/open-folder", (req, res) => {
   const folderPath = req.query.path;
   if (!folderPath) return res.status(400).json({ error: "Path required" });
@@ -538,11 +537,10 @@ app.get("/api/open-folder", (req, res) => {
   res.json({ success: true });
 });
 
-// Start
 async function start() {
   await initFolders();
   app.listen(PORT, () => {
-    console.log(`🚀 http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
   });
 }
 start().catch(console.error);

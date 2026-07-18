@@ -42,13 +42,11 @@
         color: var(--text);
       }
 
-      /* Navbar */
       .navbar-brand {
         font-weight: 700;
         letter-spacing: -0.5px;
       }
 
-      /* Tabs */
       .nav-tabs {
         border-bottom: 2px solid var(--border);
         gap: 0;
@@ -82,7 +80,6 @@
         background: var(--orange);
       }
 
-      /* Cards */
       .card {
         border: 1px solid var(--border);
         border-radius: 12px;
@@ -98,7 +95,6 @@
         border-radius: 12px 12px 0 0 !important;
       }
 
-      /* Buttons */
       .btn-primary {
         background: var(--orange);
         border-color: var(--orange);
@@ -127,14 +123,12 @@
         background: var(--darker);
       }
 
-      /* Form */
       .form-control:focus,
       .form-select:focus {
         border-color: var(--orange);
         box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.15);
       }
 
-      /* Select2 */
       .select2-container--default .select2-selection--single {
         height: 38px;
         border: 1px solid #dee2e6;
@@ -162,7 +156,6 @@
         border-color: var(--orange) !important;
       }
 
-      /* List items */
       .list-item {
         display: flex;
         align-items: center;
@@ -187,7 +180,6 @@
         color: var(--orange);
       }
 
-      /* Preview */
       .preview-thumb {
         width: 80px;
         height: 80px;
@@ -203,14 +195,6 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
 
-      /* Badge */
-      .badge-orange {
-        background: #fff7ed;
-        color: var(--orange);
-        font-weight: 500;
-      }
-
-      /* Action buttons */
       .btn-action {
         width: 34px;
         height: 34px;
@@ -222,7 +206,6 @@
         font-size: 0.85rem;
       }
 
-      /* Product card */
       .product-card {
         border: 1px solid var(--border);
         border-radius: 12px;
@@ -243,7 +226,7 @@
           <span class="navbar-brand">
             <i class="fas fa-tshirt me-2"></i>Manajemen Aset Baju
           </span>
-          <span class="text-white-50 small">v2</span>
+          <span class="text-white-50 small">v3.0</span>
         </div>
       </nav>
 
@@ -542,8 +525,9 @@
                           v-if="folder !== 'panjang' && folder !== 'pendek'"
                           @click.stop="deleteMentahFolder(folder)"
                           class="btn btn-sm text-danger p-0"
+                          title="Hapus folder"
                         >
-                          <i class="fas fa-times-circle"></i>
+                          <i class="fas fa-trash"></i>
                         </button>
                       </button>
                     </div>
@@ -658,12 +642,22 @@
                         </option>
                       </select>
                     </div>
-                    <button
-                      @click="showAddKategori = !showAddKategori"
-                      class="btn btn-outline-secondary btn-sm w-100 mb-3"
-                    >
-                      <i class="fas fa-plus me-1"></i>Kategori Baru
-                    </button>
+                    <div class="d-flex gap-2 mb-3">
+                      <button
+                        @click="showAddKategori = !showAddKategori"
+                        class="btn btn-outline-secondary btn-sm flex-grow-1"
+                      >
+                        <i class="fas fa-plus me-1"></i>Baru
+                      </button>
+                      <button
+                        @click="deleteKategori"
+                        class="btn btn-outline-danger btn-sm"
+                        :disabled="!produkForm.kategori"
+                        title="Hapus kategori terpilih"
+                      >
+                        <i class="fas fa-trash me-1"></i>Hapus
+                      </button>
+                    </div>
                     <div v-if="showAddKategori" class="input-group mb-3">
                       <input
                         v-model="newKategoriNama"
@@ -1095,16 +1089,22 @@
           async deleteMentahFolder(folder) {
             const result = await this.confirm(
               "Hapus folder?",
-              folder + " beserta isinya akan dihapus permanen!",
+              `Folder "${folder}" beserta isinya akan dihapus permanen!`,
             );
             if (result.isConfirmed) {
-              await this.api("/api/mentah/folders/" + folder, {
+              const res = await this.api("/api/mentah/folders/" + folder, {
                 method: "DELETE",
               });
-              this.toast("Folder dihapus!");
-              if (this.selectedMentahFolder === folder)
-                this.selectedMentahFolder = "";
-              this.loadMentahFolders();
+              if (res.success) {
+                this.toast("Folder dihapus!");
+                if (this.selectedMentahFolder === folder) {
+                  this.selectedMentahFolder = "";
+                  this.mentahFiles = [];
+                }
+                this.loadMentahFolders();
+              } else {
+                this.toast(res.error || "Gagal menghapus", "error");
+              }
             }
           },
           async selectMentahFolder(folder) {
@@ -1156,30 +1156,33 @@
               await this.loadProdukList();
             }
             this.$nextTick(() => {
-              if ($("#selectKategoriForm").data("select2")) {
-                $("#selectKategoriForm").select2("destroy");
-                $("#selectKategoriList").select2("destroy");
-              }
-              $("#selectKategoriForm")
-                .select2({
-                  placeholder: "Pilih Kategori",
-                  width: "100%",
-                  dropdownParent: $("#produkTab"),
-                })
-                .on("change", () => {
-                  this.produkForm.kategori = $("#selectKategoriForm").val();
-                });
-              $("#selectKategoriList")
-                .select2({
-                  placeholder: "Semua Kategori",
-                  width: "100%",
-                  dropdownParent: $("#produkTab"),
-                })
-                .on("change", () => {
-                  this.selectedKategori = $("#selectKategoriList").val();
-                  this.loadProdukList();
-                });
+              this.initSelect2();
             });
+          },
+          initSelect2() {
+            if ($("#selectKategoriForm").data("select2")) {
+              $("#selectKategoriForm").select2("destroy");
+              $("#selectKategoriList").select2("destroy");
+            }
+            $("#selectKategoriForm")
+              .select2({
+                placeholder: "Pilih Kategori",
+                width: "100%",
+                dropdownParent: $("#produkTab"),
+              })
+              .on("change", () => {
+                this.produkForm.kategori = $("#selectKategoriForm").val();
+              });
+            $("#selectKategoriList")
+              .select2({
+                placeholder: "Semua Kategori",
+                width: "100%",
+                dropdownParent: $("#produkTab"),
+              })
+              .on("change", () => {
+                this.selectedKategori = $("#selectKategoriList").val();
+                this.loadProdukList();
+              });
           },
           async loadKategori() {
             const data = await this.api("/api/kategori");
@@ -1198,28 +1201,42 @@
               this.showAddKategori = false;
               await this.loadKategori();
               this.$nextTick(() => {
-                $("#selectKategoriForm")
-                  .select2("destroy")
-                  .select2({
-                    placeholder: "Pilih Kategori",
-                    width: "100%",
-                    dropdownParent: $("#produkTab"),
-                  })
-                  .on("change", () => {
-                    this.produkForm.kategori = $("#selectKategoriForm").val();
-                  });
-                $("#selectKategoriList")
-                  .select2("destroy")
-                  .select2({
-                    placeholder: "Semua Kategori",
-                    width: "100%",
-                    dropdownParent: $("#produkTab"),
-                  })
-                  .on("change", () => {
-                    this.selectedKategori = $("#selectKategoriList").val();
-                    this.loadProdukList();
-                  });
+                this.initSelect2();
+                $("#selectKategoriForm").val(data.kategori).trigger("change");
+                this.produkForm.kategori = data.kategori;
               });
+            }
+          },
+          async deleteKategori() {
+            if (!this.produkForm.kategori) return;
+
+            const result = await this.confirm(
+              "Hapus kategori?",
+              `Kategori "${this.produkForm.kategori}" akan dihapus. Pastikan tidak ada produk di dalamnya!`,
+            );
+
+            if (!result.isConfirmed) return;
+
+            const res = await this.api(
+              "/api/kategori/" + encodeURIComponent(this.produkForm.kategori),
+              {
+                method: "DELETE",
+              },
+            );
+
+            if (res.success) {
+              this.toast("Kategori dihapus!");
+              this.produkForm.kategori = "";
+              this.selectedKategori = "";
+              this.produkList = [];
+              await this.loadKategori();
+              this.$nextTick(() => {
+                this.initSelect2();
+                $("#selectKategoriForm").val("").trigger("change");
+                $("#selectKategoriList").val("").trigger("change");
+              });
+            } else {
+              this.toast(res.error || "Gagal menghapus kategori", "error");
             }
           },
           async loadProdukList() {
