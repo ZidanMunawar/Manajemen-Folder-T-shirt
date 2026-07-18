@@ -50,16 +50,19 @@
       .nav-tabs {
         border-bottom: 2px solid var(--border);
         gap: 0;
+        flex-wrap: nowrap;
+        overflow-x: auto;
       }
       .nav-tabs .nav-link {
         border: none;
         color: var(--text-muted);
         font-weight: 500;
-        padding: 14px 28px;
+        padding: 14px 20px;
         border-radius: 0;
         position: relative;
         transition: all 0.2s;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        white-space: nowrap;
       }
       .nav-tabs .nav-link:hover {
         color: var(--dark);
@@ -152,9 +155,6 @@
         border: 1px solid var(--border);
         border-radius: 8px;
       }
-      .select2-container--default .select2-selection--single:focus {
-        border-color: var(--orange) !important;
-      }
 
       .list-item {
         display: flex;
@@ -202,9 +202,6 @@
       }
       .folder-item.active .folder-name {
         color: white;
-      }
-      .folder-item.active .text-muted {
-        color: rgba(255, 255, 255, 0.7) !important;
       }
 
       .preview-thumb {
@@ -278,7 +275,7 @@
               <span v-if="!isBackingUp">Backup ZIP</span>
               <span v-else>Membuat ZIP...</span>
             </button>
-            <span class="text-white-50 small">v4.0</span>
+            <span class="text-white-50 small">v5.0</span>
           </div>
         </div>
       </nav>
@@ -326,6 +323,16 @@
               <i class="fas fa-box me-2"></i>Produk Up
             </button>
           </li>
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              data-bs-toggle="tab"
+              data-bs-target="#generatorTab"
+              @click="loadGeneratorTemplates()"
+            >
+              <i class="fas fa-magic me-2"></i>Generator
+            </button>
+          </li>
         </ul>
 
         <div class="tab-content">
@@ -347,7 +354,6 @@
                       class="form-control mb-3"
                       placeholder="nama-file"
                     />
-
                     <label class="form-label small fw-semibold">Konten</label>
                     <textarea
                       v-model="promptForm.content"
@@ -355,7 +361,6 @@
                       rows="10"
                       placeholder="Tulis prompt di sini..."
                     ></textarea>
-
                     <button @click="savePrompt" class="btn btn-primary w-100">
                       <i class="fas fa-save me-2"></i>{{ promptEditMode ?
                       'Update' : 'Simpan' }}
@@ -423,8 +428,8 @@
                         v-if="prompts.length === 0"
                         class="text-center text-muted py-5"
                       >
-                        <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
-                        Tidak ada prompt
+                        <i class="fas fa-inbox fa-2x mb-2 d-block"></i>Tidak ada
+                        prompt
                       </div>
                     </div>
                   </div>
@@ -451,7 +456,6 @@
                       class="form-control mb-3"
                       placeholder="nama-file"
                     />
-
                     <label class="form-label small fw-semibold">Konten</label>
                     <textarea
                       v-model="templateForm.content"
@@ -459,7 +463,6 @@
                       rows="10"
                       placeholder="Tulis template di sini..."
                     ></textarea>
-
                     <button @click="saveTemplate" class="btn btn-dark w-100">
                       <i class="fas fa-save me-2"></i>{{ templateEditMode ?
                       'Update' : 'Simpan' }}
@@ -530,8 +533,8 @@
                         v-if="templates.length === 0"
                         class="text-center text-muted py-5"
                       >
-                        <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
-                        Tidak ada template
+                        <i class="fas fa-inbox fa-2x mb-2 d-block"></i>Tidak ada
+                        template
                       </div>
                     </div>
                   </div>
@@ -658,8 +661,8 @@
                         v-if="mentahFiles.length === 0"
                         class="col-12 text-center text-muted py-5"
                       >
-                        <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
-                        Folder kosong
+                        <i class="fas fa-inbox fa-3x mb-3 d-block"></i>Folder
+                        kosong
                       </div>
                     </div>
                   </div>
@@ -722,7 +725,6 @@
                         Buat
                       </button>
                     </div>
-
                     <label class="form-label small fw-semibold"
                       >Judul Produk</label
                     >
@@ -731,7 +733,6 @@
                       class="form-control mb-3"
                       placeholder="Nama produk"
                     />
-
                     <label class="form-label small fw-semibold">Foto</label>
                     <input
                       type="file"
@@ -740,7 +741,6 @@
                       multiple
                       accept="image/*"
                     />
-
                     <label class="form-label small fw-semibold">Design</label>
                     <input
                       type="file"
@@ -749,7 +749,6 @@
                       multiple
                       accept=".png,.jpg,.psd,.ai,.svg"
                     />
-
                     <button
                       @click="saveProduk"
                       class="btn btn-primary w-100"
@@ -816,12 +815,11 @@
                               </button>
                             </div>
                           </div>
-
                           <div class="mb-2">
-                            <small class="text-muted fw-semibold d-block mb-1">
-                              <i class="fas fa-camera me-1"></i>Foto ({{
-                              p.fotos.length }})
-                            </small>
+                            <small class="text-muted fw-semibold d-block mb-1"
+                              ><i class="fas fa-camera me-1"></i>Foto ({{
+                              p.fotos.length }})</small
+                            >
                             <div class="d-flex gap-1 flex-wrap">
                               <img
                                 v-for="foto in p.fotos.slice(0,4)"
@@ -844,12 +842,11 @@
                               </button>
                             </div>
                           </div>
-
                           <div class="mb-3">
-                            <small class="text-muted fw-semibold d-block mb-1">
-                              <i class="fas fa-palette me-1"></i>Design ({{
-                              p.designs.length }})
-                            </small>
+                            <small class="text-muted fw-semibold d-block mb-1"
+                              ><i class="fas fa-palette me-1"></i>Design ({{
+                              p.designs.length }})</small
+                            >
                             <div class="d-flex gap-1 flex-wrap">
                               <img
                                 v-for="design in p.designs.slice(0,4)"
@@ -872,7 +869,6 @@
                               </button>
                             </div>
                           </div>
-
                           <button
                             @click="openProdukFolder(p)"
                             class="btn btn-outline-dark btn-sm w-100"
@@ -889,6 +885,111 @@
                         <p>Belum ada produk di kategori ini</p>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== TAB GENERATOR ==================== -->
+          <div class="tab-pane fade" id="generatorTab">
+            <div class="row g-4">
+              <div class="col-lg-3">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-cog me-2"></i>Pilih Template
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                      <button
+                        v-for="tpl in generatorTemplates"
+                        :key="tpl.id"
+                        @click="selectGeneratorTemplate(tpl)"
+                        :class="selectedGenerator && selectedGenerator.id === tpl.id ? 'active' : ''"
+                        class="list-group-item list-group-item-action"
+                      >
+                        <i class="fas fa-file-alt me-2"></i>{{ tpl.name }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-9">
+                <div class="card" v-if="selectedGenerator">
+                  <div
+                    class="card-header d-flex justify-content-between align-items-center"
+                  >
+                    <span
+                      ><i class="fas fa-magic me-2 text-orange"></i>{{
+                      selectedGenerator.name }}</span
+                    >
+                    <div class="d-flex gap-2">
+                      <button
+                        @click="copyGeneratedText"
+                        class="btn btn-outline-secondary btn-sm"
+                      >
+                        <i class="fas fa-copy me-1"></i>Copy
+                      </button>
+                      <button
+                        @click="saveGeneratedToPrompt"
+                        class="btn btn-outline-primary btn-sm"
+                      >
+                        <i class="fas fa-robot me-1"></i>Simpan ke Prompt
+                      </button>
+                      <button
+                        @click="saveGeneratedToTemplate"
+                        class="btn btn-outline-dark btn-sm"
+                      >
+                        <i class="fas fa-file-alt me-1"></i>Simpan ke Template
+                        Text
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row g-3 mb-4">
+                      <div
+                        v-for="(ph, index) in selectedGenerator.placeholders"
+                        :key="index"
+                        :class="selectedGenerator.placeholders.length > 1 ? 'col-md-6' : 'col-12'"
+                      >
+                        <label class="form-label small fw-semibold">
+                          <i class="fas fa-edit me-1 text-orange"></i>{{ ph }}
+                        </label>
+                        <input
+                          v-model="generatorValues[ph]"
+                          class="form-control"
+                          :placeholder="'Isi ' + ph + '...'"
+                          @input="updateGeneratedText"
+                        />
+                      </div>
+                    </div>
+
+                    <label class="form-label small fw-semibold">
+                      <i class="fas fa-eye me-1"></i>Hasil Preview
+                    </label>
+                    <div
+                      class="border rounded p-3 bg-light"
+                      style="max-height: 500px; overflow-y: auto"
+                    >
+                      <pre
+                        class="mb-0"
+                        style="
+                          white-space: pre-wrap;
+                          font-family: &quot;Inter&quot;, sans-serif;
+                          font-size: 0.9rem;
+                        "
+                      >
+{{ generatedText || 'Isi placeholder di atas untuk melihat hasil...' }}</pre
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else class="card">
+                  <div class="card-body text-center text-muted py-5">
+                    <i class="fas fa-arrow-left fa-3x mb-3 d-block"></i>
+                    <p class="mb-0">Pilih template di sebelah kiri</p>
                   </div>
                 </div>
               </div>
@@ -940,6 +1041,10 @@
             additionalFileTarget: null,
             additionalFileType: "",
             isBackingUp: false,
+            generatorTemplates: [],
+            selectedGenerator: null,
+            generatorValues: {},
+            generatedText: "",
           };
         },
         methods: {
@@ -989,6 +1094,10 @@
               background: "#1a1a1a",
               color: "#fff",
             });
+          },
+          openFolder(folderPath) {
+            fetch(`/api/open-folder?path=${folderPath}`);
+            this.toast("Folder dibuka di File Explorer");
           },
 
           // ==================== BACKUP ====================
@@ -1058,7 +1167,6 @@
             const body = this.promptEditMode
               ? { content: this.promptForm.content }
               : this.promptForm;
-
             const data = await this.api(url, {
               method,
               headers: { "Content-Type": "application/json" },
@@ -1123,7 +1231,6 @@
             const body = this.templateEditMode
               ? { content: this.templateForm.content }
               : this.templateForm;
-
             const data = await this.api(url, {
               method,
               headers: { "Content-Type": "application/json" },
@@ -1224,11 +1331,7 @@
             }
           },
           openMentahFolder() {
-            window.open(
-              "/api/open-folder?path=produk/mentah/" +
-                this.selectedMentahFolder,
-              "_blank",
-            );
+            this.openFolder("produk/mentah/" + this.selectedMentahFolder);
           },
 
           // ==================== PRODUK ====================
@@ -1292,21 +1395,15 @@
           },
           async deleteKategori() {
             if (!this.produkForm.kategori) return;
-
             const result = await this.confirm(
               "Hapus kategori?",
               `Kategori "${this.produkForm.kategori}" akan dihapus. Pastikan tidak ada produk di dalamnya!`,
             );
-
             if (!result.isConfirmed) return;
-
             const res = await this.api(
               "/api/kategori/" + encodeURIComponent(this.produkForm.kategori),
-              {
-                method: "DELETE",
-              },
+              { method: "DELETE" },
             );
-
             if (res.success) {
               this.toast("Kategori dihapus!");
               this.produkForm.kategori = "";
@@ -1339,9 +1436,8 @@
             this.produkForm[type] = Array.from(event.target.files);
           },
           async saveProduk() {
-            if (!this.produkForm.kategori || !this.produkForm.judul) {
+            if (!this.produkForm.kategori || !this.produkForm.judul)
               return this.toast("Kategori dan Judul wajib diisi!", "error");
-            }
             this.produkLoading = true;
             const formData = new FormData();
             formData.append("kategori", this.produkForm.kategori);
@@ -1352,13 +1448,11 @@
               this.produkForm.designs.forEach((f) =>
                 formData.append("designs", f),
               );
-
             const data = await this.api("/api/produk", {
               method: "POST",
               body: formData,
             });
             this.produkLoading = false;
-
             if (data.success) {
               this.toast(data.message);
               this.produkForm = {
@@ -1420,10 +1514,8 @@
           async uploadAdditionalFile(e) {
             const file = e.target.files[0];
             if (!file || !this.additionalFileTarget) return;
-
             const formData = new FormData();
             formData.append("file", file);
-
             await this.api(
               "/api/produk/" +
                 this.selectedKategori +
@@ -1433,20 +1525,87 @@
                 this.additionalFileType,
               { method: "POST", body: formData },
             );
-
             this.toast("File diupload!");
             this.loadProdukList();
             e.target.value = "";
             this.additionalFileTarget = null;
           },
           openProdukFolder(p) {
-            window.open(
-              "/api/open-folder?path=produk/produk up/" +
-                this.selectedKategori +
-                "/" +
-                p.nama,
-              "_blank",
+            this.openFolder(
+              "produk/produk up/" + this.selectedKategori + "/" + p.nama,
             );
+          },
+
+          // ==================== GENERATOR ====================
+          async loadGeneratorTemplates() {
+            const data = await this.api("/api/generator-templates");
+            this.generatorTemplates = data;
+          },
+          selectGeneratorTemplate(tpl) {
+            this.selectedGenerator = tpl;
+            this.generatorValues = {};
+            tpl.placeholders.forEach((ph) => {
+              this.generatorValues[ph] = "";
+            });
+            this.generatedText = tpl.template;
+          },
+          updateGeneratedText() {
+            if (!this.selectedGenerator) return;
+            let text = this.selectedGenerator.template;
+            this.selectedGenerator.placeholders.forEach((ph) => {
+              const value = this.generatorValues[ph] || `[${ph}]`;
+              text = text.replace(
+                new RegExp(
+                  `\\[${ph.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\]`,
+                  "g",
+                ),
+                value,
+              );
+            });
+            this.generatedText = text;
+          },
+          async copyGeneratedText() {
+            if (!this.generatedText) return;
+            await navigator.clipboard.writeText(this.generatedText);
+            this.toast("Teks disalin!");
+          },
+          async saveGeneratedToPrompt() {
+            if (!this.generatedText) return;
+            const { value: filename } = await Swal.fire({
+              title: "Simpan ke Prompt",
+              input: "text",
+              inputLabel: "Nama file (tanpa .txt)",
+              inputValue: this.selectedGenerator.id + "-" + Date.now(),
+              showCancelButton: true,
+              confirmButtonColor: "#f97316",
+              inputValidator: (v) => (!v ? "Nama file wajib diisi!" : null),
+            });
+            if (!filename) return;
+            const data = await this.api("/api/prompts", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ filename, content: this.generatedText }),
+            });
+            if (data.success) this.toast("Disimpan ke Prompt!");
+          },
+          async saveGeneratedToTemplate() {
+            if (!this.generatedText) return;
+            const { value: filename } = await Swal.fire({
+              title: "Simpan ke Template Text",
+              input: "text",
+              inputLabel: "Nama file (tanpa .txt)",
+              inputValue: this.selectedGenerator.id + "-" + Date.now(),
+              showCancelButton: true,
+              confirmButtonColor: "#f97316",
+              inputValidator: (v) => (!v ? "Nama file wajib diisi!" : null),
+            });
+            if (!filename) return;
+            const data = await this.api("/api/templates", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ filename, content: this.generatedText }),
+            });
+            if (data.success) this.toast("Disimpan ke Template Text!");
           },
         },
         mounted() {
